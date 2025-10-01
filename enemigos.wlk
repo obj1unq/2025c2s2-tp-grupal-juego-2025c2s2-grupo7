@@ -31,8 +31,15 @@ object enemigo{
 		return image
 	}
 
-}
+  method perseguir(personaje){
+  if (self.position().x < personaje.position.x()){
+    position = derecha.siguiente(position)
+  }  else {
+    position = izquierda.siguiente(position)
+  } 
 
+}
+}
 
 
 
