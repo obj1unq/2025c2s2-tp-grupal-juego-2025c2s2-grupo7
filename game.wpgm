@@ -23,6 +23,6 @@ program juego{
 	//keyboard.up().onPressDo {  baddy.mover(arriba); enemigo.mover(arriba)}
 	//keyboard.down().onPressDo {   baddy.mover(abajo); enemigo.mover(abajo)}
 	//keyboard.right().onPressDo {   baddy.mover(derecha) enemigo.mover (derecha)}
-    game.onTick(500, "perseguir", {boss.perseguir(baddy) })
+    game.onTick(500, "perseguir", {boss.perseguir(baddy); })
 	game.start()
 }

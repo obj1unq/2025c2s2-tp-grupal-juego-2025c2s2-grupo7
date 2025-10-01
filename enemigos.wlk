@@ -4,7 +4,7 @@ import wollok.game.*
 object baddy {
     var vida = 10
     var image = "Baddy1.png"
-    var property position = game.at(9,4)
+    var property position = game.at(9,6)
 
 
    
@@ -31,18 +31,30 @@ object boss{
 		return image
 	}
 
-  method perseguir(personaje){
-  if (self.position().x() < personaje.position().x() && ){
-  if (self.position().x() < personaje.position().x() && ){
+   method perseguirHorizontal(personaje){
+  if (position.x() < personaje.position().x()){
     position = derecha.siguiente(position)
   }  else {
     position = izquierda.siguiente(position)
   } 
-  if (self.position().y() < personaje.position().y()){
-
   }
+  method perseguirVertical(personaje){
+  if (position.y() < personaje.position().y()){
+    position = arriba.siguiente(position)
+  }  else {
+    position = abajo.siguiente(position)
+  } 
+  }
+
+  method perseguir(personaje){
+    if (position.x()== personaje.position().x()){
+      self.perseguirVertical(personaje)
+    }else{
+      self.perseguirHorizontal(personaje)
+    }
   }
 }
+
 
 
 
