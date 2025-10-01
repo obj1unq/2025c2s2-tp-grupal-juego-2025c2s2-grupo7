@@ -1,5 +1,26 @@
+import direcciones.*
 import wollok.game.*
+import enemigos.*
+
 
 program juego{
 
+
+
+    game.title("Stadew Valley") 	//Valor por defecto "Wollok Game"
+	game.height(10) 		//valor por defecto 5
+	game.width(10) 			//valor por defecto 5
+	game.cellSize(50) 		//valor por defecto 50
+	//search assets in assets folder, for example, for the background
+	//Valor por defecto 
+	game.boardGround("nivel.png")
+	
+	
+	 
+	game.addVisual(baddy)
+    keyboard.left().onPressDo { baddy.mover(izquierda) }
+	keyboard.up().onPressDo {  baddy.mover(arriba)}
+	keyboard.down().onPressDo {   baddy.mover(abajo)}
+	keyboard.right().onPressDo {   baddy.mover(derecha)}
+    game.start()
 }
