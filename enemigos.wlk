@@ -4,7 +4,8 @@ import wollok.game.*
 object acorazado {
     var vida = 10
     var image = "acorazado.png"
-    var property position = game.at(9,6)
+    var property position = game.at(9,9)
+    var property danio = 1
 
 
    
@@ -37,11 +38,16 @@ object acorazado {
       self.perseguirVertical(personaje)
     }
   }
+
+  method colisionarCon(bala){
+    game.removeVisual(self)
+  }
 }
 
 object enemigo{
-  var image = "Boss1.png"
+  var image = "Baddy1.png"
   var property position = game.at(0, 4)
+  var property danio = 1
 
 
     method mover(direccion) {
@@ -72,5 +78,9 @@ object enemigo{
     }else{
       self.perseguirHorizontal(personaje)
     }
+  }
+
+  method colisionarCon(bala){
+    game.removeVisual(self)
   }
 }

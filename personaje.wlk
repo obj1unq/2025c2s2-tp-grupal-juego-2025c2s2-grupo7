@@ -1,4 +1,5 @@
 import wollok.game.*
+import enemigos.*
 
 object personaje{
     var property position = game.at(7,7)
@@ -14,7 +15,7 @@ object personaje{
     }
 
     method colisionarCon(monstruo){
-        vida = vida - monstruo.danio()
+        game.stop()
     }
 }
 
@@ -46,13 +47,5 @@ object arma{
         game.removeTickEvent("Arma dispara")
         game.removeVisual(self)
         position = poseedor.position()
-    }
-}
-
-object monstruoPrueba{
-    var property position = game.at(14, 7)
-    var property image= "Baddy1.png"
-    
-    method recibirDanio (numero){
     }
 }
