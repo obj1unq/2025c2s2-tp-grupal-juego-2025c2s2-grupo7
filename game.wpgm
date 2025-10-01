@@ -18,9 +18,10 @@ program juego{
 	
 	 
 	game.addVisual(baddy)
-    keyboard.left().onPressDo { baddy.mover(izquierda) }
-	keyboard.up().onPressDo {  baddy.mover(arriba)}
-	keyboard.down().onPressDo {   baddy.mover(abajo)}
-	keyboard.right().onPressDo {   baddy.mover(derecha)}
+	game.addVisual(enemigo)
+    keyboard.left().onPressDo { baddy.mover(izquierda); enemigo.mover(izquierda) }
+	keyboard.up().onPressDo {  baddy.mover(arriba); enemigo.mover(arriba)}
+	keyboard.down().onPressDo {   baddy.mover(abajo); enemigo.mover(abajo)}
+	keyboard.right().onPressDo {   baddy.mover(derecha) enemigo.mover (derecha)}
     game.start()
 }
