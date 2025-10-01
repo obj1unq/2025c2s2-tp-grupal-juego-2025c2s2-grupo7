@@ -11,7 +11,8 @@ program juego{
     game.boardGround("nivel.png")
     game.addVisual(personaje)
     game.addVisual(monstruoPrueba)
-    game.addVisual(baddy)
+	game.addVisual(acorazado)
+	game.addVisual(enemigo)
     keyboard.w().onPressDo({personaje.mover(arriba)})
     keyboard.s().onPressDo({personaje.mover(abajo)})
     keyboard.a().onPressDo({personaje.mover(izquierda)})
@@ -20,6 +21,7 @@ program juego{
     keyboard.down().onPressDo({personaje.disparar(abajo)})
     keyboard.left().onPressDo({personaje.disparar(izquierda)})
     keyboard.right().onPressDo({personaje.disparar(derecha)})
+	game.onTick(500, "perseguir", {enemigo.perseguir(personaje)})
     game.onCollideDo(monstruoPrueba, {objeto => objeto.colisionarCon(monstruoPrueba)})
     game.start()
 }
