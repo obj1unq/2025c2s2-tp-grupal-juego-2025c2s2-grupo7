@@ -10,7 +10,7 @@ object izquierda{
 
 object derecha{
     method siguiente(posicion){
-        if (posicion.x() < 9){
+        if (posicion.x() < 14){
             return posicion.right(1)
         } else {
             return posicion
@@ -30,7 +30,7 @@ object abajo{
 
 object arriba{
     method siguiente(posicion){
-        if (posicion.y() < 9){
+        if (posicion.y() < 14){
             return posicion.up(1)
         } else {
             return posicion
