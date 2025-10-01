@@ -18,11 +18,11 @@ program juego{
 	
 	 
 	game.addVisual(baddy)
-	game.addVisual(enemigo)
+	game.addVisual(boss)
     //keyyboard.left().onPressDo { baddy.mover(izquierda); enemigo.mover(izquierda) }
 	//keyboard.up().onPressDo {  baddy.mover(arriba); enemigo.mover(arriba)}
 	//keyboard.down().onPressDo {   baddy.mover(abajo); enemigo.mover(abajo)}
 	//keyboard.right().onPressDo {   baddy.mover(derecha) enemigo.mover (derecha)}
-    gameonThick.
+    game.onTick(500, "perseguir", {boss.perseguir(baddy) })
 	game.start()
 }

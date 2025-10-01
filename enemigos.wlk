@@ -19,7 +19,7 @@ object baddy {
 
 }
 
-object enemigo{
+object boss{
   var image = "Boss1.png"
   var property position = game.at(0, 4)
 
@@ -32,13 +32,16 @@ object enemigo{
 	}
 
   method perseguir(personaje){
-  if (self.position().x < personaje.position.x()){
+  if (self.position().x() < personaje.position().x() && ){
+  if (self.position().x() < personaje.position().x() && ){
     position = derecha.siguiente(position)
   }  else {
     position = izquierda.siguiente(position)
   } 
+  if (self.position().y() < personaje.position().y()){
 
-}
+  }
+  }
 }
 
 
