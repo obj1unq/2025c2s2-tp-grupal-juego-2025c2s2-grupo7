@@ -9,8 +9,7 @@ program juego{
     game.cellSize(48)
     game.boardGround("nivel.png")
     game.addVisual(personaje)
-    game.addVisual(arma)
-    game.addVisual(monstruo)
+    game.addVisual(monstruoPrueba)
     keyboard.w().onPressDo({personaje.mover(arriba)})
     keyboard.s().onPressDo({personaje.mover(abajo)})
     keyboard.a().onPressDo({personaje.mover(izquierda)})
@@ -19,6 +18,6 @@ program juego{
     keyboard.down().onPressDo({personaje.disparar(abajo)})
     keyboard.left().onPressDo({personaje.disparar(izquierda)})
     keyboard.right().onPressDo({personaje.disparar(derecha)})
-    game.onCollideDo(monstruo, {objeto => objeto.colisionarCon(monstruo)})
+    game.onCollideDo(monstruoPrueba, {objeto => objeto.colisionarCon(monstruoPrueba)})
     game.start()
 }
