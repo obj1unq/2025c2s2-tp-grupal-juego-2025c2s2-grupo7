@@ -1,0 +1,36 @@
+import wollok.game.*
+import personaje.*
+import enemigos.*
+import direcciones.*
+
+object configuracion {
+
+    method configEscenario(){
+         game.title("Rey de la pradera")
+        game.height(15)
+        game.width(15)
+        game.cellSize(48)
+        game.boardGround("nivel.png")
+    }
+
+    method configVisuales(){
+         game.addVisual(personaje)
+	     game.addVisual(acorazado)
+	     game.addVisual(basico)
+         game.addVisual(basico2)
+    }
+
+    method configPersonaje(){
+         keyboard.w().onPressDo({personaje.mover(arriba)})
+        keyboard.s().onPressDo({personaje.mover(abajo)})
+        keyboard.a().onPressDo({personaje.mover(izquierda)})
+        keyboard.d().onPressDo({personaje.mover(derecha)})
+        keyboard.up().onPressDo({personaje.disparar(arriba)})
+        keyboard.down().onPressDo({personaje.disparar(abajo)})
+        keyboard.left().onPressDo({personaje.disparar(izquierda)})
+        keyboard.right().onPressDo({personaje.disparar(derecha)})
+    }
+
+
+
+}

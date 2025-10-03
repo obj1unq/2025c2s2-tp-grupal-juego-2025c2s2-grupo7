@@ -14,7 +14,7 @@ object personaje{
         arma.disparar(direccion)
     }
 
-    method colisionarCon(monstruo){
+    method colisionarConEnemigo(_enemigo){
         game.stop()
     }
 }
@@ -23,7 +23,7 @@ object arma{
     var property position = game.at(7,7)
     var property image = "bala3.png"
     const poseedor = personaje 
-    const danio = 2
+    const daño = 2
 
     method disparar(direccion){
         position = poseedor.position()
@@ -42,8 +42,8 @@ object arma{
         }
     }
 
-    method colisionarCon(enemigo){
-        enemigo.recibirDanio(danio)
+    method colisionarConEnemigo(_enemigo){
+        _enemigo.recibirDaño(daño)
         game.removeTickEvent("Arma dispara")
         game.removeVisual(self)
         position = poseedor.position()

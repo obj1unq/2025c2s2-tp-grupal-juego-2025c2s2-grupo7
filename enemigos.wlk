@@ -1,34 +1,27 @@
 import direcciones.*
 import wollok.game.*
 
-object acorazado {
-    var vida = 10
-    var image = "acorazado.png"
-    var property position = game.at(9,9)
-    var property danio = 1
 
-
-   
-    method mover(direccion) {
-      position = direccion.siguiente(position) 
-    }
-    method image(){
-		return image
-	}
+class Enemigo {
+  var property vida = 10
+  var property daño = 1
+  var property image = "Baddy1.png"
+  var property position = game.at(9,9)
 
   method perseguirHorizontal(personaje){
-  if (position.x() < personaje.position().x()){
-    position = derecha.siguiente(position)
-  }  else {
-    position = izquierda.siguiente(position)
-  } 
+    if (position.x() < personaje.position().x()){
+      position = derecha.siguiente(position)
+    }  else {
+      position = izquierda.siguiente(position)
+    } 
   }
+
   method perseguirVertical(personaje){
-  if (position.y() < personaje.position().y()){
-    position = arriba.siguiente(position)
-  }  else {
-    position = abajo.siguiente(position)
-  } 
+    if (position.y() < personaje.position().y()){
+      position = arriba.siguiente(position)
+    }  else {
+      position = abajo.siguiente(position)
+    } 
   }
 
   method perseguir(personaje){
@@ -38,49 +31,14 @@ object acorazado {
       self.perseguirVertical(personaje)
     }
   }
-
-  method colisionarCon(bala){
+  method recibirDaño(_daño){
     game.removeVisual(self)
   }
+
 }
 
-object enemigo{
-  var image = "Baddy1.png"
-  var property position = game.at(0, 4)
-  var property danio = 1
+const acorazado = new Enemigo(image = "acorazado.png",position = game.at(1,1))
 
+const basico = new Enemigo()
 
-    method mover(direccion) {
-      position = direccion.siguiente(position) 
-    }
-    method image(){
-		return image
-	}
-
-   method perseguirHorizontal(personaje){
-  if (position.x() < personaje.position().x()){
-    position = derecha.siguiente(position)
-  }  else {
-    position = izquierda.siguiente(position)
-  } 
-  }
-  method perseguirVertical(personaje){
-  if (position.y() < personaje.position().y()){
-    position = arriba.siguiente(position)
-  }  else {
-    position = abajo.siguiente(position)
-  } 
-  }
-
-  method perseguir(personaje){
-    if (position.x()== personaje.position().x()){
-      self.perseguirVertical(personaje)
-    }else{
-      self.perseguirHorizontal(personaje)
-    }
-  }
-
-  method colisionarCon(bala){
-    game.removeVisual(self)
-  }
-}
+const basico2 = new Enemigo(position = game.at(1,3))

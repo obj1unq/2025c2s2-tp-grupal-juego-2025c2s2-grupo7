@@ -2,27 +2,18 @@ import direcciones.*
 import wollok.game.*
 import personaje.*
 import enemigos.*
+import config.*
 
 program juego{
-    game.title("Rey de la pradera")
-    game.height(15)
-    game.width(15)
-    game.cellSize(48)
-    game.boardGround("nivel.png")
-    game.addVisual(personaje)
-	game.addVisual(acorazado)
-	game.addVisual(enemigo)
-    keyboard.w().onPressDo({personaje.mover(arriba)})
-    keyboard.s().onPressDo({personaje.mover(abajo)})
-    keyboard.a().onPressDo({personaje.mover(izquierda)})
-    keyboard.d().onPressDo({personaje.mover(derecha)})
-    keyboard.up().onPressDo({personaje.disparar(arriba)})
-    keyboard.down().onPressDo({personaje.disparar(abajo)})
-    keyboard.left().onPressDo({personaje.disparar(izquierda)})
-    keyboard.right().onPressDo({personaje.disparar(derecha)})
-	game.onTick(500, "perseguir enemigo", {enemigo.perseguir(personaje)})
+	configuracion.configEscenario()
+    configuracion.configPersonaje()
+    configuracion.configVisuales()
+    game.onTick(500, "perseguir enemigo", {basico.perseguir(personaje)})
 	game.onTick(500, "perseguir acorazado", {acorazado.perseguir(personaje)})
-    game.onCollideDo(arma, {objeto => objeto.colisionarCon(arma)})
-	game.onCollideDo(personaje, {monstruo => personaje.colisionarCon(monstruo)})
+    game.onTick(500,"perseguir enemigo2",{basico2.perseguir(personaje)})
+    game.onCollideDo(basico, {objeto => objeto.colisionarConEnemigo(basico)})
+    game.onCollideDo(acorazado, {objeto => objeto.colisionarConEnemigo(acorazado)})
+    game.onCollideDo(basico2, {objeto => objeto.colisionarConEnemigo(basico2)})
+
     game.start()
 }
