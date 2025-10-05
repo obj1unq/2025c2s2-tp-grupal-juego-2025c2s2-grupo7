@@ -2,9 +2,16 @@ import wollok.game.*
 import enemigos.*
 
 object personaje{
-    var property position = game.at(7,7)
-    var property image = "Boss1.png"
-    var vida = 5
+    var position = game.at(7,7)
+    const image = "personaje.png"
+
+    method image(){
+        return image
+    }
+
+    method position(){
+        return position
+    }
 
     method mover(direccion){
         position = direccion.siguiente(position)
@@ -14,21 +21,30 @@ object personaje{
         arma.disparar(direccion)
     }
 
-    method colisionarCon(monstruo){
+    method colisionarCon(enemigo){
         game.stop()
     }
 }
 
 object arma{
-    var property position = game.at(7,7)
-    var property image = "bala3.png"
+    var position = game.at(7,7)
+    const image = "bala.png"
     const poseedor = personaje 
-    const danio = 2
+    const daño = 2
+
+    method image(){
+        return image
+    }
+
+    method position(){
+        return position
+    }
 
     method disparar(direccion){
+        game.removeTickEvent("Arma dispara")
+        game.removeVisual(self)
         position = poseedor.position()
         game.addVisual(self)
-        game.removeTickEvent("Arma dispara")
         game.onTick (100, "Arma dispara", {self.balaViajando(direccion)})
     }
 
@@ -43,9 +59,11 @@ object arma{
     }
 
     method colisionarCon(enemigo){
-        enemigo.recibirDanio(danio)
+        enemigo.colisionarCon(daño)
         game.removeTickEvent("Arma dispara")
         game.removeVisual(self)
         position = poseedor.position()
     }
+
+    
 }

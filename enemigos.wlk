@@ -1,34 +1,18 @@
 import direcciones.*
 import wollok.game.*
 
-object acorazado {
-    var vida = 10
-    var image = "acorazado.png"
-    var property position = game.at(9,9)
-    var property danio = 1
 
+class Enemigo {
+  var image = "enemigoBasico1.png"
+  var position = game.at(14,7)
+  var vida = 10
 
-   
-    method mover(direccion) {
-      position = direccion.siguiente(position) 
-    }
-    method image(){
-		return image
-	}
-
-  method perseguirHorizontal(personaje){
-  if (position.x() < personaje.position().x()){
-    position = derecha.siguiente(position)
-  }  else {
-    position = izquierda.siguiente(position)
-  } 
+  method image(){
+      return image
   }
-  method perseguirVertical(personaje){
-  if (position.y() < personaje.position().y()){
-    position = arriba.siguiente(position)
-  }  else {
-    position = abajo.siguiente(position)
-  } 
+
+  method position(){
+      return position
   }
 
   method perseguir(personaje){
@@ -39,48 +23,39 @@ object acorazado {
     }
   }
 
-  method colisionarCon(bala){
-    game.removeVisual(self)
+  method perseguirHorizontal(personaje){
+    if (position.x() < personaje.position().x()){
+      position = derecha.siguiente(position)
+    }  else {
+      position = izquierda.siguiente(position)
+    } 
   }
-}
 
-object enemigo{
-  var image = "Baddy1.png"
-  var property position = game.at(0, 4)
-  var property danio = 1
-
-
-    method mover(direccion) {
-      position = direccion.siguiente(position) 
-    }
-    method image(){
-		return image
-	}
-
-   method perseguirHorizontal(personaje){
-  if (position.x() < personaje.position().x()){
-    position = derecha.siguiente(position)
-  }  else {
-    position = izquierda.siguiente(position)
-  } 
-  }
   method perseguirVertical(personaje){
-  if (position.y() < personaje.position().y()){
-    position = arriba.siguiente(position)
-  }  else {
-    position = abajo.siguiente(position)
-  } 
+    if (position.y() < personaje.position().y()){
+      position = arriba.siguiente(position)
+    }  else {
+      position = abajo.siguiente(position)
+    } 
   }
-
-  method perseguir(personaje){
-    if (position.x()== personaje.position().x()){
-      self.perseguirVertical(personaje)
-    }else{
-      self.perseguirHorizontal(personaje)
-    }
-  }
-
-  method colisionarCon(bala){
+  
+  method colisionarCon(_daño){
     game.removeVisual(self)
   }
+
+    method darPaso(){
+        if (image == "enemigoBasico1.png"){
+            image = "enemigoBasico2.png"
+        } else {
+            image = "enemigoBasico1.png"
+        }
+    }
 }
+
+const basico = new Enemigo()
+
+const basico2 = new Enemigo(position = game.at(7,14))
+
+const basico3 = new Enemigo(position = game.at(0, 7))
+
+const basico4 = new Enemigo(position = game.at(7,0))
