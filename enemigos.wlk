@@ -3,10 +3,25 @@ import wollok.game.*
 
 
 class Enemigo {
-  var property vida = 10
-  var property daño = 1
-  var property image = "Baddy1.png"
-  var property position = game.at(9,9)
+  var image = "enemigoBasico1.png"
+  var position = game.at(14,7)
+  var vida = 10
+
+  method image(){
+      return image
+  }
+
+  method position(){
+      return position
+  }
+
+  method perseguir(personaje){
+    if (position.y()== personaje.position().y()){
+      self.perseguirHorizontal(personaje)
+    }else{
+      self.perseguirVertical(personaje)
+    }
+  }
 
   method perseguirHorizontal(personaje){
     if (position.x() < personaje.position().x()){
@@ -23,22 +38,24 @@ class Enemigo {
       position = abajo.siguiente(position)
     } 
   }
-
-  method perseguir(personaje){
-    if (position.y()== personaje.position().y()){
-      self.perseguirHorizontal(personaje)
-    }else{
-      self.perseguirVertical(personaje)
-    }
-  }
-  method recibirDaño(_daño){
+  
+  method colisionarCon(_daño){
     game.removeVisual(self)
   }
 
+    method darPaso(){
+        if (image == "enemigoBasico1.png"){
+            image = "enemigoBasico2.png"
+        } else {
+            image = "enemigoBasico1.png"
+        }
+    }
 }
-
-const acorazado = new Enemigo(image = "acorazado.png",position = game.at(1,1))
 
 const basico = new Enemigo()
 
-const basico2 = new Enemigo(position = game.at(1,3))
+const basico2 = new Enemigo(position = game.at(7,14))
+
+const basico3 = new Enemigo(position = game.at(0, 7))
+
+const basico4 = new Enemigo(position = game.at(7,0))
