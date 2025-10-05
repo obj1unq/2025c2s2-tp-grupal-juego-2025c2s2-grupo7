@@ -1,3 +1,5 @@
+import wollok.game.*
+
 object izquierda{
     method siguiente(posicion){
         if (posicion.x() > 0){
@@ -10,7 +12,7 @@ object izquierda{
 
 object derecha{
     method siguiente(posicion){
-        if (posicion.x() < 14){
+        if (posicion.x() < game.width()-1){
             return posicion.right(1)
         } else {
             return posicion
@@ -30,7 +32,7 @@ object abajo{
 
 object arriba{
     method siguiente(posicion){
-        if (posicion.y() < 14){
+        if (posicion.y() < game.width()-1){
             return posicion.up(1)
         } else {
             return posicion
