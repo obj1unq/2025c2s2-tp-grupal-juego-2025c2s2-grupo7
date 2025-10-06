@@ -3,11 +3,35 @@ import direcciones.*
 import wollok.game.*
 
 object arma{
-    var position = game.at(7,7)
-    const image = "bala.png"
     const balas = #{}
-    const daño = 2
 
+    method dispararBalas(_direccion){
+        if (balas.size() <= 5){
+            const b = new Bala(direccion = _direccion, siguienteDireccion = _direccion)
+            balas.add(b)
+        }
+        balas.forEach({bala => if (_direccion !== bala.direccion()){
+                                    bala.direccion(_direccion)
+                                    }bala.balaViajando()})
+    }
+}
+
+class Bala{
+    var position = poseedor.position()
+    const poseedor = personaje
+    const daño = 2
+    const image = "bala.png"
+    var direccion = abajo
+    var siguienteDireccion = arriba
+
+    method direccion(){
+        return direccion
+    }
+
+    method direccion(_siguienteDireccion){
+        siguienteDireccion = _siguienteDireccion
+    }
+    
     method image(){
         return image
     }
@@ -16,43 +40,25 @@ object arma{
         return position
     }
 
-    method dispararBalas(direccion){
-        if (balas.size() <= 5){
-            game.onTick (100, "Arma dispara", {balas.forEach({bala => bala.disparar(direccion)})})
-        } else {
-            const b = new bala()
-            game.addVisual(b)
-            balas.add(b)
-            game.onTick (100, "Arma dispara", {balas.forEach({bala => bala.disparar(direccion)})})
+    method balaViajando(){
+        if (!game.hasVisual(self)){
+            game.addVisual(self)
         }
-    }
-}
-
-class bala{
-    var position = game.at(7,7)
-    const poseedor = personaje
-    const daño = 2
-
-    method disparar(direccion){
-        position = poseedor.position()
-        game.addVisual(self)
-        game.onTick (100, "Arma dispara", {self.balaViajando(direccion)})
-    }
-
-    method balaViajando(direccion){
         if (position.x().between(0,14) and position.y().between(0,14)){
             position = direccion.viajar(position)
         } else {
-            game.removeTickEvent("Arma dispara")
-            game.removeVisual(self)
-            position = poseedor.position()
+            self.colisionoOSalioDelMapa()
         }
     }
 
     method colisionarCon(enemigo){
         enemigo.colisionarCon(daño)
-        game.removeTickEvent("Arma dispara")
+        self.colisionoOSalioDelMapa()
+    }
+
+    method colisionoOSalioDelMapa(){
         game.removeVisual(self)
         position = poseedor.position()
+        direccion = siguienteDireccion
     }
 }
