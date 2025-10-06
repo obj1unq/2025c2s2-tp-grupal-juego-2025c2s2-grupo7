@@ -10,9 +10,7 @@ object arma{
             const b = new Bala(direccion = _direccion, siguienteDireccion = _direccion)
             balas.add(b)
         }
-        balas.forEach({bala => if (_direccion !== bala.direccion()){
-                                    bala.direccion(_direccion)
-                                    }bala.balaViajando()})
+        balas.forEach({bala => bala.direccion(_direccion) bala.balaViajando()})
     }
 }
 

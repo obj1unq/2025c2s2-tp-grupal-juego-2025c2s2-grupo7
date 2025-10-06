@@ -53,11 +53,3 @@ class Enemigo {
         }
     }
 }
-
-const basico = new Enemigo()
-
-const basico2 = new Enemigo(position = game.at(7,14))
-
-const basico3 = new Enemigo(position = game.at(0, 7))
-
-const basico4 = new Enemigo(position = game.at(7,0))
