@@ -15,10 +15,12 @@ class Enemigo {
       return position
   }
 
-  method perseguir(personaje){
-    if (position.y()== personaje.position().y()){
+  method perseguir(personaje) {
+    const distanciaHorizontal = (position.x() - personaje.position().x()).abs()
+    const distanciaVertical = (position.y() - personaje.position().y()).abs()
+    if (distanciaHorizontal >= distanciaVertical) {
       self.perseguirHorizontal(personaje)
-    }else{
+    } else {
       self.perseguirVertical(personaje)
     }
   }
