@@ -49,8 +49,8 @@ object arma{
     }
 
     method balaViajando(direccion){
-        if (position.x().between(1,13) and position.y().between(1,13)){
-            position = direccion.siguiente(position)
+        if (position.x().between(0,14) and position.y().between(0,14)){
+            position = direccion.viajar(position)
         } else {
             game.removeTickEvent("Arma dispara")
             game.removeVisual(self)
@@ -64,6 +64,4 @@ object arma{
         game.removeVisual(self)
         position = poseedor.position()
     }
-
-    
 }

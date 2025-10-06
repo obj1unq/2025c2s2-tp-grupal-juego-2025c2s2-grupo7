@@ -8,11 +8,27 @@ object izquierda{
             return posicion
         }
     }
+
+    method viajar(posicion){
+        if (posicion.x() > -1){
+            return posicion.left(1)
+        } else {
+            return posicion
+        }
+    }
 }
 
 object derecha{
     method siguiente(posicion){
         if (posicion.x() < game.width()-1){
+            return posicion.right(1)
+        } else {
+            return posicion
+        }
+    }
+
+    method viajar(posicion){
+        if (posicion.x() < game.width()){
             return posicion.right(1)
         } else {
             return posicion
@@ -28,11 +44,27 @@ object abajo{
             return posicion
         }
     }
+
+    method viajar(posicion){
+        if (posicion.y() > -1){
+            return posicion.down(1)
+        } else {
+            return posicion
+        }
+    }
 }
 
 object arriba{
     method siguiente(posicion){
         if (posicion.y() < game.width()-1){
+            return posicion.up(1)
+        } else {
+            return posicion
+        }
+    }
+
+    method viajar(posicion){
+        if (posicion.y() < game.width()){
             return posicion.up(1)
         } else {
             return posicion
