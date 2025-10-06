@@ -30,7 +30,7 @@ object arma{
     var position = game.at(7,7)
     const image = "bala.png"
     const poseedor = personaje 
-    const daño = 2
+    const daño = 8
 
     method image(){
         return image
@@ -59,7 +59,7 @@ object arma{
     }
 
     method colisionarCon(enemigo){
-        enemigo.colisionarCon(daño)
+        enemigo.aplicarDaño(daño)
         game.removeTickEvent("Arma dispara")
         game.removeVisual(self)
         position = poseedor.position()
