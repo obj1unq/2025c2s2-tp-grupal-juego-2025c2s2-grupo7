@@ -1,0 +1,14 @@
+import direcciones.*
+import wollok.game.*
+import personaje.*
+import enemigos.*
+import config.*
+
+program juego{
+	configuracion.configEscenario()
+    configuracion.configPersonaje()
+    configuracion.configVisuales()
+    configuracion.configEnemigos()
+    
+    game.start()
+}
