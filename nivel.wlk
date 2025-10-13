@@ -4,9 +4,11 @@ import enemigos.*
 import personaje.*
 import config.*
 import drops.*
-
+import muros.*
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [z,z,z,z], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+    var nivelActual =new Nivel(enemigosIniciales = [z,z,z,z], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,murosDelNivel = muros,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,mr,_,_,_,_,_,_,_,_,_,mr,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
@@ -19,13 +21,11 @@ object reyDeLaPradera{
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,mr,_,_,_,_,_,_,_,_,_,mr,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ])
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ].reverse())
 
     method empezarJuego(){
         configuracion.configEscenario()
@@ -57,9 +57,19 @@ class Nivel{
     const enemigosIniciales
     const ejercitoDeNivel
     const tiempoDeSpawn
+    const murosDelNivel
 
     method crearNivel(){
-        layout.forEach({elementoDeNivel => elementoDeNivel.crear()})
+        //layout.forEach({elementoDeNivel => elementoDeNivel.crear(murosDelNivel)})
+    
+        //game.height(layout.size()) //configuro el alto segun la cantidad de filas del dibujo
+       // game.width(layout.anyOne().size()) //configuro el ancho segun la cantidad de columnas del dibujo
+        //itero por el ancho y luego por el alto.
+        (0 .. game.width() - 1).forEach({ x => 
+            (0 .. game.height() - 1).forEach({y => 
+                layout.get(y).get(x).crear(game.at(x,y),murosDelNivel)  //obtengo el dibujante de la cordenada que corresponde a la iteracion y le pido que dibuje en esa cordenada
+            })
+        })
     }
 
     method spawnearEnemigos(){
@@ -113,5 +123,14 @@ object m{
 }
 
 object _{
-    method crear(){}
+    method crear(posicion,muro){
+    }
+}
+
+object mr{
+    method crear(posicion,muro) {
+        const nuevoMuro = muroFactory.crear(posicion)
+        muros.agregarMuro(nuevoMuro)
+        game.addVisual(nuevoMuro) 
+    }
 }

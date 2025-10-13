@@ -1,6 +1,6 @@
 import enemigos.*
 import randomizer.*
-
+import muros.*
 object zombieFactory{
     method crear(ejercito){
         const _position = randomizer.posicionVaciaCentral()
@@ -13,4 +13,11 @@ object minotauroFactory{
         const _position = randomizer.posicionVaciaCentral()
         return new Minotauro(position = _position , posicionAnterior = _position, ejercito = ejercito)
     }
+}
+
+object muroFactory {
+  method crear(posicion) {
+    return new Muro(position=posicion)
+
+  }
 }
