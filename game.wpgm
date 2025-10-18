@@ -9,6 +9,7 @@ program juego{
     configuracion.configPersonaje()
     configuracion.configVisuales()
     configuracion.configEnemigos()
+    configuracion.configDropeo()
     
     game.start()
 }
