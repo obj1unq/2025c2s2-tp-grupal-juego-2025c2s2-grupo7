@@ -5,8 +5,9 @@ import wollok.game.*
 class Enemigo {
   var image 
   var position 
-  var vida
+  var vida 
   var posicionAnterior
+  const property daño = 20
 
   method image(){
       return image

@@ -2,13 +2,14 @@ import wollok.game.*
 import personaje.*
 import enemigos.*
 import direcciones.*
+import drops.*
 
 object configuracion {
 
     method configEscenario(){
         game.title("Rey de la pradera")
-        game.height(15)
-        game.width(15)
+        game.height(20)
+        game.width(20)
         game.cellSize(48)
         game.boardGround("nivel.png")
     }
@@ -19,6 +20,10 @@ object configuracion {
         game.addVisual(basico2)
 	    game.addVisual(basico3)
         game.addVisual(basico4)
+        game.addVisual(new Escopeta())
+        game.addVisual(new Botiquin())
+        game.addVisual(new Metralleta())
+        game.addVisual(new Lanzacohetes())
     }
 
     method configPersonaje(){
@@ -45,5 +50,9 @@ object configuracion {
         game.onCollideDo(basico2, {objeto => objeto.colisionarCon(basico2)})
         game.onCollideDo(basico3, {objeto => objeto.colisionarCon(basico3)})
         game.onCollideDo(basico4, {objeto => objeto.colisionarCon(basico4)})
+    }
+
+    method configDropeo (){
+       game.onCollideDo(personaje, {drop => drop.colisionarConPersonaje()})
     }
 }

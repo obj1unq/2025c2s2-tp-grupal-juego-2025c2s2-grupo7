@@ -4,6 +4,27 @@ import enemigos.*
 object personaje{
     var position = game.at(7,7)
     const image = "personaje.png"
+    var property vida = 100
+    var property armaUtilizada = armaPrincipal
+
+    method text() { //PROVISORIO
+		return vida.toString()
+	}
+	method textColor() {
+		return "FF0000FF"
+	}
+
+    method curarCon(botiquin){
+        if(vida < 100){
+            vida = (vida + botiquin).min(100)
+        } else {
+            vida = 100
+        }
+    }
+
+    method cambiarArma(arma){
+        armaUtilizada = arma
+    }
 
     method image(){
         return image
@@ -18,19 +39,23 @@ object personaje{
     }
 
     method disparar(direccion){
-        arma.disparar(direccion)
+        armaUtilizada.disparar(direccion)
     }
 
     method colisionarCon(enemigo){
-        game.stop()
+        if(vida > enemigo.daño()){
+            vida = vida - enemigo.daño()
+        }else {
+            game.stop()
+        }
     }
 }
 
-object arma{
+object armaPrincipal{
     var position = game.at(7,7)
     const image = "bala.png"
     const poseedor = personaje 
-    const daño = 8
+    const daño = 10
 
     method image(){
         return image
@@ -64,6 +89,4 @@ object arma{
         game.removeVisual(self)
         position = poseedor.position()
     }
-
-    
 }
