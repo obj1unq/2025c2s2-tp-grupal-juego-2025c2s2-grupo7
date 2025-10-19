@@ -1,27 +1,40 @@
 import direcciones.*
+import randomizer.*
 import wollok.game.*
+import factories.*
 
-class ejercito{
+object ejercito{
     const enemigos = #{}
 
-    method agregarEnemigo(enemigo){
-
+    method agregarEnemigo(tipoDeEnemigo){
+        const enemigo = tipoDeEnemigo.crear(self)
+        enemigos.add(enemigo)
+        game.addVisual(enemigo)
     }
 
     method enemigosDanPaso(){
-        
+        game.onTick(200, "Enemigos dan paso", {enemigos.forEach({enemigo => enemigo.darPaso()})})
+    }
+
+    method enemigosPersiguen(personaje){
+      game.onTick(500, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
+    }
+
+    method enemigoMurio(enemigo){
+      enemigos.remove(enemigo)
     }
 }
 
 class Enemigo {
-  var image 
+  var estado
   var position 
   var vida 
   var posicionAnterior
   var property daño
+  const ejercito
 
   method image(){
-      return image
+      return estado.image()
   }
 
   method position(){
@@ -70,37 +83,66 @@ class Enemigo {
 
   method muerte (){
     game.removeVisual(self)
+    ejercito.enemigoMurio(self)
   }
 
     method darPaso(){
-        if (image == "enemigoBasico1.png"){
-            image = "enemigoBasico2.png"
-        } else {
-            image = "enemigoBasico1.png"
-        }
+        estado = estado.siguienteEstado()
     }
 }
 
-class Zombie inherits Enemigo {
+class Zombie inherits Enemigo(vida = 10, estado = zombiePasoDerecho, daño = 10){}
 
+object zombiePasoDerecho{
+  const image = "enemigoBasico1.png"
+  const siguienteEstado = zombiePasoIzquierdo
+  
+  method image(){
+    return image
+  }
+
+  method siguienteEstado(){
+    return siguienteEstado
+  }
 }
 
-class Minotauro inherits Enemigo {
+object zombiePasoIzquierdo{
+  const image = "enemigoBasico2.png"
+  const siguienteEstado = zombiePasoDerecho
+  
+  method image(){
+    return image
+  }
 
-  override method darPaso(){
-        if (image == "enemigoMinotauro1.png"){
-            image = "enemigoMinotauro2.png"
-        } else {
-            image = "enemigoMinotauro1.png"
-        }
-    } 
+  method siguienteEstado(){
+    return siguienteEstado
+  }
 }
 
-const basico = new Zombie(image = "enemigoBasico1.png",position = game.at(1,1),vida = 10,posicionAnterior = game.at(1,1),daño=10)
+class Minotauro inherits Enemigo(vida = 20, estado = minotauroPasoDerecho, daño = 20){}
 
-const basico2 = new Zombie(image = "enemigoBasico1.png",position = game.at(7,14),vida = 10,posicionAnterior = game.at(7,14),daño=10)
+object minotauroPasoDerecho{
+  const image = "enemigoMinotauro1.png"
+  const siguienteEstado = minotauroPasoIzquierdo
+  
+  method image(){
+    return image
+  }
 
-const basico3 = new Minotauro(image = "enemigoMinotauro1.png",position = game.at(7,0),vida = 20,posicionAnterior= game.at(7,0),daño=20)
+  method siguienteEstado(){
+    return siguienteEstado
+  }
+}
 
-const basico4 = new Minotauro(image = "enemigoMinotauro1.png",position = game.at(0, 7),vida = 20,posicionAnterior= game.at(0,7),daño=20)
+object minotauroPasoIzquierdo{
+  const image = "enemigoMinotauro2.png"
+  const siguienteEstado = minotauroPasoDerecho
+  
+  method image(){
+    return image
+  }
 
+  method siguienteEstado(){
+    return siguienteEstado
+  }
+}

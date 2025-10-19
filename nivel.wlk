@@ -1,10 +1,12 @@
 import wollok.game.*
 import randomizer.*
 import factories.*
+import enemigos.*
 
 class Nivel{
     const layout
-    const enemigos
+    var enemigos
+    const ejercitoDeNivel
     const tiempoDeSpawn
 
     method crearNivel(){
@@ -12,17 +14,27 @@ class Nivel{
     }
 
     method spawnearEnemigos(){
-        enemigos.forEach({enemigo => game.schedule(tiempoDeSpawn, {enemigos.agregarEnemigo (enemigo.crear())})})
+        game.onTick(tiempoDeSpawn, "Spawn de enemigos del nivel", {self. spawnearSiguienteEnemigo()})
+    }
+
+    method spawnearSiguienteEnemigo(){
+        if (!enemigos.isEmpty()){
+            ejercitoDeNivel.agregarEnemigo(enemigos.first())
+            enemigos = enemigos.drop(1)
+        } else {
+            game.removeTickEvent("Spawn de enemigos del nivel")
+        }
     }
 
     method jugarNivel(){
         self.crearNivel()
-        enemigos.enemigosDanPaso()
-        enemigos.enemigosPersiguen()
+        self.spawnearEnemigos()
+        ejercitoDeNivel.enemigosDanPaso()
+        ejercitoDeNivel.enemigosDanPaso()
     }
 }
 
-const nivel1 = new Nivel(enemigos = [b,b,b,b], tiempoDeSpawn = 350, layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+const nivel1 = new Nivel(enemigos = [z,z,z,z], tiempoDeSpawn = 350, layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
@@ -41,11 +53,17 @@ const nivel1 = new Nivel(enemigos = [b,b,b,b], tiempoDeSpawn = 350, layout=[_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_])
+                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_], ejercitoDeNivel = ejercito)
 
-object b{
-    method crear(){
-        return basicoFactory.crear()
+object z{
+    method crear(ejercito){
+        return zombieFactory.crear(ejercito)
+    }
+}
+
+object m{
+    method crear(ejercito){
+        return minotauroFactory.crear(ejercito)
     }
 }
 
