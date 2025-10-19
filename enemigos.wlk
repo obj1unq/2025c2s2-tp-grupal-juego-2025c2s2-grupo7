@@ -1,6 +1,17 @@
 import direcciones.*
 import wollok.game.*
 
+class ejercito{
+    const enemigos = #{}
+
+    method agregarEnemigo(enemigo){
+
+    }
+
+    method enemigosDanPaso(){
+        
+    }
+}
 
 class Enemigo {
   var image 
