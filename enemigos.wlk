@@ -27,6 +27,14 @@ object ejercito{
         game.stop()
       }
     }
+
+    method hayEnemigoAca(position){
+      return enemigos.any({enemigo => position == enemigo.position()})
+    }
+
+    method enemigoAca (position){
+      return enemigos.find({enemigo => position == enemigo.position()})
+    }
 }
 
 class Enemigo {

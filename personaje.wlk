@@ -1,11 +1,12 @@
 import wollok.game.*
 import enemigos.*
+import armas.*
 
 object personaje{
     var position = game.at(7,7)
     const image = "personaje.png"
     var property vida = 100
-    var property armaUtilizada = armaPrincipal
+    var property armaUtilizada = Revolver
 
     method text() { //PROVISORIO
 		return vida.toString()
@@ -48,45 +49,5 @@ object personaje{
         }else {
             game.stop()
         }
-    }
-}
-
-object armaPrincipal{
-    var position = game.at(7,7)
-    const image = "bala.png"
-    const poseedor = personaje 
-    const daño = 10
-
-    method image(){
-        return image
-    }
-
-    method position(){
-        return position
-    }
-
-    method disparar(direccion){
-        game.removeTickEvent("Arma dispara")
-        game.removeVisual(self)
-        position = poseedor.position()
-        game.addVisual(self)
-        game.onTick (100, "Arma dispara", {self.balaViajando(direccion)})
-    }
-
-    method balaViajando(direccion){
-        if (position.x().between(1,game.height()-1) and position.y().between(1,game.width()-1)){
-            position = direccion.siguiente(position)
-        } else {
-            game.removeTickEvent("Arma dispara")
-            game.removeVisual(self)
-            position = poseedor.position()
-        }
-    }
-
-    method colisionarCon(enemigo){
-        enemigo.aplicarDaño(daño)
-        game.removeTickEvent("Arma dispara")
-        game.removeVisual(self)
-        position = poseedor.position()
     }
 }
