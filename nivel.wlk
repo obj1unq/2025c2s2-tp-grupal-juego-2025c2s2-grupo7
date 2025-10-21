@@ -3,10 +3,49 @@ import randomizer.*
 import factories.*
 import enemigos.*
 import personaje.*
+import config.*
+
+object reyDeLaPradera{
+    var nivelActual =new Nivel(enemigosIniciales = [z,z,z,z], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ])
+
+    method empezarJuego(){
+        configuracion.configEscenario()
+        configuracion.configPersonaje()
+        configuracion.configVisuales()
+        configuracion.configDropeo()
+        nivelActual.jugarNivel()
+        game.start()
+    }
+
+    method terminoNivel(){
+        nivelActual = nivelActual.siguienteNivel()
+        nivelActual.jugarNivel()
+    }
+}
 
 class Nivel{
     const layout
-    var enemigos
+    var enemigos = enemigosIniciales
+    const enemigosIniciales
     const ejercitoDeNivel
     const tiempoDeSpawn
 
@@ -33,32 +72,16 @@ class Nivel{
         game.cellSize(48)
         game.boardGround("nivel.png")
         self.crearNivel()
+        enemigos = enemigosIniciales
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje) // Hay que cambiar esto, para no usar la referencia global de personaje
     }
-}
 
-const nivel1 = new Nivel(enemigos = [z,z,z,z], tiempoDeSpawn = 350, layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ], ejercitoDeNivel = ejercito)
+    method siguienteNivel(){
+        return self
+    }
+}
 
 object z{
     method crear(ejercito){

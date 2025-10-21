@@ -23,9 +23,6 @@ object ejercito{
 
     method enemigoMurio(enemigo){
       enemigos.remove(enemigo)
-      if (enemigos.isEmpty()){
-        game.stop()
-      }
     }
 }
 
