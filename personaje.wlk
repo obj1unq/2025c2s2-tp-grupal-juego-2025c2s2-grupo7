@@ -6,7 +6,7 @@ object personaje{
     var position = game.at(7,7)
     const image = "personaje.png"
     var property vida = 100
-    var property armaUtilizada = Revolver
+    var property armaUtilizada = new Revolver()
 
     method text() { //PROVISORIO
 		return vida.toString()

@@ -3,22 +3,26 @@ import wollok.game.*
 
 class Arma{
     const poseedor = personaje
-    const bala
+    const balaADisparar
 
     method disparar(direccion){
-        bala.disparar(direccion, velocidadProyectil)
+        if (!balaADisparar.fueDisparada()){
+            balaADisparar.serDisparada(direccion)
+        }
     }
 }
 
-class Revolver inherits Arma (bala = bala){}
+class Revolver inherits Arma (balaADisparar = bala){}
 
-class Uzi inherits Arma (bala = bala){
+class Uzi inherits Arma (balaADisparar = bala){
     var municion = 25
     const armaPorDefecto = Revolver
 
     override method disparar(direccion){
-        bala.disparar(direccion, velocidadProyectil)
-        municion =- 1
+        if (!balaADisparar.fueDisparada()){
+            balaADisparar.disparar(direccion)
+            municion =- 1
+        }
         if (municion == 0){
             self.volverAArmaPorDefecto()
         }
@@ -29,13 +33,15 @@ class Uzi inherits Arma (bala = bala){
     }
 }
 
-class Escopeta inherits Arma (bala = cartucho){
+class Escopeta inherits Arma (balaADisparar = cartucho){
     var municion = 10
     const armaPorDefecto = Revolver
 
     override method disparar(direccion){
-        bala.disparar(direccion, velocidadProyectil)
-        municion =- 1
+        if (!balaADisparar.fueDisparada()){
+            balaADisparar.disparar(direccion)
+            municion =- 1
+        }
         if (municion == 0){
             self.volverAArmaPorDefecto()
         }
@@ -46,13 +52,15 @@ class Escopeta inherits Arma (bala = cartucho){
     }
 }
 
-class Lanzacohetes inherits Arma (bala = misil){
+class Lanzacohetes inherits Arma (balaADisparar = misil){
     var municion = 2
     const armaPorDefecto = Revolver
 
     override method disparar(direccion){
-        bala.disparar(direccion, velocidadProyectil)
-        municion =- 1
+        if (balaADisparar.fueDisparada()){
+            balaADisparar.disparar(direccion)
+            municion -= 1
+        }
         if (municion == 0){
             self.volverAArmaPorDefecto()
         }
@@ -63,38 +71,64 @@ class Lanzacohetes inherits Arma (bala = misil){
     }
 }
 
-object Bala {
+object bala {
     const velocidadProyectil = 250
     const daño = 10
     const image = "bala.png"
-    var tirador = personaje
+    const tirador = personaje
     var position = tirador.position()
     var fueDisparada = false
-    const enemigos = ejercito
+
+    method image(){
+        return image
+    }
+
+    method position(){
+        return position
+    }
 
     method serDisparada(direccion){
-        const siguientePosicion = self.viajarA(direccion, position)
-        if (!fueDisparada and !self.estaFueraDeRango (siguientePosicion)){
+        const siguientePosicion = direccion.siguienteHastaBorde(tirador.position())
+        if (!self.estaFueraDeRango (siguientePosicion)){
             fueDisparada = true
             position = siguientePosicion
             game.addVisual(self)
-            game.onTick(velocidadProyectil, "Arma dispara", {self.viajar(direccion)})
+            game.onTick(velocidadProyectil, "Bala viaja", {self.viajar(direccion)})
         }
     }
 
     method viajar(direccion){
-        const siguientePosicion = self.viajarA(direccion, position)
+        const siguientePosicion = direccion.siguienteHastaBorde(position)
         if (!self.estaFueraDeRango(siguientePosicion)){
             position = siguientePosicion
+        } else {
+            fueDisparada = false
+            game.removeVisual(self)
+            game.removeTickEvent("Bala viaja")
         }
     }
 
-    method estaFueraDeRango (position){
-        const x = position.x()
-        const y = position.y()
-        return x < 0 or x >= game.width() or y < 0 or game.height()
+    method colisionarCon (enemigo){
+        enemigo.aplicarDaño(daño)
+        fueDisparada = false
+        game.removeVisual(self)
+        game.removeTickEvent("Bala viaja")
+    }
+
+    method estaFueraDeRango (_position){
+        const x = _position.x()
+        const y = _position.y()
+        return x < 0 or x >= game.width() or y < 0 or y >= game.height()
+    }
+
+    method fueDisparada(){
+        return fueDisparada
     }
 }
+
+object cartucho{}
+
+object misil{}
 
 
 /*
@@ -104,13 +138,7 @@ object armaPrincipal{
     const poseedor = personaje 
     const daño = 10
 
-    method image(){
-        return image
-    }
-
-    method position(){
-        return position
-    }
+    
 
     method disparar(direccion){
         game.removeTickEvent("Arma dispara")
