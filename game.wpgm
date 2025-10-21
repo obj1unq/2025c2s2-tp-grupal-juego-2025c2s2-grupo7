@@ -3,13 +3,14 @@ import wollok.game.*
 import personaje.*
 import enemigos.*
 import config.*
+import nivel.*
 
 program juego{
 	configuracion.configEscenario()
     configuracion.configPersonaje()
     configuracion.configVisuales()
-    configuracion.configEnemigos()
     configuracion.configDropeo()
+    nivel1.jugarNivel()
     
     game.start()
 }

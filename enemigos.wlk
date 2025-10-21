@@ -10,6 +10,7 @@ object ejercito{
         const enemigo = tipoDeEnemigo.crear(self)
         enemigos.add(enemigo)
         game.addVisual(enemigo)
+        game.onCollideDo(enemigo, {objeto => objeto.colisionarCon(enemigo)})
     }
 
     method enemigosDanPaso(){
@@ -22,6 +23,9 @@ object ejercito{
 
     method enemigoMurio(enemigo){
       enemigos.remove(enemigo)
+      if (enemigos.isEmpty()){
+        game.stop()
+      }
     }
 }
 

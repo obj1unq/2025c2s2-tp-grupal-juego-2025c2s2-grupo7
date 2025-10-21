@@ -2,6 +2,7 @@ import wollok.game.*
 import randomizer.*
 import factories.*
 import enemigos.*
+import personaje.*
 
 class Nivel{
     const layout
@@ -27,10 +28,14 @@ class Nivel{
     }
 
     method jugarNivel(){
+        game.height(21)
+        game.width(21)
+        game.cellSize(48)
+        game.boardGround("nivel.png")
         self.crearNivel()
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
-        ejercitoDeNivel.enemigosDanPaso()
+        ejercitoDeNivel.enemigosPersiguen(personaje) // Hay que cambiar esto, para no usar la referencia global de personaje
     }
 }
 
@@ -53,7 +58,7 @@ const nivel1 = new Nivel(enemigos = [z,z,z,z], tiempoDeSpawn = 350, layout=[_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                             _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_], ejercitoDeNivel = ejercito)
+                                                                            _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ], ejercitoDeNivel = ejercito)
 
 object z{
     method crear(ejercito){

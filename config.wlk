@@ -9,10 +9,6 @@ object configuracion {
 
     method configEscenario(){
         game.title("Rey de la pradera")
-        game.height(21)
-        game.width(21)
-        game.cellSize(48)
-        game.boardGround("nivel.png")
     }
 
     method configVisuales(){
@@ -32,15 +28,6 @@ object configuracion {
         keyboard.down().onPressDo({personaje.disparar(abajo)})
         keyboard.left().onPressDo({personaje.disparar(izquierda)})
         keyboard.right().onPressDo({personaje.disparar(derecha)})
-    }
-
-    method configEnemigos(){
-        ejercito.agregarEnemigo(z)
-        ejercito.agregarEnemigo(z)
-        ejercito.agregarEnemigo(m)
-        ejercito.agregarEnemigo(m)
-        ejercito.enemigosDanPaso()
-        ejercito.enemigosPersiguen(personaje)
     }
 
     method configDropeo (){

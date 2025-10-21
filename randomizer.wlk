@@ -29,8 +29,8 @@ object randomizer {
 	}
 
 	method posicionParaEnemigo(){
-		const width = 20  // game.width()-1, pero por ahora pongo el número directamente, ya que sino toma como que el tablero es 5x5 (se ejecuta antes de definir el tablero)
-		const height = 20 // Deberia ser game.height()-1, idem arriba.
+		const width = game.width()-1  // game.width()-1, pero por ahora pongo el número directamente, ya que sino toma como que el tablero es 5x5 (se ejecuta antes de definir el tablero)
+		const height = game.height()-1 // Deberia ser game.height()-1, idem arriba.
 		const mitadWidth = width.div(2)
 		const mitadHeight = height.div(2)
 		return 	[game.at([mitadWidth - 1, mitadWidth, mitadWidth + 1].anyOne(), [0, height].anyOne()),

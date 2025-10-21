@@ -74,7 +74,7 @@ object armaPrincipal{
     }
 
     method balaViajando(direccion){
-        if (position.x().between(1,13) and position.y().between(1,13)){
+        if (position.x().between(1,game.height()-1) and position.y().between(1,game.width()-1)){
             position = direccion.siguiente(position)
         } else {
             game.removeTickEvent("Arma dispara")
