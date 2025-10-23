@@ -2,7 +2,11 @@ import wollok.game.*
 import personaje.*
 import randomizer.*
 
-class Botiquin {
+class Drop {
+
+}
+
+class Botiquin inherits Drop {
     var property position = game.at(7,5)
     var property curacionQueAporta = 20 // La idea es que tenga 2 o 3 valores randoms ej:
                                         // (20,50,80 dependiendo del daño de enemigos)
@@ -17,7 +21,7 @@ class Botiquin {
     }
 }
 
-class Escopeta {
+class Escopeta inherits Drop {
 
     var property position = game.at(9,7)
 
@@ -31,7 +35,7 @@ class Escopeta {
     }
 }
 
-class Metralleta {
+class Metralleta inherits Drop {
     var property position = game.at(2,7)
 
     method image(){
@@ -49,5 +53,49 @@ class Lanzacohetes {
     
     method image(){
         return "lanzacohetes.png"
+    }
+}
+
+
+
+object botiquinFactory {
+	method crearEn(posicion) {
+		return new Botiquin(position= posicion)
+	}
+}
+
+object escopetaFactory {
+    method crearEn(posicion){
+        return new Escopeta(position = posicion)
+    }
+}
+object metralletaFactory {
+	method crearEn(posicion) {
+		return new Metralleta(position = posicion)
+	}
+}
+
+
+object drops {
+
+     method nuevoDropEn(posicion) {
+			const drop = self.creacionDropEn(posicion)
+			game.addVisual(drop)
+		}
+     
+     
+     method creacionDropEn(posicion){
+        return self.elegirDrop().crearEn(posicion)
+     }
+
+     method elegirDrop(){
+        const probabilidad =  0.randomUpTo(1) 
+        if (probabilidad.between(0, 0.15)){
+            return escopetaFactory
+        } else if (probabilidad.between(0.15,0.65)) {
+	     	return botiquinFactory
+        } else {
+            return metralletaFactory
+        }
     }
 }
