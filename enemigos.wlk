@@ -2,6 +2,7 @@ import direcciones.*
 import randomizer.*
 import wollok.game.*
 import factories.*
+import drops.*
 
 object ejercito{
     const enemigos = #{}
@@ -86,6 +87,7 @@ class Enemigo {
   }
 
   method muerte (){
+    drops.nuevoDropEn(self.position())
     game.removeVisual(self)
     ejercito.enemigoMurio(self)
   }
