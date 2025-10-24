@@ -25,8 +25,13 @@ object ejercito{
     method enemigoMurio(enemigo){
       enemigos.remove(enemigo)
       if (enemigos.isEmpty()){
-        game.stop()
+        game.removeTickEvent("Enemigos dan paso")
+        game.removeTickEvent("Enemigos persiguen a personaje.")
       }
+    }
+
+    method matarTodos(){
+      enemigos.forEach({enemigo => enemigo.muerte()})
     }
 }
 

@@ -8,15 +8,13 @@ class Drop {
 
 class Botiquin inherits Drop {
     var property position = game.at(7,5)
-    var property curacionQueAporta = 20 // La idea es que tenga 2 o 3 valores randoms ej:
-                                        // (20,50,80 dependiendo del daño de enemigos)
 
     method image(){
         return "botiquin1.png"
     }
 
     method colisionarConPersonaje(){
-        personaje.curarCon(self)
+        personaje.ganarVida()
         game.removeVisual(self)
     }
 }

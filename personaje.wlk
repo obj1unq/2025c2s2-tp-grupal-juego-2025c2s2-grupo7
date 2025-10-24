@@ -1,24 +1,17 @@
 import wollok.game.*
 import enemigos.*
+import nivel.*
 
 object personaje{
-    var position = game.at(7,7)
+    var position = game.center()
     const image = "personaje.png"
-    var property vida = 100
+    var property vidas = 3
     var property armaUtilizada = armaPrincipal
+    const juego = reyDeLaPradera
 
-    method text() { //PROVISORIO
-		return vida.toString()
-	}
-	method textColor() {
-		return "FF0000FF"
-	}
-
-    method curarCon(botiquin){
-        if(vida < 100){
-            vida = (vida + botiquin).min(100)
-        } else {
-            vida = 100
+    method ganarVida(){
+        if (vidas < 3){
+            vidas += 1
         }
     }
 
@@ -43,10 +36,12 @@ object personaje{
     }
 
     method colisionarCon(enemigo){
-        if(vida > enemigo.daño()){
-            vida = vida - enemigo.daño()
-        }else {
-            game.stop()
+        vidas -= 1
+        if (vidas == 0){
+            juego.perderJuego()
+        } else {
+            juego.reiniciarNivel()
+            position = game.center()
         }
     }
 }
