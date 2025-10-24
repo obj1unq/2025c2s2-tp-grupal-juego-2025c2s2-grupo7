@@ -1,5 +1,4 @@
 import wollok.game.*
-import randomizer.*
 import factories.*
 import enemigos.*
 import personaje.*
@@ -40,11 +39,19 @@ object reyDeLaPradera{
         nivelActual = nivelActual.siguienteNivel()
         nivelActual.jugarNivel()
     }
+
+    method reiniciarNivel(){
+        nivelActual.reiniciarNivel()
+    }
+
+    method perderJuego(){
+        game.stop()
+    }
 }
 
 class Nivel{
     const layout
-    var enemigos = enemigosIniciales
+    var enemigos = enemigosIniciales.copy()
     const enemigosIniciales
     const ejercitoDeNivel
     const tiempoDeSpawn
@@ -76,6 +83,14 @@ class Nivel{
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje) // Hay que cambiar esto, para no usar la referencia global de personaje
+    }
+
+    method reiniciarNivel(){
+        ejercitoDeNivel.matarTodos()
+        enemigos = enemigosIniciales
+        self.spawnearEnemigos()
+        ejercitoDeNivel.enemigosDanPaso()
+        ejercitoDeNivel.enemigosPersiguen(personaje)
     }
 
     method siguienteNivel(){

@@ -3,7 +3,7 @@ import enemigos.*
 import nivel.*
 
 object personaje{
-    var position = game.at(7,7)
+    var position = game.center()
     const image = "personaje.png"
     var property vidas = 3
     var property armaUtilizada = armaPrincipal
@@ -41,6 +41,7 @@ object personaje{
             juego.perderJuego()
         } else {
             juego.reiniciarNivel()
+            position = game.center()
         }
     }
 }
