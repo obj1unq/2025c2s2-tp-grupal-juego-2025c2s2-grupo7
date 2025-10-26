@@ -3,6 +3,7 @@ import factories.*
 import enemigos.*
 import personaje.*
 import config.*
+import drops.*
 
 object reyDeLaPradera{
     var nivelActual =new Nivel(enemigosIniciales = [z,z,z,z], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
@@ -42,6 +43,7 @@ object reyDeLaPradera{
 
     method reiniciarNivel(){
         nivelActual.reiniciarNivel()
+        drops.borrarDrops()
     }
 
     method perderJuego(){

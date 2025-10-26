@@ -7,7 +7,7 @@ class Drop {
 }
 
 class Botiquin inherits Drop {
-    var property position = game.at(7,5)
+    var property position 
 
     method image(){
         return "botiquin1.png"
@@ -21,7 +21,7 @@ class Botiquin inherits Drop {
 
 class Escopeta inherits Drop {
 
-    var property position = game.at(9,7)
+    var property position 
 
     method image(){
         return "escopeta.png"
@@ -34,7 +34,7 @@ class Escopeta inherits Drop {
 }
 
 class Metralleta inherits Drop {
-    var property position = game.at(2,7)
+    var property position 
 
     method image(){
         return "uzi.png"
@@ -47,7 +47,7 @@ class Metralleta inherits Drop {
 }
 
 class Lanzacohetes {
-    var property position = game.at(10,10)
+    var property position 
     
     method image(){
         return "lanzacohetes.png"
@@ -75,11 +75,21 @@ object metralletaFactory {
 
 
 object drops {
-
+    const property dropsCreados = []
      method nuevoDropEn(posicion) {
-			const drop = self.creacionDropEn(posicion)
-			game.addVisual(drop)
+            const drop = self.creacionDropEn(posicion)
+			self.agregarDrop(drop)
+            game.addVisual(drop)
 		}
+
+    method agregarDrop(drop){
+        dropsCreados.add(drop)
+    }
+
+    method borrarDrops(){
+        dropsCreados.forEach({drop => game.removeVisual(drop)})
+        dropsCreados.clear()
+    }
      
      
      method creacionDropEn(posicion){
