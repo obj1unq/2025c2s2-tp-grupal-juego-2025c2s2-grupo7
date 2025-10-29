@@ -13,10 +13,6 @@ object configuracion {
 
     method configVisuales(){
         game.addVisual(personaje)
-        game.addVisual(new Escopeta())
-        game.addVisual(new Botiquin())
-        game.addVisual(new Metralleta())
-        game.addVisual(new Lanzacohetes())
     }
 
     method configPersonaje(){
@@ -31,6 +27,5 @@ object configuracion {
     }
 
     method configDropeo (){
-       game.onCollideDo(personaje, {drop => drop.colisionarConPersonaje()})
     }
 }

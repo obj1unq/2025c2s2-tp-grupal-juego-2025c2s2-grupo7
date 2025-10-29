@@ -3,18 +3,74 @@ import wollok.game.*
 
 class Arma{
     const poseedor = personaje
-    const balaADisparar
+    const balas = #{}
+    const tipoDeBala = balaFactory
+    const velocidadDeDisparo
 
     method disparar(direccion){
-        if (!balaADisparar.fueDisparada()){
-            balaADisparar.serDisparada(direccion)
+        const position = poseedor.position()
+        if (balas.size() <= 5 and direccion.siguienteHastaBorde(position) !== position){
+            const b = tipoDeBala.crear(direccion.siguienteHastaBorde(position))
+            balas.add(b)
+            game.addVisual(b)
+            game.onCollideDo(b, {_ => b.volverATirador()})
         }
+        balas.forEach({bala => bala.viajar(direccion)})
+    }
+
+    method velocidadDeDisparo(){
+        return velocidadDeDisparo
     }
 }
 
-class Revolver inherits Arma (balaADisparar = bala){}
+class Bala {
+    const daño = 10
+    const image = "bala.png"
+    const tirador = personaje
+    var position
 
-class Uzi inherits Arma (balaADisparar = bala){
+    method image(){
+        return image
+    }
+
+    method position(){
+        return position
+    }
+
+    method viajar(direccion){
+        const siguientePosicion = direccion.siguienteHastaBorde(position)
+        if (!self.estaFueraDeRango(siguientePosicion)){
+            position = siguientePosicion
+        } else {
+            self.volverATirador()
+        }
+    }
+
+    method colisionarCon (enemigo){
+        enemigo.aplicarDaño(daño)
+        self.volverATirador()
+    }
+
+    method volverATirador(){
+        position = tirador.position()
+    }
+
+    method estaFueraDeRango (_position){
+        const x = _position.x()
+        const y = _position.y()
+        return x < 0 or x >= game.width() or y < 0 or y >= game.height()
+    }
+}
+
+object balaFactory{
+    method crear(position){
+        return (new Bala (position = position))
+    }
+}
+
+class Revolver inherits Arma (velocidadDeDisparo = 250){}
+/*
+class Uzi inherits Arma{
     var municion = 25
     const armaPorDefecto = Revolver
 
@@ -33,7 +89,7 @@ class Uzi inherits Arma (balaADisparar = bala){
     }
 }
 
-class Escopeta inherits Arma (balaADisparar = cartucho){
+class Escopeta inherits Arma{
     var municion = 10
     const armaPorDefecto = Revolver
 
@@ -52,7 +108,7 @@ class Escopeta inherits Arma (balaADisparar = cartucho){
     }
 }
 
-class Lanzacohetes inherits Arma (balaADisparar = misil){
+class Lanzacohetes inherits Arma{
     var municion = 2
     const armaPorDefecto = Revolver
 
@@ -68,61 +124,6 @@ class Lanzacohetes inherits Arma (balaADisparar = misil){
 
     method volverAArmaPorDefecto(){
         poseedor.arma(armaPorDefecto)
-    }
-}
-
-object bala {
-    const velocidadProyectil = 250
-    const daño = 10
-    const image = "bala.png"
-    const tirador = personaje
-    var position = tirador.position()
-    var fueDisparada = false
-
-    method image(){
-        return image
-    }
-
-    method position(){
-        return position
-    }
-
-    method serDisparada(direccion){
-        const siguientePosicion = direccion.siguienteHastaBorde(tirador.position())
-        if (!self.estaFueraDeRango (siguientePosicion)){
-            fueDisparada = true
-            position = siguientePosicion
-            game.addVisual(self)
-            game.onTick(velocidadProyectil, "Bala viaja", {self.viajar(direccion)})
-        }
-    }
-
-    method viajar(direccion){
-        const siguientePosicion = direccion.siguienteHastaBorde(position)
-        if (!self.estaFueraDeRango(siguientePosicion)){
-            position = siguientePosicion
-        } else {
-            fueDisparada = false
-            game.removeVisual(self)
-            game.removeTickEvent("Bala viaja")
-        }
-    }
-
-    method colisionarCon (enemigo){
-        enemigo.aplicarDaño(daño)
-        fueDisparada = false
-        game.removeVisual(self)
-        game.removeTickEvent("Bala viaja")
-    }
-
-    method estaFueraDeRango (_position){
-        const x = _position.x()
-        const y = _position.y()
-        return x < 0 or x >= game.width() or y < 0 or y >= game.height()
-    }
-
-    method fueDisparada(){
-        return fueDisparada
     }
 }
 

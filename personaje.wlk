@@ -40,7 +40,7 @@ object personaje{
     }
 
     method disparar(direccion){
-        armaUtilizada.disparar(direccion)
+        game.onTick(armaUtilizada.velocidadDeDisparo(), "Arma disparando", {armaUtilizada.disparar(direccion)})
     }
 
     method colisionarCon(enemigo){
