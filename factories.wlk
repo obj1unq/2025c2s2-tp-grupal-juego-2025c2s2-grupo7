@@ -1,6 +1,6 @@
 import enemigos.*
 import randomizer.*
-import muros.*
+import elementosDelMapa.*
 object zombieFactory{
     method crear(ejercito){
         const _position = randomizer.posicionVaciaCentral()
@@ -16,8 +16,7 @@ object minotauroFactory{
 }
 
 object muroFactory {
-  method crear(posicion) {
-    return new Muro(position=posicion)
-
-  }
+    method crear(posicion) {
+        return new ElementoDelMapa(image="muro.png", position=posicion)
+    }
 }
