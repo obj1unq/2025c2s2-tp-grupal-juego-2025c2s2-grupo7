@@ -6,26 +6,27 @@ import config.*
 import drops.*
 import muros.*
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [z,z,z,z], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,murosDelNivel = muros,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,mr,_,_,_,_,_,_,_,_,_,mr,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,mr,_,_,_,_,_,_,_,_,_,mr,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ].reverse())
+    var nivelActual =new Nivel(enemigosIniciales = [zmb,zmb,zmb,zmb], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, murosDelNivel = muros, layout=[[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]].reverse())
 
     method empezarJuego(){
         configuracion.configEscenario()
@@ -60,14 +61,9 @@ class Nivel{
     const murosDelNivel
 
     method crearNivel(){
-        //layout.forEach({elementoDeNivel => elementoDeNivel.crear(murosDelNivel)})
-    
-        //game.height(layout.size()) //configuro el alto segun la cantidad de filas del dibujo
-       // game.width(layout.anyOne().size()) //configuro el ancho segun la cantidad de columnas del dibujo
-        //itero por el ancho y luego por el alto.
-        (0 .. game.width() - 1).forEach({ x => 
-            (0 .. game.height() - 1).forEach({y => 
-                layout.get(y).get(x).crear(game.at(x,y),murosDelNivel)  //obtengo el dibujante de la cordenada que corresponde a la iteracion y le pido que dibuje en esa cordenada
+        (0 .. layout.size() - 1).forEach({ y =>
+            (0 .. layout.get(y).size() - 1).forEach({ x =>
+                layout.get(y).get(x).crear(game.at(x, y), murosDelNivel)
             })
         })
     }
@@ -110,13 +106,13 @@ class Nivel{
     }
 }
 
-object z{
+object zmb{
     method crear(ejercito){
         return zombieFactory.crear(ejercito)
     }
 }
 
-object m{
+object mtr{
     method crear(ejercito){
         return minotauroFactory.crear(ejercito)
     }
@@ -127,7 +123,7 @@ object _{
     }
 }
 
-object mr{
+object m{
     method crear(posicion,muro) {
         const nuevoMuro = muroFactory.crear(posicion)
         muros.agregarMuro(nuevoMuro)
