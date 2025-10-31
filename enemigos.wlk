@@ -19,83 +19,83 @@ object ejercito{
     }
 
     method enemigosPersiguen(personaje){
-      game.onTick(500, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
+        game.onTick(500, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
     }
 
     method enemigoMurio(enemigo){
-      enemigos.remove(enemigo)
-      if (enemigos.isEmpty()){
-        game.removeTickEvent("Enemigos dan paso")
-        game.removeTickEvent("Enemigos persiguen a personaje.")
-      }
+        enemigos.remove(enemigo)
+        if (enemigos.isEmpty()){
+            game.removeTickEvent("Enemigos dan paso")
+            game.removeTickEvent("Enemigos persiguen a personaje.")
+        }
     }
 
     method matarTodos(){
-      enemigos.forEach({enemigo => enemigo.muerte()})
+        enemigos.forEach({enemigo => enemigo.muerte()})
     }
 }
 
 class Enemigo {
-  var estado
-  var position 
-  var vida 
-  var posicionAnterior
-  var property daño
-  const ejercito
+    var estado
+    var position 
+    var vida 
+    var posicionAnterior
+    var property daño
+    const ejercito
 
-  method image(){
-      return estado.image()
-  }
-
-  method position(){
-      return position
-  }
-
-  method perseguir(personaje) {
-    const distanciaHorizontal = (position.x() - personaje.position().x()).abs()
-    const distanciaVertical = (position.y() - personaje.position().y()).abs()
-    if (distanciaHorizontal >= distanciaVertical) {
-      posicionAnterior = position
-      self.perseguirHorizontal(personaje)
-    } else {
-      posicionAnterior = position
-      self.perseguirVertical(personaje)
+    method image(){
+        return estado.image()
     }
-  }
 
-  method perseguirHorizontal(personaje){
-    if (position.x() < personaje.position().x()){
-      position = derecha.siguiente(position)
-    }  else {
-      position = izquierda.siguiente(position)
-    } 
-  }
+    method position(){
+        return position
+    }
 
-  method perseguirVertical(personaje){
-    if (position.y() < personaje.position().y()){
-      position = arriba.siguiente(position)
-    }  else {
-      position = abajo.siguiente(position)
-    } 
-  }
-  
-  method colisionarCon(objeto){
-    position = posicionAnterior
-  }
+    method perseguir(personaje) {
+        const distanciaHorizontal = (position.x() - personaje.position().x()).abs()
+        const distanciaVertical = (position.y() - personaje.position().y()).abs()
+        if (distanciaHorizontal >= distanciaVertical) {
+            posicionAnterior = position
+            self.perseguirHorizontal(personaje)
+        } else {
+            posicionAnterior = position
+            self.perseguirVertical(personaje)
+        }
+    }
 
-  method aplicarDaño(_daño){
-   if(vida > _daño){
-    vida = vida - _daño
-   }else {
-    self.muerte()
-   }
-  }
+    method perseguirHorizontal(personaje){
+        if (position.x() < personaje.position().x()){
+            position = derecha.siguiente(position)
+        }  else {
+            position = izquierda.siguiente(position)
+        } 
+    }
 
-  method muerte (){
-    drops.nuevoDropEn(self.position())
-    game.removeVisual(self)
-    ejercito.enemigoMurio(self)
-  }
+    method perseguirVertical(personaje){
+        if (position.y() < personaje.position().y()){
+            position = arriba.siguiente(position)
+        }  else {
+            position = abajo.siguiente(position)
+        } 
+    }
+    
+    method colisionarCon(objeto){
+        position = posicionAnterior
+    }
+
+    method aplicarDaño(_daño){
+        if(vida > _daño){
+            vida = vida - _daño
+        }else {
+            self.muerte()
+        }
+    }
+
+    method muerte (){
+        drops.nuevoDropEn(self.position())
+        game.removeVisual(self)
+        ejercito.enemigoMurio(self)
+    }
 
     method darPaso(){
         estado = estado.siguienteEstado()
@@ -105,55 +105,55 @@ class Enemigo {
 class Zombie inherits Enemigo(vida = 10, estado = zombiePasoDerecho, daño = 10){}
 
 object zombiePasoDerecho{
-  const image = "enemigoBasico1.png"
-  const siguienteEstado = zombiePasoIzquierdo
-  
-  method image(){
-    return image
-  }
+    const image = "enemigoBasico1.png"
+    const siguienteEstado = zombiePasoIzquierdo
+    
+    method image(){
+        return image
+    }
 
-  method siguienteEstado(){
-    return siguienteEstado
-  }
+    method siguienteEstado(){
+        return siguienteEstado
+    }
 }
 
 object zombiePasoIzquierdo{
-  const image = "enemigoBasico2.png"
-  const siguienteEstado = zombiePasoDerecho
-  
-  method image(){
-    return image
-  }
+    const image = "enemigoBasico2.png"
+    const siguienteEstado = zombiePasoDerecho
+    
+    method image(){
+        return image
+    }
 
-  method siguienteEstado(){
-    return siguienteEstado
-  }
+    method siguienteEstado(){
+        return siguienteEstado
+    }
 }
 
 class Minotauro inherits Enemigo(vida = 20, estado = minotauroPasoDerecho, daño = 20){}
 
 object minotauroPasoDerecho{
-  const image = "enemigoMinotauro1.png"
-  const siguienteEstado = minotauroPasoIzquierdo
-  
-  method image(){
-    return image
-  }
+    const image = "enemigoMinotauro1.png"
+    const siguienteEstado = minotauroPasoIzquierdo
+    
+    method image(){
+        return image
+    }
 
-  method siguienteEstado(){
-    return siguienteEstado
-  }
+    method siguienteEstado(){
+        return siguienteEstado
+    }
 }
 
 object minotauroPasoIzquierdo{
-  const image = "enemigoMinotauro2.png"
-  const siguienteEstado = minotauroPasoDerecho
-  
-  method image(){
-    return image
-  }
+    const image = "enemigoMinotauro2.png"
+    const siguienteEstado = minotauroPasoDerecho
+    
+    method image(){
+        return image
+    }
 
-  method siguienteEstado(){
-    return siguienteEstado
-  }
+    method siguienteEstado(){
+        return siguienteEstado
+    }
 }
