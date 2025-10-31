@@ -28,7 +28,7 @@ class Escopeta inherits Drop {
     }
 
     method colisionarConPersonaje(){
-        personaje.cambiarArma(self)
+        personaje.recolectarArma(self)
         game.removeVisual(self)
     }
 }
@@ -41,8 +41,15 @@ class Metralleta inherits Drop {
     }
 
      method colisionarConPersonaje(){
-        personaje.cambiarArma(self)
+        self.asertarRecoleccionPara()
+        personaje.recolectarArma(self)
         game.removeVisual(self)
+     }
+
+     method asertarRecoleccionPara(){
+        if (personaje.tieneArmaSecundaria()){
+            self.error ("Ya tiene un arma secundaria en poseción")
+        }
      }
 }
 

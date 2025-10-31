@@ -7,6 +7,7 @@ object personaje{
     const image = "personaje.png"
     var property vidas = 3
     var property armaUtilizada = armaPrincipal
+    var property armaSecundaria = null
     const juego = reyDeLaPradera
 
     method ganarVida(){
@@ -15,8 +16,32 @@ object personaje{
         }
     }
 
-    method cambiarArma(arma){
-        armaUtilizada = arma
+    method text() {
+		return armaUtilizada.toString()
+	}
+	method textColor() {
+		return "FF0000FF"
+	}
+
+    method cambiarArma(){
+        self.asertarCambioDeArma()
+        armaUtilizada = armaSecundaria
+        game.schedule(10000, {armaUtilizada = armaPrincipal})
+        armaSecundaria = null
+    }
+
+    method asertarCambioDeArma(){
+        if(armaSecundaria == null){
+            self.error("No poseo arma Secundaria")
+        }
+    }
+
+    method recolectarArma(arma){
+        armaSecundaria = arma
+    }
+
+    method tieneArmaSecundaria(){
+        return armaSecundaria != null
     }
 
     method image(){

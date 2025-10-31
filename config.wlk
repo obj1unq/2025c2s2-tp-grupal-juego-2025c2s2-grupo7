@@ -24,6 +24,7 @@ object configuracion {
         keyboard.down().onPressDo({personaje.disparar(abajo)})
         keyboard.left().onPressDo({personaje.disparar(izquierda)})
         keyboard.right().onPressDo({personaje.disparar(derecha)})
+        keyboard.q().onPressDo({personaje.cambiarArma()})
     }
 
     method configDropeo (){
