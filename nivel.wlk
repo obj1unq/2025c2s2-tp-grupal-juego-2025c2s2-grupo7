@@ -6,7 +6,7 @@ import config.*
 import drops.*
 
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [z,z,z,z], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
+    var nivelActual =new Nivel(enemigosIniciales = [z,v,a,m], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
                                                                                                                     _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
@@ -111,6 +111,20 @@ object m{
         return minotauroFactory.crear(ejercito)
     }
 }
+
+object v{
+    method crear(ejercito){
+        return vampiroFactory.crear(ejercito)
+    }
+}
+
+ object a{
+    method crear(ejercito){
+        return acorazadoFactory.crear(ejercito)
+    }
+}
+
+
 
 object _{
     method crear(){}
