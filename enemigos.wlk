@@ -40,7 +40,6 @@ class Enemigo {
   var position 
   var vida 
   var posicionAnterior
-  var property daño
   const ejercito
 
   method image(){
@@ -102,7 +101,7 @@ class Enemigo {
     }
 }
 
-class Zombie inherits Enemigo(vida = 10, estado = zombiePasoDerecho, daño = 10){}
+class Zombie inherits Enemigo(vida = 10, estado = zombiePasoDerecho){}
 
 object zombiePasoDerecho{
   const image = "enemigoBasico1.png"
@@ -130,7 +129,7 @@ object zombiePasoIzquierdo{
   }
 }
 
-class Minotauro inherits Enemigo(vida = 20, estado = minotauroPasoDerecho, daño = 20){}
+class Minotauro inherits Enemigo(vida = 20, estado = minotauroPasoDerecho){}
 
 object minotauroPasoDerecho{
   const image = "enemigoMinotauro1.png"
@@ -157,3 +156,142 @@ object minotauroPasoIzquierdo{
     return siguienteEstado
   }
 }
+
+class Vampiro inherits Enemigo(vida = 10, estado = vampiroPasoDerecho){}
+
+object vampiroPasoDerecho{
+  const image = "enemigoVolador1.png"
+  const siguienteEstado = vampiroPasoIzquierdo
+  
+  method image(){
+    return image
+  }
+
+  method siguienteEstado(){
+    return siguienteEstado
+  }
+}
+
+object vampiroPasoIzquierdo{
+  const image = "enemigoVolador2.png"
+  const siguienteEstado = vampiroPasoDerecho
+  
+  method image(){
+    return image
+  }
+
+  method siguienteEstado(){
+    return siguienteEstado
+  }
+}
+
+
+class Acorazado inherits Enemigo(vida = 20, estado = acorazadoPasoDerecho){}
+   
+  /* 
+    REVISAR
+   var property realizarTransformacion = true
+
+    override method perseguir(personaje){
+      
+      if(not estado.estaTransformado()){
+        super(personaje)
+      }
+      if(realizarTransformacion){
+        self.programarTransformacion()
+      }
+    }
+
+  method programarTransformacion(){
+    realizarTransformacion = false
+    game.schedule(10000, { self.transformacion() })
+  }
+
+  method transformacion(){
+    estado = acorazadoTransformacionCompleta
+    
+  object acorazadoComienzaTransformacion {
+  const image = "transformacionComienza.png"
+
+  method image(){
+    return image
+   }
+
+  method esUltimaEtapaDeTransformacion(){
+      return false
+  }
+
+  method estaTransformado(){
+    return true
+  }
+}
+
+object acorazadoMediaTransformacion {
+  const image = "transformacionMedia.png"
+
+  method image(){
+    return image
+   }
+
+
+  method esUltimaEtapaDeTransformacion(){
+      return false
+  }
+
+  method estaTransformado(){
+    return true
+  }
+}
+
+object acorazadoTransformacionCompleta{
+    const image = "transformacionCompleta.png"
+
+  method image(){
+    return image
+   }
+
+  method esUltimaEtapaDeTransformacion(){
+      return true
+  }
+
+  method estaTransformado(){
+    return true
+  }
+}
+  }}
+*/
+
+object acorazadoPasoDerecho{
+  const image = "enemigoAcorazado1.png"
+  const siguienteEstado = acorazadoPasoIzquierdo
+  
+  method image(){
+    return image
+  }
+
+  method siguienteEstado(){
+    return siguienteEstado
+  }
+
+  method estaTransformado(){
+    return false
+  }
+}
+
+object acorazadoPasoIzquierdo{
+  const image = "enemigoAcorazado2.png"
+  const siguienteEstado = acorazadoPasoDerecho
+  
+  method image(){
+    return image
+  }
+
+  method siguienteEstado(){
+    return siguienteEstado
+  }
+
+  method estaTransformado(){
+    return false
+  }
+}
+

@@ -14,3 +14,17 @@ object minotauroFactory{
         return new Minotauro(position = _position , posicionAnterior = _position, ejercito = ejercito)
     }
 }
+
+object vampiroFactory{
+    method crear(ejercito){
+        const _position = randomizer.posicionVaciaCentral()
+        return new Vampiro(position = _position , posicionAnterior = _position, ejercito = ejercito)
+    }
+}
+
+object acorazadoFactory{
+    method crear(ejercito){
+        const _position = randomizer.posicionVaciaCentral()
+        return new Acorazado(position = _position , posicionAnterior = _position, ejercito = ejercito)
+    }
+}
