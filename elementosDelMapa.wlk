@@ -2,11 +2,15 @@ import wollok.game.*
 import factories.*
 
 object elementosDelMapa {
-    const property elementosEnElMapa= #{} 
+    const property elementosEnElMapa= new Dictionary()
     
     method agregarElemento(elemento) {
-        elementosEnElMapa.add(elemento)
+        elementosEnElMapa.put(elemento.position(), elemento)
         game.addVisual(elemento)
+    }
+
+    method hayElementoAca (posicion){
+        return elementosEnElMapa.containsKey(posicion)
     }
 }
 

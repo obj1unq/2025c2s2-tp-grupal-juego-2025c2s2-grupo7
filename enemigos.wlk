@@ -1,4 +1,4 @@
-import direcciones.*
+import movimiento.*
 import randomizer.*
 import wollok.game.*
 import factories.*
