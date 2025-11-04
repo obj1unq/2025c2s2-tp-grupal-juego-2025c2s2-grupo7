@@ -10,7 +10,7 @@ object randomizer {
 	
 	method emptyPosition() {
 		const position = self.position()
-		if(game.getObjectsIn(position).isEmpty()) {
+		if(game.getObjectsIn(position).isEmpty()) { // Esto tal vez hay que cambiarlo para evitar usar metodos de game.
 			return position	
 		}
 		else {
@@ -20,7 +20,7 @@ object randomizer {
 
 	method posicionVaciaCentral(){
 		const position = self.posicionParaEnemigo()
-		if(game.getObjectsIn(position).isEmpty()) {
+		if(game.getObjectsIn(position).isEmpty()) { // Esto tal vez hay que cambiarlo para evitar usar metodos de game.
 			return position	
 		}
 		else {
@@ -29,9 +29,9 @@ object randomizer {
 	}
 
 	method posicionParaEnemigo(){
-		const widthAndHeight = game.width()-1 // Para que esto funcione bien, en la config del juego width == height
-		const mitadWidthAndHeight = widthAndHeight.div(2)
-		return 	[game.at([mitadWidthAndHeight - 1, mitadWidthAndHeight, mitadWidthAndHeight + 1].anyOne(), [0, widthAndHeight].anyOne()),
-				 game.at([0, widthAndHeight].anyOne(), [mitadWidthAndHeight - 1, mitadWidthAndHeight, mitadWidthAndHeight + 1].anyOne())].anyOne()
+		const anchoYAlto = game.width()-1 // Para que esto funcione bien, en la config del juego width == height
+		const mitadAnchoYAlto = anchoYAlto.div(2)
+		return 	[game.at([mitadAnchoYAlto - 1, mitadAnchoYAlto, mitadAnchoYAlto + 1].anyOne(), [0, anchoYAlto].anyOne()),
+				 game.at([0, anchoYAlto].anyOne(), [mitadAnchoYAlto - 1, mitadAnchoYAlto, mitadAnchoYAlto + 1].anyOne())].anyOne()
 	}
 }

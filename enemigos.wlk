@@ -19,8 +19,8 @@ object ejercito{
     }
 
     method enemigosPersiguen(personaje){
-        game.onTick(500, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
-    }
+        game.onTick(500, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})}) // FALTA QUE CAMBIE LA FRECUENCIA DEL TICK DEPENDIENDO DEL ENEMIGO (algunos
+    }                                                                                                                      // son más rapidos que otros.)
 
     method enemigoMurio(enemigo){
         enemigos.remove(enemigo)

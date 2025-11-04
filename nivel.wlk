@@ -55,10 +55,10 @@ object reyDeLaPradera{
 class Nivel{
     const layout
     var enemigos = enemigosIniciales.copy()
-    const enemigosIniciales // Los enemigos que se spawnearan en un nivel.
-    const ejercitoDeNivel
+    const enemigosIniciales // Un set de los enemigos que se van a spawnear en un nivel. (No se le deben eliminar o agregar elementos).
+    const ejercitoDeNivel   // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const tiempoDeSpawn
-    const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas o arbustos.
+    const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>

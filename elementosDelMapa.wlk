@@ -2,15 +2,15 @@ import wollok.game.*
 import factories.*
 
 object elementosDelMapa {
-    const property elementosEnElMapa= new Dictionary()
+    const property elementosEnElMapa= new Dictionary() // Hay que preguntar si se pueden usar diccionarios, si no se puede cambiarlo por un set.
     
     method agregarElemento(elemento) {
-        elementosEnElMapa.put(elemento.position(), elemento)
+        elementosEnElMapa.put(elemento.position(), elemento) // Si no se pueden usar diccionarios, usar add.
         game.addVisual(elemento)
     }
 
     method hayElementoAca (posicion){
-        return elementosEnElMapa.containsKey(posicion)
+        return elementosEnElMapa.containsKey(posicion) // Si no se pueden usar diccionarios, hacer una iteración sobre el set.
     }
 }
 

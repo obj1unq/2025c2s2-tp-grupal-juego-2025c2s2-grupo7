@@ -8,7 +8,7 @@ import nivel.*
 object configuracion {
 
     method configEscenario(){
-        game.title("Rey de la pradera") // Estoy tal vez hay que cambiarlo y moverlo al objeto reyDeLaPradera.
+        game.title("Rey de la pradera") // Esto tal vez hay que cambiarlo y moverlo al objeto reyDeLaPradera.
     }
 
     method configVisuales(){
