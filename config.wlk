@@ -1,7 +1,7 @@
 import wollok.game.*
 import personaje.*
 import enemigos.*
-import direcciones.*
+import movimiento.*
 import drops.*
 import nivel.*
 

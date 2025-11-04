@@ -1,31 +1,32 @@
 import wollok.game.*
-import factories.*
 import enemigos.*
 import personaje.*
 import config.*
 import drops.*
+import elementosDelMapa.*
 
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [z,v,a,m], tiempoDeSpawn =350,ejercitoDeNivel = ejercito,layout=[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                                                                                                    _,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_ ])
+    var nivelActual =new Nivel(enemigosIniciales = [zmb,zmb,zmb,zmb], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]].reverse())
 
     method empezarJuego(){
         configuracion.configEscenario()
@@ -54,12 +55,17 @@ object reyDeLaPradera{
 class Nivel{
     const layout
     var enemigos = enemigosIniciales.copy()
-    const enemigosIniciales
+    const enemigosIniciales // Los enemigos que se spawnearan en un nivel.
     const ejercitoDeNivel
     const tiempoDeSpawn
+    const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas o arbustos.
 
     method crearNivel(){
-        layout.forEach({elementoDeNivel => elementoDeNivel.crear()})
+        (0 .. layout.size() - 1).forEach({ y =>
+            (0 .. layout.get(y).size() - 1).forEach({ x =>
+                layout.get(y).get(x).crear(game.at(x, y), elementosEnNivel)
+            })
+        })
     }
 
     method spawnearEnemigos(){
@@ -98,34 +104,4 @@ class Nivel{
     method siguienteNivel(){
         return self
     }
-}
-
-object z{
-    method crear(ejercito){
-        return zombieFactory.crear(ejercito)
-    }
-}
-
-object m{
-    method crear(ejercito){
-        return minotauroFactory.crear(ejercito)
-    }
-}
-
-object v{
-    method crear(ejercito){
-        return vampiroFactory.crear(ejercito)
-    }
-}
-
- object a{
-    method crear(ejercito){
-        return acorazadoFactory.crear(ejercito)
-    }
-}
-
-
-
-object _{
-    method crear(){}
 }
