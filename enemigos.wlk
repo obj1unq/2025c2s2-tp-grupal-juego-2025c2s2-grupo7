@@ -3,6 +3,7 @@ import randomizer.*
 import wollok.game.*
 import factories.*
 import drops.*
+import elementosDelMapa.*
 
 object ejercito{
     const enemigos = #{}
@@ -33,6 +34,10 @@ object ejercito{
     method matarTodos(){
         enemigos.forEach({enemigo => enemigo.muerte()})
     }
+
+    method hayEnemigoAca(position){
+        return enemigos.any({enemigo => enemigo.position() == position})
+    }
 }
 
 class Enemigo {
@@ -41,6 +46,7 @@ class Enemigo {
   var vida 
   var posicionAnterior
   const ejercito
+  const elementos = elementosDelMapa
 
     method image(){
         return estado.image()
@@ -51,31 +57,14 @@ class Enemigo {
     }
 
     method perseguir(personaje) {
-        const distanciaHorizontal = (position.x() - personaje.position().x()).abs()
-        const distanciaVertical = (position.y() - personaje.position().y()).abs()
-        if (distanciaHorizontal >= distanciaVertical) {
-            posicionAnterior = position
-            self.perseguirHorizontal(personaje)
-        } else {
-            posicionAnterior = position
-            self.perseguirVertical(personaje)
-        }
+        const posicionesLindantesVacias = self.posicionesLindantes().filter({posicion => !ejercito.hayEnemigoAca(posicion) and !elementos.hayElementoAca(posicion)})
+        if (!posicionesLindantesVacias.isEmpty()){
+            position = posicionesLindantesVacias.min({posicion => posicion.distance(personaje.position())}) // La base del nuevo perseguir de los enemigos es esta, falta aplicar buenas practicas
+        }                                                                                                   // y pasar responsabilidas a otros objetos.
     }
 
-    method perseguirHorizontal(personaje){
-        if (position.x() < personaje.position().x()){
-            position = derecha.siguiente(position)
-        }  else {
-            position = izquierda.siguiente(position)
-        } 
-    }
-
-    method perseguirVertical(personaje){
-        if (position.y() < personaje.position().y()){
-            position = arriba.siguiente(position)
-        }  else {
-            position = abajo.siguiente(position)
-        } 
+    method posicionesLindantes(){ // Esto deberia ser responsabilidad de otro objeto.
+        return #{position.left(1), position.right(1), position.up(1), position.down(1)}
     }
     
     method colisionarCon(objeto){
