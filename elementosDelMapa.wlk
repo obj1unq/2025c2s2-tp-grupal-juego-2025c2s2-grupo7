@@ -21,11 +21,15 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     }
 
     method posicionesLindantesVacias(position){
-        return self.posicionesLindantes(position).filter({posicion => self.hayAlgoAca(position)})
+        return self.posicionesLindantes(position).filter({posicion => !self.hayAlgoAca(position)})
     }
 
     method posicionesLindantes(position){
         return #{position.left(1), position.right(1), position.up(1), position.down(1)}
+    }
+
+    method posicionesLindantesSinEnemigos(position){
+        self.posicionesLindantes(position).filter({posicion => !ejercitoEnElTablero.hayEnemigoAca(posicion)})
     }
 }
 
@@ -67,7 +71,7 @@ object mtr{ // Minotauro.
     }
 }
 
-object vpr{ // Vampiro.
+object vmp{ // Vampiro.
     method crear(ejercito){
         return vampiroFactory.crear(ejercito)
     }
