@@ -17,11 +17,11 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     }
 
     method hayAlgoAca(position){
-        return !ejercitoEnElTablero.hayEnemigoAca(position) and !elementosEnElTablero.hayElementoAca(position)
+        return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
     }
 
     method posicionesLindantesVacias(position){
-        return self.posicionesLindantes(position).filter({posicion => !self.hayAlgoAca(position)})
+        return self.posicionesLindantes(position).filter({posicion => !self.hayAlgoAca(posicion)})
     }
 
     method posicionesLindantes(position){
@@ -34,15 +34,15 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
 }
 
 object elementosDelMapa {
-    const property elementosEnElMapa= new Dictionary() // Hay que preguntar si se pueden usar diccionarios, si no se puede cambiarlo por un set.
+    const property elementos= #{}
     
     method agregarElemento(elemento) {
-        elementosEnElMapa.put(elemento.position(), elemento) // Si no se pueden usar diccionarios, usar add.
+        elementos.add(elemento)
         game.addVisual(elemento)
     }
 
     method hayElementoAca (posicion){
-        return elementosEnElMapa.containsKey(posicion) // Si no se pueden usar diccionarios, hacer una iteración sobre el set.
+        return elementos.any({elemento => elemento.position() == posicion})
     }
 }
 
