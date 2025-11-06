@@ -20,7 +20,7 @@ object ejercito{
     }
 
     method enemigosPersiguen(personaje){
-        game.onTick(500, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})}) // FALTA QUE CAMBIE LA FRECUENCIA DEL TICK DEPENDIENDO DEL ENEMIGO (algunos
+        game.onTick(1000, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})}) // FALTA QUE CAMBIE LA FRECUENCIA DEL TICK DEPENDIENDO DEL ENEMIGO (algunos
     }                                                                                                                      // son más rapidos que otros.)
 
     method enemigoMurio(enemigo){
@@ -43,10 +43,9 @@ object ejercito{
 class Enemigo {
   var estado
   var position 
-  var vida 
-  var posicionAnterior
+  var vida
   const ejercito
-  const elementos = elementosDelMapa
+  const tableroDeNivel = tablero
 
     method image(){
         return estado.image()
@@ -57,18 +56,10 @@ class Enemigo {
     }
 
     method perseguir(personaje) {
-        const posicionesLindantesVacias = self.posicionesLindantes().filter({posicion => !ejercito.hayEnemigoAca(posicion) and !elementos.hayElementoAca(posicion)})
+        const posicionesLindantesVacias = tableroDeNivel.posicionesLindantesVacias(position)
         if (!posicionesLindantesVacias.isEmpty()){
             position = posicionesLindantesVacias.min({posicion => posicion.distance(personaje.position())}) // La base del nuevo perseguir de los enemigos es esta, falta aplicar buenas practicas
         }                                                                                                   // y pasar responsabilidas a otros objetos.
-    }
-
-    method posicionesLindantes(){ // Esto deberia ser responsabilidad de otro objeto.
-        return #{position.left(1), position.right(1), position.up(1), position.down(1)}
-    }
-    
-    method colisionarCon(objeto){
-        position = posicionAnterior
     }
 
     method aplicarDaño(_daño){

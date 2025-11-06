@@ -1,5 +1,33 @@
 import wollok.game.*
 import factories.*
+import enemigos.*
+
+object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
+    const width = 21
+    const height = 21
+    const ejercitoEnElTablero = ejercito
+    const elementosEnElTablero = elementosDelMapa
+
+    method width(){
+        return width
+    }
+
+    method height(){
+        return height
+    }
+
+    method hayAlgoAca(position){
+        return !ejercitoEnElTablero.hayEnemigoAca(position) and !elementosEnElTablero.hayElementoAca(position)
+    }
+
+    method posicionesLindantesVacias(position){
+        return self.posicionesLindantes(position).filter({posicion => self.hayAlgoAca(position)})
+    }
+
+    method posicionesLindantes(position){
+        return #{position.left(1), position.right(1), position.up(1), position.down(1)}
+    }
+}
 
 object elementosDelMapa {
     const property elementosEnElMapa= new Dictionary() // Hay que preguntar si se pueden usar diccionarios, si no se puede cambiarlo por un set.
