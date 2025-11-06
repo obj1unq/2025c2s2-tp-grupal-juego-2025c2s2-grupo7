@@ -45,7 +45,7 @@ class Enemigo {
     var estado
     var position 
     var vida
-    const ejercito
+    const ejercitoDeNivel = ejercito
     const tableroDeNivel = tablero
 
     method image(){
