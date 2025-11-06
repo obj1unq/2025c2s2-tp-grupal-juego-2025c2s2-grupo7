@@ -9,7 +9,7 @@ object ejercito{
     const enemigos = #{}
 
     method agregarEnemigo(tipoDeEnemigo){
-        const enemigo = tipoDeEnemigo.crear(self)
+        const enemigo = tipoDeEnemigo.crear()
         enemigos.add(enemigo)
         game.addVisual(enemigo)
         game.onCollideDo(enemigo, {objeto => objeto.colisionarCon(enemigo)})
@@ -20,11 +20,11 @@ object ejercito{
     }
 
     method enemigosPersiguen(personaje){
-        game.onTick(300, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})}) // FALTA QUE CAMBIE LA FRECUENCIA DEL TICK DEPENDIENDO DEL ENEMIGO (algunos
-    }                                                                                                                      // son más rapidos que otros.)
+        game.onTick(300, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
+    }
 
     method enemigoMurio(enemigo){
-        game.removeVisual(self)
+        game.removeVisual(enemigo)
         enemigos.remove(enemigo)
         if (enemigos.isEmpty()){
             game.removeTickEvent("Enemigos dan paso")
@@ -66,9 +66,9 @@ class Enemigo {
         }
     }
 
-    method aplicarDaño(_daño){
-        if(vida > _daño){
-            vida = vida - _daño
+    method aplicarDaño(daño){
+        if(vida > daño){
+            vida = vida - daño
         }else {
             self.muerte()
         }
@@ -76,11 +76,43 @@ class Enemigo {
 
     method muerte (){
         drops.nuevoDropEn(self.position())
-        ejercito.enemigoMurio(self)
+        ejercitoDeNivel.enemigoMurio(self)
     }
 
     method darPaso(){
         estado = estado.siguienteEstado()
+    }
+}
+
+class Vampiro inherits Enemigo(vida = 20, estado = vampiroArriba){ 
+    override method perseguir(personaje){
+        self.perseguirEntreSiguientesPosiciones(personaje, tableroDeNivel.posicionesLindantesSinEnemigos(position)) // El vampiro vuela encima de las cajas.
+    }
+}
+
+object vampiroArriba{
+    const image = "enemigo_vampiroArriba.png"
+    const siguienteEstado = vampiroAbajo
+    
+    method image(){
+        return image
+    }
+
+    method siguienteEstado(){
+        return siguienteEstado
+    }
+}
+
+object vampiroAbajo{
+    const image = "enemigo_vampiroAbajo.png"
+    const siguienteEstado = vampiroArriba
+    
+    method image(){
+        return image
+    }
+
+    method siguienteEstado(){
+        return siguienteEstado
     }
 }
 
@@ -100,8 +132,7 @@ class EnemigoDeMovimientoLento inherits Enemigo{
 }
 
 class Zombie inherits EnemigoDeMovimientoLento(vida = 10, estado = zombiePasoDerecho, ticksParaMoverse = 1){
-
-    override method aplicarDaño(_daño){
+    override method aplicarDaño(daño){ // El zombie muere de un solo golpe sin importar que.
         self.muerte()
     }
 
@@ -111,7 +142,7 @@ class Zombie inherits EnemigoDeMovimientoLento(vida = 10, estado = zombiePasoDer
 }
 
 object zombiePasoDerecho{
-    const image = "enemigoBasico1.png"
+    const image = "enemigo_zombieDerecho.png"
     const siguienteEstado = zombiePasoIzquierdo
     
     method image(){
@@ -124,7 +155,7 @@ object zombiePasoDerecho{
 }
 
 object zombiePasoIzquierdo{
-    const image = "enemigoBasico2.png"
+    const image = "enemigo_zombieIzquierdo.png"
     const siguienteEstado = zombiePasoDerecho
     
     method image(){
@@ -143,7 +174,7 @@ class Minotauro inherits EnemigoDeMovimientoLento(vida = 30, estado = minotauroP
 }
 
 object minotauroPasoDerecho{
-    const image = "enemigoMinotauro1.png"
+    const image = "enemigo_minotauroDerecho.png"
     const siguienteEstado = minotauroPasoIzquierdo
     
     method image(){
@@ -156,7 +187,7 @@ object minotauroPasoDerecho{
 }
 
 object minotauroPasoIzquierdo{
-    const image = "enemigoMinotauro2.png"
+    const image = "enemigo_minotauroIzquierdo.png"
     const siguienteEstado = minotauroPasoDerecho
     
     method image(){
@@ -168,15 +199,15 @@ object minotauroPasoIzquierdo{
     }
 }
 
-class Vampiro inherits Enemigo(vida = 10, estado = vampiroPasoDerecho){
-    override method perseguir(personaje){
-        self.perseguirEntreSiguientesPosiciones(personaje, tableroDeNivel.posicionesLindantesSinEnemigos(position))
+class Momia inherits EnemigoDeMovimientoLento(vida = 150, estado = momiaPasoDerecho, ticksParaMoverse = 4){
+    override method ticksParaMoverseIniciales(){
+        return 4
     }
 }
 
-object vampiroPasoDerecho{
-    const image = "enemigoVolador1.png"
-    const siguienteEstado = vampiroPasoIzquierdo
+object momiaPasoDerecho{
+    const image = "enemigo_momiaDerecho.png"
+    const siguienteEstado = momiaPasoIzquierdo
     
     method image(){
         return image
@@ -187,9 +218,9 @@ object vampiroPasoDerecho{
     }
 }
 
-object vampiroPasoIzquierdo{
-    const image = "enemigoVolador2.png"
-    const siguienteEstado = vampiroPasoDerecho
+object momiaPasoIzquierdo{
+    const image = "enemigo_momiaIzquierdo.png"
+    const siguienteEstado = momiaPasoDerecho
     
     method image(){
         return image
@@ -200,84 +231,75 @@ object vampiroPasoIzquierdo{
     }
 }
 
-
-class Acorazado inherits Enemigo(vida = 20, estado = acorazadoPasoDerecho){}
-   
-  /* 
-    REVISAR
-   var property realizarTransformacion = true
+class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
 
     override method perseguir(personaje){
-      
-      if(not estado.estaTransformado()){
-        super(personaje)
-      }
-      if(realizarTransformacion){
-        self.programarTransformacion()
-      }
+        position = estado.posicionAPerseguir(personaje, position)
     }
 
-  method programarTransformacion(){
-    realizarTransformacion = false
-    game.schedule(10000, { self.transformacion() })
-  }
+    override method aplicarDaño(daño){
+        super(daño)
+        if (vida <= 50){
+            estado = estado.siguienteEstado()
+        }
+    }
 
-  method transformacion(){
-    estado = acorazadoTransformacionCompleta
-    
-  object acorazadoComienzaTransformacion {
-  const image = "transformacionComienza.png"
+    override method darPaso(){
+        estado.darPaso()
+    }
 
-  method image(){
-    return image
-   }
-
-  method esUltimaEtapaDeTransformacion(){
-      return false
-  }
-
-  method estaTransformado(){
-    return true
-  }
+    override method ticksParaMoverseIniciales(){
+        return 1
+    }
 }
 
-object acorazadoMediaTransformacion {
-  const image = "transformacionMedia.png"
+object desprotegido {
+    var estado = acorazadoPasoDerecho
+    const siguienteEstado = protegido
+    const tableroDeNivel = tablero
 
-  method image(){
-    return image
-   }
+    method image(){
+        return estado.image()
+    }
 
+    method posicionAPerseguir(personaje, posicionInicial){
+        const posicionesLindantesVacias = tableroDeNivel.posicionesLindantesVacias(posicionInicial)
+        if (!posicionesLindantesVacias.isEmpty()){
+            return posicionesLindantesVacias.min({posicion => posicion.distance(personaje.position())})
+        } else {
+            return posicionInicial
+        }
+    }
 
-  method esUltimaEtapaDeTransformacion(){
-      return false
-  }
+    method darPaso(){
+        estado = estado.siguienteEstado()
+    }
 
-  method estaTransformado(){
-    return true
-  }
+    method siguienteEstado(){
+        return siguienteEstado
+    }
 }
 
-object acorazadoTransformacionCompleta{
-    const image = "transformacionCompleta.png"
+object protegido{
+    const image = "enemigo_acorazadoProtegido.png"
 
-  method image(){
-    return image
-   }
+    method image(){
+        return image
+    }
 
-  method esUltimaEtapaDeTransformacion(){
-      return true
-  }
+    method posicionAPerseguir(personaje, posicionInicial){
+        return posicionInicial
+    }
 
-  method estaTransformado(){
-    return true
-  }
+    method siguienteEstado(){
+        return self
+    }
+
+    method darPaso(){}
 }
-  }}
-*/
 
 object acorazadoPasoDerecho{
-    const image = "enemigoAcorazado1.png"
+    const image = "enemigo_acorazadoDerecho.png"
     const siguienteEstado = acorazadoPasoIzquierdo
     
     method image(){
@@ -287,14 +309,10 @@ object acorazadoPasoDerecho{
     method siguienteEstado(){
         return siguienteEstado
     }
-
-    method estaTransformado(){
-        return false
-    }
 }
 
 object acorazadoPasoIzquierdo{
-    const image = "enemigoAcorazado2.png"
+    const image = "enemigo_acorazadoIzquierdo.png"
     const siguienteEstado = acorazadoPasoDerecho
     
     method image(){
@@ -303,9 +321,5 @@ object acorazadoPasoIzquierdo{
 
     method siguienteEstado(){
         return siguienteEstado
-    }
-
-    method estaTransformado(){
-        return false
     }
 }

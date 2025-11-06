@@ -29,7 +29,7 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     }
 
     method posicionesLindantesSinEnemigos(position){
-        self.posicionesLindantes(position).filter({posicion => !ejercitoEnElTablero.hayEnemigoAca(posicion)})
+        return self.posicionesLindantes(position).filter({posicion => !ejercitoEnElTablero.hayEnemigoAca(posicion)})
     }
 }
 
@@ -60,26 +60,32 @@ class ElementoDelMapa{
 }
 
 object zmb{ // Zombie.
-    method crear(ejercito){
-        return zombieFactory.crear(ejercito)
+    method crear(){
+        return zombieFactory.crear()
     }
 }
 
 object mtr{ // Minotauro.
-    method crear(ejercito){
-        return minotauroFactory.crear(ejercito)
+    method crear(){
+        return minotauroFactory.crear()
     }
 }
 
 object vmp{ // Vampiro.
-    method crear(ejercito){
-        return vampiroFactory.crear(ejercito)
+    method crear(){
+        return vampiroFactory.crear()
     }
 }
 
 object acz{ // Acorazado.
-    method crear(ejercito){
-        return acorazadoFactory.crear(ejercito)
+    method crear(){
+        return acorazadoFactory.crear()
+    }
+}
+
+object mom{ // Momia.
+    method crear(){
+        return momiaFactory.crear()
     }
 }
 

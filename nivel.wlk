@@ -6,7 +6,7 @@ import drops.*
 import elementosDelMapa.*
 
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [vmp, vmp, vmp, vmp], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+    var nivelActual =new Nivel(enemigosIniciales = [vmp, zmb, acz, mtr, mom], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -85,7 +85,7 @@ class Nivel{
         game.height(21)
         game.width(21)
         game.cellSize(48)
-        game.boardGround("nivel.png")
+        game.boardGround("fondo_nivel.png")
         self.crearNivel()
         enemigos = enemigosIniciales
         self.spawnearEnemigos()
