@@ -1,5 +1,37 @@
 import wollok.game.*
 import factories.*
+import enemigos.*
+
+object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
+    const width = 21
+    const height = 21
+    const ejercitoEnElTablero = ejercito
+    const elementosEnElTablero = elementosDelMapa
+
+    method width(){
+        return width
+    }
+
+    method height(){
+        return height
+    }
+
+    method hayAlgoAca(position){
+        return !ejercitoEnElTablero.hayEnemigoAca(position) and !elementosEnElTablero.hayElementoAca(position)
+    }
+
+    method posicionesLindantesVacias(position){
+        return self.posicionesLindantes(position).filter({posicion => !self.hayAlgoAca(position)})
+    }
+
+    method posicionesLindantes(position){
+        return #{position.left(1), position.right(1), position.up(1), position.down(1)}
+    }
+
+    method posicionesLindantesSinEnemigos(position){
+        return self.posicionesLindantes(position).filter({posicion => !ejercitoEnElTablero.hayEnemigoAca(posicion)})
+    }
+}
 
 object elementosDelMapa {
     const property elementosEnElMapa= new Dictionary() // Hay que preguntar si se pueden usar diccionarios, si no se puede cambiarlo por un set.
@@ -28,26 +60,32 @@ class ElementoDelMapa{
 }
 
 object zmb{ // Zombie.
-    method crear(ejercito){
-        return zombieFactory.crear(ejercito)
+    method crear(){
+        return zombieFactory.crear()
     }
 }
 
 object mtr{ // Minotauro.
-    method crear(ejercito){
-        return minotauroFactory.crear(ejercito)
+    method crear(){
+        return minotauroFactory.crear()
     }
 }
 
-object vpr{ // Vampiro.
-    method crear(ejercito){
-        return vampiroFactory.crear(ejercito)
+object vmp{ // Vampiro.
+    method crear(){
+        return vampiroFactory.crear()
     }
 }
 
 object acz{ // Acorazado.
-    method crear(ejercito){
-        return acorazadoFactory.crear(ejercito)
+    method crear(){
+        return acorazadoFactory.crear()
+    }
+}
+
+object mom{ // Momia.
+    method crear(){
+        return momiaFactory.crear()
     }
 }
 

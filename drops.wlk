@@ -10,7 +10,7 @@ class Botiquin inherits Drop {
     var property position 
 
     method image(){
-        return "botiquin1.png"
+        return "drop_botiquin.png"
     }
 
     method colisionarConPersonaje(){
@@ -24,7 +24,7 @@ class Escopeta inherits Drop {
     var property position 
 
     method image(){
-        return "escopeta.png"
+        return "drop_escopeta.png"
     }
 
     method colisionarConPersonaje(){
@@ -37,7 +37,7 @@ class Metralleta inherits Drop {
     var property position 
 
     method image(){
-        return "uzi.png"
+        return "drop_metralleta.png"
     }
 
      method colisionarConPersonaje(){
@@ -57,7 +57,7 @@ class Lanzacohetes {
     var property position 
     
     method image(){
-        return "lanzacohetes.png"
+        return "drop_lanzacohetes.png"
     }
 }
 
