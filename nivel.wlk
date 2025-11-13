@@ -6,7 +6,10 @@ import drops.*
 import elementosDelMapa.*
 
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [zmb, zmb, zmb, zmb], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+    var nivelActual =new Nivel(enemigosIniciales = [zmb, zmb, zmb, zmb,
+                                                    zmb, zmb, zmb, zmb,
+                                                    zmb, zmb, zmb, zmb,
+                                                    zmb, zmb, zmb, zmb], limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -59,6 +62,7 @@ class Nivel{
     const ejercitoDeNivel   // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const tiempoDeSpawn
     const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
+    const limiteDeEnemigosEnMapa
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>
@@ -74,11 +78,17 @@ class Nivel{
 
     method spawnearSiguienteEnemigo(){
         if (!enemigos.isEmpty()){
-            ejercitoDeNivel.agregarEnemigo(enemigos.first())
-            enemigos = enemigos.drop(1)
+            if (self.hayEspacioParaSpawnearEnemigo()){
+                ejercitoDeNivel.agregarEnemigo(enemigos.first())
+                enemigos = enemigos.drop(1)
+            }
         } else {
             game.removeTickEvent("Spawn de enemigos del nivel")
         }
+    }
+
+    method hayEspacioParaSpawnearEnemigo(){
+        return limiteDeEnemigosEnMapa > ejercitoDeNivel.cantidadDeEnemigosEnMapa()
     }
 
     method jugarNivel(){

@@ -6,39 +6,43 @@ import drops.*
 import elementosDelMapa.*
 
 object ejercito{
-    const enemigos = #{}
+    const enemigosEnMapa = #{}
     const dropeo = drops
 
     method agregarEnemigo(tipoDeEnemigo){
         const enemigo = tipoDeEnemigo.crear()
-        enemigos.add(enemigo)
+        enemigosEnMapa.add(enemigo)
         game.addVisual(enemigo)
     }
 
     method enemigosDanPaso(){
-        game.onTick(150, "Enemigos dan paso", {enemigos.forEach({enemigo => enemigo.darPaso()})})
+        game.onTick(150, "Enemigos dan paso", {enemigosEnMapa.forEach({enemigo => enemigo.darPaso()})})
     }
 
     method enemigosPersiguen(personaje){
-        game.onTick(300, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
+        game.onTick(300, "Enemigos persiguen a personaje.", {enemigosEnMapa.forEach({enemigo => enemigo.perseguir(personaje)})})
     }
 
     method enemigoMurio(enemigo){
         dropeo.crear(enemigo.position())
         game.removeVisual(enemigo)
-        enemigos.remove(enemigo)
-        if (enemigos.isEmpty()){
+        enemigosEnMapa.remove(enemigo)
+        if (enemigosEnMapa.isEmpty()){
             game.removeTickEvent("Enemigos dan paso")
             game.removeTickEvent("Enemigos persiguen a personaje.")
         }
     }
 
     method matarTodos(){
-        enemigos.forEach({enemigo => enemigo.muerte()})
+        enemigosEnMapa.forEach({enemigo => enemigo.muerte()})
+    }
+
+    method cantidadDeEnemigosEnMapa(){
+        return enemigosEnMapa.size()
     }
 
     method hayEnemigoAca(position){
-        return enemigos.any({enemigo => enemigo.position() == position})
+        return enemigosEnMapa.any({enemigo => enemigo.position() == position})
     }
 }
 
