@@ -2,6 +2,7 @@ import wollok.game.*
 import personaje.*
 import elementosDelMapa.*
 import enemigos.*
+import juego.*
 
 class Nivel{
     const layout
@@ -12,6 +13,8 @@ class Nivel{
     const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
     const limiteDeEnemigosEnMapa
     const property siguienteNivel
+    const juego = reyDeLaPradera
+    const fondo
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>
@@ -33,7 +36,19 @@ class Nivel{
                 enemigos.remove(enemigoASpawnear)
             }
         } else {
-            game.removeTickEvent("Spawn de enemigos del nivel")
+            self.esperarFinalDelNivel()
+        }
+    }
+
+    method esperarFinalDelNivel(){
+        game.removeTickEvent("Spawn de enemigos del nivel")
+        game.onTick(1000, "Chequear si finalizo nivel", {self.terminarNivelSiSePuede()})
+    }
+
+    method terminarNivelSiSePuede(){
+        if (ejercitoDeNivel.cantidadDeEnemigosEnMapa() == 0){
+            juego.terminarNivel()
+            game.removeTickEvent("Chequear si finalizo nivel")
         }
     }
 
@@ -42,7 +57,7 @@ class Nivel{
     }
 
     method jugarNivel(){
-        game.boardGround("fondo_nivel.png")
+        game.boardGround(fondo)
         self.crearNivel()
         enemigos = enemigosIniciales
         self.spawnearEnemigos()
@@ -85,8 +100,8 @@ layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]].reverse(),
-enemigosIniciales = [zmb, zmb, zmb, zmb],
-siguienteNivel = segundoNivel, limiteDeEnemigosEnMapa = 3, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa)
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = segundoNivel, limiteDeEnemigosEnMapa = 3, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivel.png")
 
 const segundoNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -115,7 +130,7 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = tercerNivel, limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa)
+siguienteNivel = tercerNivel, limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivelprueba.png")
 
 const tercerNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -144,7 +159,7 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = ultimoNivel, limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa)
+siguienteNivel = ultimoNivel, limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivel.png")
 
 const ultimoNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -173,4 +188,4 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = ultimoNivel, limiteDeEnemigosEnMapa = 5, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa)
+siguienteNivel = ultimoNivel, limiteDeEnemigosEnMapa = 5, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivel.png")

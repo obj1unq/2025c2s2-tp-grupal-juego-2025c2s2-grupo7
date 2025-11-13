@@ -37,6 +37,11 @@ object elementosDelMapa {
     method hayElementoAca (posicion){
         return elementos.any({elemento => elemento.position() == posicion})
     }
+
+    method limpiarNivel(){
+        elementos.forEach({elemento => game.removeVisual(elemento)})
+        elementos.clear()
+    }
 }
 
 class ElementoDelMapa{

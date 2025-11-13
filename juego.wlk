@@ -1,12 +1,14 @@
+import elementosDelMapa.*
 import wollok.game.*
 import enemigos.*
 import config.*
 import drops.*
-import elementosDelMapa.*
 import nivel.*
+import personaje.*
 
 object reyDeLaPradera{
     var nivelActual = primerNivel
+    const elementos = elementosDelMapa
 
     method empezarJuego(){
         configuracion.configEscenario()
@@ -17,7 +19,10 @@ object reyDeLaPradera{
         game.start()
     }
 
-    method terminoNivel(){
+    method terminarNivel(){
+        elementos.limpiarNivel()
+        drops.borrarDrops()
+        personaje.volverAPosicionInicial()
         nivelActual = nivelActual.siguienteNivel()
         nivelActual.jugarNivel()
     }
