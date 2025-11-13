@@ -7,6 +7,7 @@ import elementosDelMapa.*
 
 object ejercito{
     const enemigos = #{}
+    const dropeo = drops
 
     method agregarEnemigo(tipoDeEnemigo){
         const enemigo = tipoDeEnemigo.crear()
@@ -24,6 +25,7 @@ object ejercito{
     }
 
     method enemigoMurio(enemigo){
+        dropeo.crear(enemigo.position())
         game.removeVisual(enemigo)
         enemigos.remove(enemigo)
         if (enemigos.isEmpty()){
@@ -75,7 +77,6 @@ class Enemigo {
     }
 
     method muerte (){
-        drops.nuevoDropEn(self.position())
         ejercitoDeNivel.enemigoMurio(self)
     }
 
@@ -91,29 +92,13 @@ class Vampiro inherits Enemigo(vida = 20, estado = vampiroArriba){
 }
 
 object vampiroArriba{
-    const image = "enemigo_vampiroArriba.png"
-    const siguienteEstado = vampiroAbajo
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_vampiroArriba.png"
+    const property siguienteEstado = vampiroAbajo
 }
 
 object vampiroAbajo{
-    const image = "enemigo_vampiroAbajo.png"
-    const siguienteEstado = vampiroArriba
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_vampiroAbajo.png"
+    const property siguienteEstado = vampiroArriba
 }
 
 class EnemigoDeMovimientoLento inherits Enemigo{
@@ -142,29 +127,13 @@ class Zombie inherits EnemigoDeMovimientoLento(vida = 10, estado = zombiePasoDer
 }
 
 object zombiePasoDerecho{
-    const image = "enemigo_zombieDerecho.png"
-    const siguienteEstado = zombiePasoIzquierdo
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_zombieDerecho.png"
+    const property siguienteEstado = zombiePasoIzquierdo
 }
 
 object zombiePasoIzquierdo{
-    const image = "enemigo_zombieIzquierdo.png"
-    const siguienteEstado = zombiePasoDerecho
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_zombieIzquierdo.png"
+    const property siguienteEstado = zombiePasoDerecho
 }
 
 class Minotauro inherits EnemigoDeMovimientoLento(vida = 30, estado = minotauroPasoDerecho, ticksParaMoverse = 1){
@@ -174,29 +143,13 @@ class Minotauro inherits EnemigoDeMovimientoLento(vida = 30, estado = minotauroP
 }
 
 object minotauroPasoDerecho{
-    const image = "enemigo_minotauroDerecho.png"
-    const siguienteEstado = minotauroPasoIzquierdo
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_minotauroDerecho.png"
+    const property siguienteEstado = minotauroPasoIzquierdo
 }
 
 object minotauroPasoIzquierdo{
-    const image = "enemigo_minotauroIzquierdo.png"
-    const siguienteEstado = minotauroPasoDerecho
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_minotauroIzquierdo.png"
+    const property siguienteEstado = minotauroPasoDerecho
 }
 
 class Momia inherits EnemigoDeMovimientoLento(vida = 150, estado = momiaPasoDerecho, ticksParaMoverse = 4){
@@ -206,29 +159,13 @@ class Momia inherits EnemigoDeMovimientoLento(vida = 150, estado = momiaPasoDere
 }
 
 object momiaPasoDerecho{
-    const image = "enemigo_momiaDerecho.png"
-    const siguienteEstado = momiaPasoIzquierdo
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_momiaDerecho.png"
+    const property siguienteEstado = momiaPasoIzquierdo
 }
 
 object momiaPasoIzquierdo{
-    const image = "enemigo_momiaIzquierdo.png"
-    const siguienteEstado = momiaPasoDerecho
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_momiaIzquierdo.png"
+    const property siguienteEstado = momiaPasoDerecho
 }
 
 class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
@@ -255,8 +192,8 @@ class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegi
 
 object desprotegido {
     var estado = acorazadoPasoDerecho
-    const siguienteEstado = protegido
     const tableroDeNivel = tablero
+    const property siguienteEstado = protegido
 
     method image(){
         return estado.image()
@@ -274,18 +211,10 @@ object desprotegido {
     method darPaso(){
         estado = estado.siguienteEstado()
     }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
 }
 
 object protegido{
-    const image = "enemigo_acorazadoProtegido.png"
-
-    method image(){
-        return image
-    }
+    const property image = "enemigo_acorazadoProtegido.png"
 
     method posicionAPerseguir(personaje, posicionInicial){
         return posicionInicial
@@ -299,27 +228,11 @@ object protegido{
 }
 
 object acorazadoPasoDerecho{
-    const image = "enemigo_acorazadoDerecho.png"
-    const siguienteEstado = acorazadoPasoIzquierdo
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_acorazadoDerecho.png"
+    const property siguienteEstado = acorazadoPasoIzquierdo
 }
 
 object acorazadoPasoIzquierdo{
-    const image = "enemigo_acorazadoIzquierdo.png"
-    const siguienteEstado = acorazadoPasoDerecho
-    
-    method image(){
-        return image
-    }
-
-    method siguienteEstado(){
-        return siguienteEstado
-    }
+    const property image = "enemigo_acorazadoIzquierdo.png"
+    const property siguienteEstado = acorazadoPasoDerecho
 }

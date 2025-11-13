@@ -6,7 +6,7 @@ import drops.*
 import elementosDelMapa.*
 
 object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [vmp, zmb, acz, mtr, mom], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+    var nivelActual =new Nivel(enemigosIniciales = [zmb, zmb, zmb, zmb], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],

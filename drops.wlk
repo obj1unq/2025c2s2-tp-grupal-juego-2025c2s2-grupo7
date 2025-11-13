@@ -1,116 +1,73 @@
 import wollok.game.*
 import personaje.*
 import randomizer.*
-
-class Drop {
-
-}
-
-class Botiquin inherits Drop {
-    var property position 
-
-    method image(){
-        return "drop_botiquin.png"
-    }
-
-    method colisionarConPersonaje(){
-        personaje.ganarVida()
-        game.removeVisual(self)
-    }
-}
-
-class Escopeta inherits Drop {
-
-    var property position 
-
-    method image(){
-        return "drop_escopeta.png"
-    }
-
-    method colisionarConPersonaje(){
-        personaje.recolectarArma(self)
-        game.removeVisual(self)
-    }
-}
-
-class Metralleta inherits Drop {
-    var property position 
-
-    method image(){
-        return "drop_metralleta.png"
-    }
-
-     method colisionarConPersonaje(){
-        self.asertarRecoleccionPara()
-        personaje.recolectarArma(self)
-        game.removeVisual(self)
-     }
-
-     method asertarRecoleccionPara(){
-        if (personaje.tieneArmaSecundaria()){
-            self.error ("Ya tiene un arma secundaria en poseción")
-        }
-     }
-}
-
-class Lanzacohetes {
-    var property position 
-    
-    method image(){
-        return "drop_lanzacohetes.png"
-    }
-}
-
-
-
-object botiquinFactory {
-	method crearEn(posicion) {
-		return new Botiquin(position= posicion)
-	}
-}
-
-object escopetaFactory {
-    method crearEn(posicion){
-        return new Escopeta(position = posicion)
-    }
-}
-object metralletaFactory {
-	method crearEn(posicion) {
-		return new Metralleta(position = posicion)
-	}
-}
-
+import factories.*
 
 object drops {
     const property dropsCreados = []
-     method nuevoDropEn(posicion) {
-            const drop = self.creacionDropEn(posicion)
-			self.agregarDrop(drop)
-            game.addVisual(drop)
-		}
+
+    method crear(position) {
+        const probabilidad = self.rollDropeo()
+        if (probabilidad <= 0.50){
+            self.agregarNuevoDrop(position, probabilidad)
+        }
+	}
 
     method agregarDrop(drop){
         dropsCreados.add(drop)
+        game.addVisual(drop)
     }
 
     method borrarDrops(){
         dropsCreados.forEach({drop => game.removeVisual(drop)})
         dropsCreados.clear()
     }
-     
-     
-     method creacionDropEn(posicion){
-        return self.elegirDrop().crearEn(posicion)
-     }
 
-     method elegirDrop(){
-        const probabilidad =  0.randomUpTo(1) 
-        if (probabilidad.between(0, 0.15)){
-            return escopetaFactory
-        } else if (probabilidad.between(0.15,0.65)) {
-	     	return botiquinFactory
+    method agregarNuevoDrop(position, probabilidad){
+        if (probabilidad <= 0.15){
+            self.agregarDrop(escopetaFactory.crear(position))
+        } else if (probabilidad <= 0.30){
+            self.agregarDrop(metralletaFactory.crear(position))
+        } else if (probabilidad <= 0.45){
+            self.agregarDrop(lanzacohetesFactory.crear(position))
         } else {
-            return metralletaFactory
+            self.agregarDrop(vidaFactory.crear(position))
+        }
+    }
+
+    method rollDropeo(){
+        return 0.randomUpTo(1)
+    }
+}
+
+
+class Drop {
+    const property image
+    const property position
+
+    method colisionarConPersonaje(){
+        personaje.recolectarArma(self)
+        game.removeVisual(self)
+    }
+}
+
+class DropDeArma inherits Drop{
+    override method colisionarConPersonaje(){
+        self.validarRecoleccionDeArma()
+        super()
+    }
+
+    method validarRecoleccionDeArma(){
+        if (personaje.tieneArmaSecundaria()){
+            self.error ("Ya tiene un arma secundaria en poseción")
         }
     }
 }
+
+class VidaDrop inherits Drop(image = "drop_botiquin.png"){}
+
+class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png"){}
+
+class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png"){}
+
+class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png"){}
