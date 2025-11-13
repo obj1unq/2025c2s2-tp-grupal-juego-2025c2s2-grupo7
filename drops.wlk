@@ -6,34 +6,37 @@ import factories.*
 object drops {
     const property dropsCreados = []
 
-    method nuevoDropEn(posicion) {
-        const drop = self.creacionDropEn(posicion)
-		self.agregarDrop(drop)
-        game.addVisual(drop)
+    method crear(position) {
+        const probabilidad = self.rollDropeo()
+        if (probabilidad <= 0.50){
+            self.agregarNuevoDrop(position, probabilidad)
+        }
 	}
 
     method agregarDrop(drop){
         dropsCreados.add(drop)
+        game.addVisual(drop)
     }
 
     method borrarDrops(){
         dropsCreados.forEach({drop => game.removeVisual(drop)})
         dropsCreados.clear()
     }
-     
-    method creacionDropEn(posicion){
-        return self.elegirDrop().crearEn(posicion)
+
+    method agregarNuevoDrop(position, probabilidad){
+        if (probabilidad <= 0.15){
+            self.agregarDrop(escopetaFactory.crear(position))
+        } else if (probabilidad <= 0.30){
+            self.agregarDrop(metralletaFactory.crear(position))
+        } else if (probabilidad <= 0.45){
+            self.agregarDrop(lanzacohetesFactory.crear(position))
+        } else {
+            self.agregarDrop(vidaFactory.crear(position))
+        }
     }
 
-    method elegirDrop(){
-        const probabilidad =  0.randomUpTo(1) 
-        if (probabilidad.between(0, 0.15)){
-            return escopetaFactory
-        } else if (probabilidad.between(0.15,0.65)) {
-	     	return vidaFactory
-        } else {
-            return metralletaFactory
-        }
+    method rollDropeo(){
+        return 0.randomUpTo(1)
     }
 }
 

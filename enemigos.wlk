@@ -25,7 +25,7 @@ object ejercito{
     }
 
     method enemigoMurio(enemigo){
-        dropeo.crear()
+        dropeo.crear(enemigo.position())
         game.removeVisual(enemigo)
         enemigos.remove(enemigo)
         if (enemigos.isEmpty()){

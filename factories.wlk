@@ -6,38 +6,69 @@ import drops.*
 // ENEMIGOS
 
 object zombieFactory{
+    const randomizador = randomizer
+
     method crear(){
-        const _position = randomizer.posicionVaciaCentral()
-        return new Zombie(position = _position)
+        return new Zombie(position = randomizador.posicionVaciaCentral())
     }
 }
 
 object minotauroFactory{
+    const randomizador = randomizer
+
     method crear(){
-        const _position = randomizer.posicionVaciaCentral()
-        return new Minotauro(position = _position)
+        return new Minotauro(position = randomizador.posicionVaciaCentral())
     }
 }
 
 object vampiroFactory{
+    const randomizador = randomizer
+
     method crear(){
-        const _position = randomizer.posicionVaciaCentral()
-        return new Vampiro(position = _position)
+        return new Vampiro(position = randomizador.posicionVaciaCentral())
     }
 }
 
 object acorazadoFactory{
+    const randomizador = randomizer
+
     method crear(){
-        const _position = randomizer.posicionVaciaCentral()
-        return new Acorazado(position = _position)
+        return new Acorazado(position = randomizador.posicionVaciaCentral())
     }
 }
 
 object momiaFactory{
+    const randomizador = randomizer
+
     method crear(){
-        const _position = randomizer.posicionVaciaCentral()
-        return new Momia(position = _position)
+        return new Momia(position = randomizador.posicionVaciaCentral())
     }
+}
+
+// DROPS
+
+object vidaFactory {
+	method crear(_position) {
+		return new VidaDrop(position= _position)
+	}
+}
+
+object escopetaFactory {
+    method crear(_position){
+        return new EscopetaDrop(position = _position)
+    }
+}
+
+object metralletaFactory {
+	method crear(_position) {
+		return new MetralletaDrop(position = _position)
+	}
+}
+
+object lanzacohetesFactory {
+	method crear(_position) {
+		return new LanzacohetesDrop(position = _position)
+	}
 }
 
 // ELEMENTOS DEL MAPA
@@ -46,30 +77,4 @@ object muroFactory {
     method crear(posicion) {
         return new ElementoDelMapa(image="muro.png", position=posicion)
     }
-}
-
-// DROPS
-
-object vidaFactory {
-	method crear(posicion) {
-		return new VidaDrop(position= posicion)
-	}
-}
-
-object escopetaFactory {
-    method crear(posicion){
-        return new EscopetaDrop(position = posicion)
-    }
-}
-
-object metralletaFactory {
-	method crear(posicion) {
-		return new MetralletaDrop(position = posicion)
-	}
-}
-
-object lanzacohetesFactory {
-	method crear(posicion) {
-		return new LanzacohetesDrop(position = posicion)
-	}
 }

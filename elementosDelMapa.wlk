@@ -3,18 +3,10 @@ import factories.*
 import enemigos.*
 
 object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
-    const width = 21
-    const height = 21
+    const property width = 21
+    const property height = 21
     const ejercitoEnElTablero = ejercito
     const elementosEnElTablero = elementosDelMapa
-
-    method width(){
-        return width
-    }
-
-    method height(){
-        return height
-    }
 
     method hayAlgoAca(position){
         return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
@@ -47,16 +39,8 @@ object elementosDelMapa {
 }
 
 class ElementoDelMapa{
-    const image
-    const position
-
-    method image(){
-        return image
-    }
-
-    method position(){
-        return position
-    }
+    const property image
+    const property position
 }
 
 object zmb{ // Zombie.
