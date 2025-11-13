@@ -8,8 +8,8 @@ import elementosDelMapa.*
 object reyDeLaPradera{
     var nivelActual =new Nivel(enemigosIniciales = [zmb, zmb, zmb, zmb,
                                                     zmb, zmb, zmb, zmb,
-                                                    zmb, zmb, zmb, zmb,
-                                                    zmb, zmb, zmb, zmb], limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+                                                    vmp, vmp, vmp, vmp,
+                                                    mtr, mtr, mtr, mtr], limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
                                                                                                                                                                     [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -57,9 +57,9 @@ object reyDeLaPradera{
 
 class Nivel{
     const layout
-    var enemigos = enemigosIniciales.copy()
+    var enemigos = enemigosIniciales.copy() // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const enemigosIniciales // Un set de los enemigos que se van a spawnear en un nivel. (No se le deben eliminar o agregar elementos).
-    const ejercitoDeNivel   // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
+    const ejercitoDeNivel   
     const tiempoDeSpawn
     const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
     const limiteDeEnemigosEnMapa
@@ -79,8 +79,9 @@ class Nivel{
     method spawnearSiguienteEnemigo(){
         if (!enemigos.isEmpty()){
             if (self.hayEspacioParaSpawnearEnemigo()){
-                ejercitoDeNivel.agregarEnemigo(enemigos.first())
-                enemigos = enemigos.drop(1)
+                const enemigoASpawnear = enemigos.anyOne()
+                ejercitoDeNivel.agregarEnemigo(enemigoASpawnear)
+                enemigos.remove(enemigoASpawnear)
             }
         } else {
             game.removeTickEvent("Spawn de enemigos del nivel")
