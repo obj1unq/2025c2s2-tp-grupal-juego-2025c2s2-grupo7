@@ -1,6 +1,9 @@
 import enemigos.*
 import randomizer.*
 import elementosDelMapa.*
+import drops.*
+
+// ENEMIGOS
 
 object zombieFactory{
     method crear(){
@@ -37,8 +40,36 @@ object momiaFactory{
     }
 }
 
+// ELEMENTOS DEL MAPA
+
 object muroFactory {
     method crear(posicion) {
         return new ElementoDelMapa(image="muro.png", position=posicion)
     }
+}
+
+// DROPS
+
+object vidaFactory {
+	method crear(posicion) {
+		return new VidaDrop(position= posicion)
+	}
+}
+
+object escopetaFactory {
+    method crear(posicion){
+        return new EscopetaDrop(position = posicion)
+    }
+}
+
+object metralletaFactory {
+	method crear(posicion) {
+		return new MetralletaDrop(position = posicion)
+	}
+}
+
+object lanzacohetesFactory {
+	method crear(posicion) {
+		return new LanzacohetesDrop(position = posicion)
+	}
 }

@@ -7,6 +7,7 @@ import elementosDelMapa.*
 
 object ejercito{
     const enemigos = #{}
+    const dropeo = drops
 
     method agregarEnemigo(tipoDeEnemigo){
         const enemigo = tipoDeEnemigo.crear()
@@ -24,6 +25,7 @@ object ejercito{
     }
 
     method enemigoMurio(enemigo){
+        dropeo.agregarDrop(enemigo.position())
         game.removeVisual(enemigo)
         enemigos.remove(enemigo)
         if (enemigos.isEmpty()){
@@ -75,7 +77,6 @@ class Enemigo {
     }
 
     method muerte (){
-        drops.nuevoDropEn(self.position())
         ejercitoDeNivel.enemigoMurio(self)
     }
 
