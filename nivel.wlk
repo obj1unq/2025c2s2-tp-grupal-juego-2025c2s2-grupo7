@@ -59,7 +59,7 @@ class Nivel{
     method jugarNivel(){
         game.boardGround(fondo)
         self.crearNivel()
-        enemigos = enemigosIniciales
+        enemigos = enemigosIniciales.copy()
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje) // Hay que cambiar esto, para no usar la referencia global de personaje
@@ -67,12 +67,14 @@ class Nivel{
 
     method reiniciarNivel(){
         ejercitoDeNivel.matarTodos()
-        enemigos = enemigosIniciales
+        enemigos = enemigosIniciales.copy()
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje)
     }
 }
+
+// NIVELES
 
 const primerNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -155,9 +157,9 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = ultimoNivel, fondo = "fondo_nivel.png")
+siguienteNivel = cuartoNivel, fondo = "fondo_nivel.png")
 
-const ultimoNivel = new Nivel(
+const cuartoNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -184,4 +186,34 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = ultimoNivel, fondo = "fondo_nivel.png")
+siguienteNivel = nivelFinal, fondo = "fondo_nivel.png")
+
+// NIVEL FINAL (JEFE)
+
+object nivelFinal inherits Nivel(
+layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]].reverse(),
+enemigosIniciales = [],
+siguienteNivel = self, fondo = "fondo_nivel.png")
+{
+
+}
