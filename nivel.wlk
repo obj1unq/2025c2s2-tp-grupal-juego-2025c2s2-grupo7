@@ -8,10 +8,10 @@ class Nivel{
     const layout
     var enemigos = enemigosIniciales.copy() // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const enemigosIniciales // Un set de los enemigos que se van a spawnear en un nivel. (No se le deben eliminar o agregar elementos).
-    const ejercitoDeNivel   
-    const tiempoDeSpawn
-    const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
-    const limiteDeEnemigosEnMapa
+    const ejercitoDeNivel = ejercito
+    const tiempoDeSpawn = 500
+    const elementosEnNivel = elementosDelMapa
+    const limiteDeEnemigosEnMapa = 4
     const property siguienteNivel
     const juego = reyDeLaPradera
     const fondo
@@ -42,13 +42,13 @@ class Nivel{
 
     method esperarFinalDelNivel(){
         game.removeTickEvent("Spawn de enemigos del nivel")
-        game.onTick(1000, "Chequear si finalizo nivel", {self.terminarNivelSiSePuede()})
+        game.onTick(3000, "chequeoFinalNivel", {self.terminarNivelSiSePuede()})
     }
 
     method terminarNivelSiSePuede(){
         if (ejercitoDeNivel.cantidadDeEnemigosEnMapa() == 0){
+            game.removeTickEvent("chequeoFinalNivel")
             juego.terminarNivel()
-            game.removeTickEvent("Chequear si finalizo nivel")
         }
     }
 
@@ -71,10 +71,6 @@ class Nivel{
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje)
-    }
-
-    method siguienteNivel(){
-        return self
     }
 }
 
@@ -101,7 +97,7 @@ layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
           [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]].reverse(),
 enemigosIniciales = [zmb, zmb],
-siguienteNivel = segundoNivel, limiteDeEnemigosEnMapa = 3, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivel.png")
+siguienteNivel = segundoNivel, fondo = "fondo_nivel.png", limiteDeEnemigosEnMapa = 3)
 
 const segundoNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -130,7 +126,7 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = tercerNivel, limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivelprueba.png")
+siguienteNivel = tercerNivel, fondo = "fondo_nivelprueba.png")
 
 const tercerNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -159,7 +155,7 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = ultimoNivel, limiteDeEnemigosEnMapa = 4, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivel.png")
+siguienteNivel = ultimoNivel, fondo = "fondo_nivel.png")
 
 const ultimoNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
@@ -188,4 +184,4 @@ enemigosIniciales = [zmb, zmb, zmb, zmb,
                      acz, vmp, vmp, acz,
                      zmb, zmb, zmb, zmb,
                      zmb, zmb, zmb, zmb],
-siguienteNivel = ultimoNivel, limiteDeEnemigosEnMapa = 5, tiempoDeSpawn =350, ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, fondo = "fondo_nivel.png")
+siguienteNivel = ultimoNivel, fondo = "fondo_nivel.png")
