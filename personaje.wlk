@@ -1,6 +1,6 @@
 import wollok.game.*
 import enemigos.*
-import nivel.*
+import juego.*
 
 object personaje{
     var position = game.center()

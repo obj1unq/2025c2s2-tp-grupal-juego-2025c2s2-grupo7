@@ -5,6 +5,7 @@ import enemigos.*
 object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
     const property width = 21
     const property height = 21
+    const property cellSize = 48
     const ejercitoEnElTablero = ejercito
     const elementosEnElTablero = elementosDelMapa
 

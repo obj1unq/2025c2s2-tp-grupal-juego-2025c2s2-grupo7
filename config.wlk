@@ -1,13 +1,15 @@
 import wollok.game.*
 import personaje.*
-import enemigos.*
 import movimiento.*
-import drops.*
-import nivel.*
+import elementosDelMapa.*
 
 object configuracion {
+    const tableroDelJuego = tablero
 
     method configEscenario(){
+        game.height(tableroDelJuego.height())
+        game.width(tableroDelJuego.width())
+        game.cellSize(tableroDelJuego.cellSize())
         game.title("Rey de la pradera") // Esto tal vez hay que cambiarlo y moverlo al objeto reyDeLaPradera.
     }
 

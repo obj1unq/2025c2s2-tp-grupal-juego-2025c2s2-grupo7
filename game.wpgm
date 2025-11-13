@@ -1,4 +1,4 @@
-import nivel.*
+import juego.*
 
 program juego{
     reyDeLaPradera.empezarJuego()
