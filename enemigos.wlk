@@ -13,7 +13,6 @@ object ejercito{
         const enemigo = tipoDeEnemigo.crear()
         enemigos.add(enemigo)
         game.addVisual(enemigo)
-        game.onCollideDo(enemigo, {objeto => objeto.colisionarCon(enemigo)})
     }
 
     method enemigosDanPaso(){
@@ -82,6 +81,15 @@ class Enemigo {
 
     method darPaso(){
         estado = estado.siguienteEstado()
+    }
+
+    method colisionarConPersonaje(personaje){
+        personaje.muerte()
+    }
+
+    method colisionarConBala(arma){
+        self.aplicarDaño(arma.daño())
+        arma.colisiono()
     }
 }
 

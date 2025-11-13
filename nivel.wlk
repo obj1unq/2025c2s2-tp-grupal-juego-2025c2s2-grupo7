@@ -32,7 +32,7 @@ object reyDeLaPradera{
         configuracion.configEscenario()
         configuracion.configPersonaje()
         configuracion.configVisuales()
-        configuracion.configDropeo()
+        configuracion.configColisiones()
         nivelActual.jugarNivel()
         game.start()
     }

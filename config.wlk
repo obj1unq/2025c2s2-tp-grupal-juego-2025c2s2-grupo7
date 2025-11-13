@@ -27,7 +27,8 @@ object configuracion {
         keyboard.q().onPressDo({personaje.cambiarArma()})
     }
 
-    method configDropeo (){
-       game.onCollideDo(personaje, {drop => drop.colisionarConPersonaje()})
+    method configColisiones(){
+       game.onCollideDo(personaje, {objeto => objeto.colisionarConPersonaje(personaje)})
+       game.onCollideDo(armaPrincipal, {objeto => objeto.colisionarConBala(armaPrincipal)})
     }
 }

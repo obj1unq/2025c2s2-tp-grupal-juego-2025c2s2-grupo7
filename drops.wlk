@@ -49,6 +49,14 @@ class Drop {
         personaje.recolectarArma(self)
         game.removeVisual(self)
     }
+
+    method colisionarConPersonaje (personaje){
+        // El personaje agarra el drop.
+    }
+
+    method colisionarConBala(arma){
+        // No se hace nada.
+    }
 }
 
 class DropDeArma inherits Drop{

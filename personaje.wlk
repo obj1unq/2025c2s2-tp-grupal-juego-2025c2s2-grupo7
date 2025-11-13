@@ -60,7 +60,7 @@ object personaje{
         armaUtilizada.disparar(direccion)
     }
 
-    method colisionarCon(enemigo){
+    method muerte(){
         vidas -= 1
         if (vidas == 0){
             juego.perderJuego()
@@ -69,17 +69,15 @@ object personaje{
             position = game.center()
         }
     }
+
+    method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
 }
 
 object armaPrincipal{
     var position = game.at(7,7)
-    const image = "bala.png"
+    const property image = "bala.png"
     const poseedor = personaje 
-    const daño = 10
-
-    method image(){
-        return image
-    }
+    const property daño = 10
 
     method position(){
         return position
@@ -94,19 +92,21 @@ object armaPrincipal{
     }
 
     method balaViajando(direccion){
-        if (position.x().between(1,game.height()-1) and position.y().between(1,game.width()-1)){
-            position = direccion.siguiente(position)
-        } else {
+        const nuevaPosicion = direccion.siguiente(position)
+        if (nuevaPosicion != position){ // La bala puede moverse a su siguiente posicion ya que esta vacía y esta dentro de los limites del mapa.
+            position = nuevaPosicion
+        } else { // Significa que la bala colisiono con un elemento del mapa o con el borde del mapa.
             game.removeTickEvent("Arma dispara")
             game.removeVisual(self)
             position = poseedor.position()
         }
     }
 
-    method colisionarCon(enemigo){
-        enemigo.aplicarDaño(daño)
+    method colisiono(){
         game.removeTickEvent("Arma dispara")
         game.removeVisual(self)
         position = poseedor.position()
     }
+
+    method colisionarConPersonaje(personaje){} // No se hace nada. El personaje no interacciona con su bala disparada.
 }
