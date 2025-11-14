@@ -3,8 +3,8 @@ import factories.*
 import enemigos.*
 
 object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
-    const property width = 21
-    const property height = 21
+    const property width = 17
+    const property height = 17
     const property cellSize = 48
     const ejercitoEnElTablero = ejercito
     const elementosEnElTablero = elementosDelMapa
@@ -101,5 +101,12 @@ object p{ // Muro de piedra en el mapa.
     method crear(posicion, elementos) {
         const muro = muroDePiedraFactory.crear(posicion)
         elementos.agregarElemento(muro)
+    }
+}
+
+object t{ // Arbol en el mapa.
+    method crear(posicion, elementos) {
+        const arbol = arbolFactory.crear(posicion)
+        elementos.agregarElemento(arbol)
     }
 }

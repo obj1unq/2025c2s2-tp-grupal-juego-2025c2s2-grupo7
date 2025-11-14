@@ -85,6 +85,12 @@ object arbustoFactory {
     }
 }
 
+object arbolFactory {
+    method crear(posicion) {
+        return new ElementoDelMapa(image="elemento_arbol.png", position=posicion)
+    }
+}
+
 object muroDePiedraFactory {
     method crear(posicion) {
         return new ElementoDelMapa(image="elemento_muroDePiedra.png", position=posicion)
