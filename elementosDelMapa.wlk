@@ -83,9 +83,23 @@ object _{ // Espacio vacío del mapa.
     method crear(posicion, elemento){}
 }
 
-object m{ // Muro en el mapa.
+object m{ // Muro de madera en el mapa.
     method crear(posicion, elementos) {
-        const muro = muroFactory.crear(posicion)
+        const muro = muroDeMaderaFactory.crear(posicion)
+        elementos.agregarElemento(muro)
+    }
+}
+
+object a{ // Arbusto en el mapa.
+    method crear(posicion, elementos) {
+        const arbusto = arbustoFactory.crear(posicion)
+        elementos.agregarElemento(arbusto)
+    }
+}
+
+object p{ // Muro de piedra en el mapa.
+    method crear(posicion, elementos) {
+        const muro = muroDePiedraFactory.crear(posicion)
         elementos.agregarElemento(muro)
     }
 }
