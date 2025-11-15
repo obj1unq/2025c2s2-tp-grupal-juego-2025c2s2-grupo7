@@ -64,6 +64,7 @@ object elementosDelMapa {
     method limpiarNivel(){
         elementos.forEach({elemento => game.removeVisual(elemento)})
         elementos.clear()
+        elementosDestructibles.clear()
     }
 }
 
