@@ -59,6 +59,7 @@ class Nivel{
     const ejercitoDeNivel   // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const tiempoDeSpawn
     const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
+   
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>
@@ -74,18 +75,26 @@ class Nivel{
 
     method spawnearSiguienteEnemigo(){
         if (!enemigos.isEmpty()){
-            ejercitoDeNivel.agregarEnemigo(enemigos.first())
-            enemigos = enemigos.drop(1)
+           ejercitoDeNivel.agregarEnemigo(enemigos.first())
+           enemigos = enemigos.drop(1)
         } else {
             game.removeTickEvent("Spawn de enemigos del nivel")
         }
     }
 
+
+
+    method maximo(){
+        return 4
+    }
+
+
+
     method jugarNivel(){
         game.height(21)
         game.width(21)
         game.cellSize(48)
-        game.boardGround("fondo_nivel.png")
+        game.boardGround("imagenNivelNieve.png")
         self.crearNivel()
         enemigos = enemigosIniciales
         self.spawnearEnemigos()
@@ -104,4 +113,5 @@ class Nivel{
     method siguienteNivel(){
         return self
     }
+
 }
