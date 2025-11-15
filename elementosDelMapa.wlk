@@ -7,22 +7,28 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     const property height = 17
     const property cellSize = 48
     const ejercitoEnElTablero = ejercito
-    const elementosEnElTablero = elementosDelMapa
+    const elementosEnElTablero = elementosDelMapa // SOLO HACE FALTA EN LA VERSION LENTA DE hayAlgoAca
+
+    /*
+    method hayAlgoAca(position){
+        return !game.getObjectsIn(position).isEmpty()
+    }
+    */
 
     method hayAlgoAca(position){
         return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
     }
 
-    method posicionesLindantesVacias(position){
-        return self.posicionesLindantes(position).filter({posicion => !self.hayAlgoAca(posicion)})
-    }
-
     method posicionesLindantes(position){
-        return #{position.left(1), position.right(1), position.up(1), position.down(1)}
+        return [position.left(1), position.right(1), position.up(1), position.down(1)]
     }
 
-    method posicionesLindantesSinEnemigos(position){
-        return self.posicionesLindantes(position).filter({posicion => !ejercitoEnElTablero.hayEnemigoAca(posicion)})
+    method posicionesLindantesOrdenadasXDistancia(position, positionACompararDistancia){
+        return self.posicionesLindantes(position).sortedBy({primeraPosicion, segundaPosicion => primeraPosicion.distance(positionACompararDistancia) < segundaPosicion.distance(positionACompararDistancia)})
+    }
+
+    method hayEnemigoAca(position){
+        return ejercitoEnElTablero.hayEnemigoAca(position)
     }
 }
 

@@ -95,7 +95,7 @@ layout = [[t,t,t,t,t,t,t,_,_,_,t,t,t,t,t,t,t],
           [t,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,t],
           [t,t,t,t,t,t,t,_,_,_,t,t,t,t,t,t,t]].reverse(),
 enemigosIniciales = [zmb, zmb],
-siguienteNivel = segundoNivel, fondo = "fondo_desierto.png", limiteDeEnemigosEnMapa = 3)
+siguienteNivel = segundoNivel, fondo = "fondo_desierto.png", limiteDeEnemigosEnMapa = 5)
 
 const segundoNivel = new Nivel(
 layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
