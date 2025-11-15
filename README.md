@@ -1,10 +1,11 @@
-# Nombre del juego (<- borrar y completar)
+# REY DE LA PRADERA
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Lezcano, Facundo 
+- Scheffelaar Klotz, Germán
+- Gutierrez, Eric 
+- Flores, Matias
 
 ## Capturas
 
@@ -17,6 +18,6 @@
 
 ## Otros
 
-- Curso/Facultad
+- Programación con Objetos 1 C2
 - Versión de wollok
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
