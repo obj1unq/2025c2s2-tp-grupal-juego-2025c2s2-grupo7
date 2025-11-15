@@ -2,6 +2,7 @@ import wollok.game.*
 import personaje.*
 import movimiento.*
 import elementosDelMapa.*
+import nivel.*
 
 object configuracion {
     const tableroDelJuego = tablero
@@ -11,6 +12,7 @@ object configuracion {
         game.width(tableroDelJuego.width())
         game.cellSize(tableroDelJuego.cellSize())
         game.title("Rey de la pradera") // Esto tal vez hay que cambiarlo y moverlo al objeto reyDeLaPradera.
+        fondo.agregarFondo()
     }
 
     method configVisuales(){

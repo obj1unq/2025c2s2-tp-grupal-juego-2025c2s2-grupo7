@@ -11,10 +11,11 @@ class Nivel{
     const ejercitoDeNivel = ejercito
     const tiempoDeSpawn = 500
     const elementosEnNivel = elementosDelMapa
-    const limiteDeEnemigosEnMapa = 4
+    const limiteDeEnemigosEnMapa = 5
     const property siguienteNivel
     const juego = reyDeLaPradera
-    const fondo
+    const imagenDeFondo
+    const fondoDelJuego = fondo
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>
@@ -57,7 +58,7 @@ class Nivel{
     }
 
     method jugarNivel(){
-        game.boardGround(fondo)
+        fondoDelJuego.cambiarFondo(imagenDeFondo)
         self.crearNivel()
         enemigos = enemigosIniciales.copy()
         self.spawnearEnemigos()
@@ -94,8 +95,8 @@ layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
-enemigosIniciales = [zmb, zmb, zmb, zmb, zmb],
-siguienteNivel = segundoNivel, fondo = "fondo_nivel1.png", limiteDeEnemigosEnMapa = 5)
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png")
 
 const segundoNivel = new Nivel(
 layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
@@ -115,12 +116,8 @@ layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
-enemigosIniciales = [zmb, zmb, zmb, zmb,
-                     zmb, zmb, zmb, zmb,
-                     acz, vmp, vmp, acz,
-                     zmb, zmb, zmb, zmb,
-                     zmb, zmb, zmb, zmb],
-siguienteNivel = tercerNivel, fondo = "fondo_nivel2.png")
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = tercerNivel, imagenDeFondo = "fondo_nivel2.png")
 
 const tercerNivel = new Nivel(
 layout = [[a,a,a,a,a,a,a,_,_,_,a,a,a,a,a,a,a],
@@ -140,12 +137,8 @@ layout = [[a,a,a,a,a,a,a,_,_,_,a,a,a,a,a,a,a],
           [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
           [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
           [a,a,a,a,a,a,a,_,_,_,a,a,a,a,a,a,a]].reverse(),
-enemigosIniciales = [zmb, zmb, zmb, zmb,
-                     zmb, zmb, zmb, zmb,
-                     acz, vmp, vmp, acz,
-                     zmb, zmb, zmb, zmb,
-                     zmb, zmb, zmb, zmb],
-siguienteNivel = cuartoNivel, fondo = "fondo_nivel3.png")
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = cuartoNivel, imagenDeFondo = "fondo_nivel3.png")
 
 const cuartoNivel = new Nivel(
 layout = [[s,s,s,s,s,s,s,_,_,_,s,s,s,s,s,s,s],
@@ -165,12 +158,8 @@ layout = [[s,s,s,s,s,s,s,_,_,_,s,s,s,s,s,s,s],
           [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
           [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
           [s,s,s,s,s,s,s,_,_,_,s,s,s,s,s,s,s]].reverse(),
-enemigosIniciales = [zmb, zmb, zmb, zmb,
-                     zmb, zmb, zmb, zmb,
-                     acz, vmp, vmp, acz,
-                     zmb, zmb, zmb, zmb,
-                     zmb, zmb, zmb, zmb],
-siguienteNivel = nivelFinal, fondo = "fondo_nivel4.png")
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel4.png")
 
 // NIVEL FINAL (JEFE)
 
@@ -193,7 +182,24 @@ layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
 enemigosIniciales = [],
-siguienteNivel = self, fondo = "fondo_nivelFinal.png")
+siguienteNivel = self, imagenDeFondo = "fondo_nivelFinal.png")
 {
 
+}
+
+object fondo{
+    var image = "fondo_nivel1.png"
+    const property position = game.origin()
+
+    method agregarFondo(){
+        game.addVisual(self)
+    }
+
+    method cambiarFondo(fondo){
+        image = fondo
+    }
+
+    method image(){
+        return image
+    }
 }
