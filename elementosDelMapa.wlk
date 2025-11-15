@@ -1,6 +1,7 @@
 import wollok.game.*
 import factories.*
 import enemigos.*
+import personaje.*
 
 object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
     const property width = 17
@@ -8,23 +9,25 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     const property cellSize = 48
     const ejercitoEnElTablero = ejercito
     const elementosEnElTablero = elementosDelMapa // SOLO HACE FALTA EN LA VERSION LENTA DE hayAlgoAca
+    const jugador = personaje // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
-    /*
-    method hayAlgoAca(position){
-        return !game.getObjectsIn(position).isEmpty()
+    method hayAlgoAca(position){ // VERSION RAPIDA
+        const objetosEnPosicion = game.getObjectsIn(position)
+        objetosEnPosicion.remove(jugador)
+        return !objetosEnPosicion.isEmpty()
     }
-    */
-
-    method hayAlgoAca(position){
+    /*
+    method hayAlgoAca(position){ // VERSION LENTA
         return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
     }
+    */
 
     method posicionesLindantes(position){
         return [position.left(1), position.right(1), position.up(1), position.down(1)]
     }
 
     method posicionesLindantesOrdenadasXDistancia(position, positionACompararDistancia){
-        return self.posicionesLindantes(position).sortedBy({primeraPosicion, segundaPosicion => primeraPosicion.distance(positionACompararDistancia) < segundaPosicion.distance(positionACompararDistancia)})
+        return self.posicionesLindantes(position).sortedBy({primeraPos, segundaPos => primeraPos.distance(positionACompararDistancia) < segundaPos.distance(positionACompararDistancia)})
     }
 
     method hayEnemigoAca(position){

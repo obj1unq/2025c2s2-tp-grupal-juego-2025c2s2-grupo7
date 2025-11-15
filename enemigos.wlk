@@ -204,7 +204,6 @@ class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegi
 
 object desprotegido {
     var estado = acorazadoPasoDerecho
-    const tableroDeNivel = tablero
     const property siguienteEstado = protegido
     const property puedeMoverse = true
 
@@ -219,7 +218,7 @@ object desprotegido {
 
 object protegido{
     const property image = "enemigo_acorazadoProtegido.png"
-    const property puedeMoverse = true
+    const property puedeMoverse = false
 
     method siguienteEstado(){
         return self
