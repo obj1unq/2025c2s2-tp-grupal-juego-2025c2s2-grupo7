@@ -1,7 +1,7 @@
 import wollok.game.*
 import factories.*
 import enemigos.*
-import personaje.*
+// import personaje.* // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
 object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
     const property width = 17
@@ -9,16 +9,17 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     const property cellSize = 48
     const ejercitoEnElTablero = ejercito
     const elementosEnElTablero = elementosDelMapa // SOLO HACE FALTA EN LA VERSION LENTA DE hayAlgoAca
-    const jugador = personaje // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
+    // const jugador = personaje // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
+    method hayAlgoAca(position){ // VERSION LENTA
+        return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
+    }
+
+    /*
     method hayAlgoAca(position){ // VERSION RAPIDA
         const objetosEnPosicion = game.getObjectsIn(position)
         objetosEnPosicion.remove(jugador)
         return !objetosEnPosicion.isEmpty()
-    }
-    /*
-    method hayAlgoAca(position){ // VERSION LENTA
-        return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
     }
     */
 

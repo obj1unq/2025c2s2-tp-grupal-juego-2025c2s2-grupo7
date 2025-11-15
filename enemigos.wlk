@@ -66,7 +66,7 @@ class Enemigo {
     }
 
     method mejorPosicionParaPerseguirEntre(posiciones){
-        return posiciones.find({posicion => !tableroDeNivel.hayAlgoAca(posicion)})
+        return posiciones.findOrDefault({posicion => !tableroDeNivel.hayAlgoAca(posicion)}, position)
     }
 
     method aplicarDaño(daño){
@@ -97,7 +97,7 @@ class Enemigo {
 
 class Vampiro inherits Enemigo(vida = 20, estado = vampiroArriba){ 
     override method mejorPosicionParaPerseguirEntre(posiciones){
-        return posiciones.find({posicion => !tableroDeNivel.hayEnemigoAca(posicion)}) // Los vampiros vuelan sobre los elementos del mapa.
+        return posiciones.findOrDefault({posicion => !tableroDeNivel.hayEnemigoAca(posicion)}, position) // Los vampiros vuelan sobre los elementos del mapa.
     }
 }
 
