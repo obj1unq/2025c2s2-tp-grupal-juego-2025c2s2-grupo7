@@ -12,7 +12,8 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     // const jugador = personaje // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
     method hayAlgoAca(position){ // VERSION LENTA
-        return ejercitoEnElTablero.hayEnemigoAca(position) or elementosEnElTablero.hayElementoAca(position)
+        return ejercitoEnElTablero.hayEnemigoAca(position) or 
+               elementosEnElTablero.hayElementoAca(position)
     }
 
     /*
@@ -37,15 +38,27 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
 }
 
 object elementosDelMapa {
-    const property elementos= #{}
+    const elementos = #{}
+    const elementosDestructibles = #{}
     
-    method agregarElemento(elemento) {
+    method agregarElemento(elemento){
         elementos.add(elemento)
+        if (!self.hayElementoDeBordeDeMapaAca(elemento.position())){
+            elementosDestructibles.add(elemento)
+        }
         game.addVisual(elemento)
     }
 
-    method hayElementoAca (posicion){
-        return elementos.any({elemento => elemento.position() == posicion})
+    method hayElementoAca (position){
+        return self.hayElementoDeBordeDeMapaAca(position) or
+               elementosDestructibles.any({elemento => elemento.position() == position})
+    }
+
+    method hayElementoDeBordeDeMapaAca(position){ // Se crea esta función para evitar recorrer el set de elementos del mapa lo más que se pueda.
+        const x = position.x()
+        const y = position.y()
+        return ( (x == 0 or x == 16) and (y < 7 or y > 9) ) or ( (y == 0 or y == 16) and (x < 7 or x > 9) )  
+        //       Es elemento del borde superior o inferior   O    Es elemento del borde derecho o izquierdo  
     }
 
     method limpiarNivel(){
@@ -93,30 +106,32 @@ object _{ // Espacio vacío del mapa.
     method crear(posicion, elemento){}
 }
 
-object m{ // Muro de madera en el mapa.
+object m{ // Muro en el mapa.
     method crear(posicion, elementos) {
-        const muro = muroDeMaderaFactory.crear(posicion)
-        elementos.agregarElemento(muro)
+        elementos.agregarElemento(muroFactory.crear(posicion))
     }
 }
 
 object a{ // Arbusto en el mapa.
     method crear(posicion, elementos) {
-        const arbusto = arbustoFactory.crear(posicion)
-        elementos.agregarElemento(arbusto)
+        elementos.agregarElemento(arbustoFactory.crear(posicion))
     }
 }
 
-object p{ // Muro de piedra en el mapa.
+object c{ // Cactus en el mapa.
     method crear(posicion, elementos) {
-        const muro = muroDePiedraFactory.crear(posicion)
-        elementos.agregarElemento(muro)
+        elementos.agregarElemento(cactusFactory.crear(posicion))
     }
 }
 
-object t{ // Arbol en el mapa.
+object t{ // Tronco en el mapa.
     method crear(posicion, elementos) {
-        const arbol = arbolFactory.crear(posicion)
-        elementos.agregarElemento(arbol)
+        elementos.agregarElemento(troncoFactory.crear(posicion))
+    }
+}
+
+object s{ // Sepulcro en el mapa.
+    method crear(posicion, elementos) {
+        elementos.agregarElemento(sepulcroFactory.crear(posicion))
     }
 }

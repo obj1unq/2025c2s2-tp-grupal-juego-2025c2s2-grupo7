@@ -73,9 +73,9 @@ object lanzacohetesFactory {
 
 // ELEMENTOS DEL MAPA
 
-object muroDeMaderaFactory {
+object muroFactory {
     method crear(posicion) {
-        return new ElementoDelMapa(image="elemento_muroDeMadera.png", position=posicion)
+        return new ElementoDelMapa(image="elemento_muro.png", position=posicion)
     }
 }
 
@@ -85,14 +85,20 @@ object arbustoFactory {
     }
 }
 
-object arbolFactory {
+object troncoFactory {
     method crear(posicion) {
-        return new ElementoDelMapa(image="elemento_arbol.png", position=posicion)
+        return new ElementoDelMapa(image="elemento_tronco.png", position=posicion)
     }
 }
 
-object muroDePiedraFactory {
+object sepulcroFactory {
     method crear(posicion) {
-        return new ElementoDelMapa(image="elemento_muroDePiedra.png", position=posicion)
+        return new ElementoDelMapa(image="elemento_sepulcro.png", position=posicion)
+    }
+}
+
+object cactusFactory {
+    method crear(posicion) {
+        return new ElementoDelMapa(image="elemento_cactus.png", position=posicion)
     }
 }
