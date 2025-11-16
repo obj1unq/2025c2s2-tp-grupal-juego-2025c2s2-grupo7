@@ -94,7 +94,7 @@ class Nivel{
         game.height(21)
         game.width(21)
         game.cellSize(48)
-        game.boardGround("imagenNivelNieve.png")
+        game.boardGround("fondo_nivel1.png")
         self.crearNivel()
         enemigos = enemigosIniciales
         self.spawnearEnemigos()
