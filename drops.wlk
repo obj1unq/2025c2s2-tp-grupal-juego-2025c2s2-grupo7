@@ -72,7 +72,7 @@ class DropDeArma inherits Drop{
     }
 }
 
-class VidaDrop inherits Drop(image = "drop_botiquin.png"){}
+class VidaDrop inherits Drop(image = "drop_vida.png"){}
 
 class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png"){}
 

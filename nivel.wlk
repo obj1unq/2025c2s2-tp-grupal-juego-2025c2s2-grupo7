@@ -202,4 +202,5 @@ object fondo{
     method image(){
         return image
     }
+
 }

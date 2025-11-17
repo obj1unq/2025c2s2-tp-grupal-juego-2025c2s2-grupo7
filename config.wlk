@@ -17,6 +17,8 @@ object configuracion {
 
     method configVisuales(){
         game.addVisual(personaje)
+        game.addVisual(instrucciones)
+        game.schedule(10000, {game.removeVisual(instrucciones)})
     }
 
     method configPersonaje(){
@@ -28,11 +30,17 @@ object configuracion {
         keyboard.down().onPressDo({personaje.disparar(abajo)})
         keyboard.left().onPressDo({personaje.disparar(izquierda)})
         keyboard.right().onPressDo({personaje.disparar(derecha)})
-        keyboard.q().onPressDo({personaje.cambiarArma()})
+        keyboard.space().onPressDo({personaje.cambiarArma()})
     }
 
     method configColisiones(){
        game.onCollideDo(personaje, {objeto => objeto.colisionarConPersonaje(personaje)})
        game.onCollideDo(armaPrincipal, {objeto => objeto.colisionarConBala(armaPrincipal)})
     }
+
+}
+
+object instrucciones {
+    var property image = "instrucciones.png"
+    var property position = game.at(8,2)
 }

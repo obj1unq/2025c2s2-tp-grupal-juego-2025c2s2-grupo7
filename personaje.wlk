@@ -4,11 +4,15 @@ import juego.*
 
 object personaje{
     var position = game.center()
-    const image = "personaje.png"
     var property vidas = 3
     var property armaUtilizada = armaPrincipal
     var property armaSecundaria = null
     const juego = reyDeLaPradera
+    var estado = personajeDerecha
+
+    method image(){
+        return estado.image()
+    }
 
     method ganarVida(){
         if (vidas < 3){
@@ -43,11 +47,7 @@ object personaje{
     method tieneArmaSecundaria(){
         return armaSecundaria != null
     }
-
-    method image(){
-        return image
-    }
-
+    
     method position(){
         return position
     }
@@ -57,6 +57,7 @@ object personaje{
     }
 
     method disparar(direccion){
+        estado = direccion.estadoDePersonajeAsociado()
         armaUtilizada.disparar(direccion)
     }
 
@@ -75,6 +76,22 @@ object personaje{
     }
 
     method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
+}
+
+object personajeArriba{
+    const property image = "personaje_arriba.png"
+}
+
+object personajeDerecha{
+    const property image = "personaje_derecha.png"
+}
+
+object personajeAbajo{
+    const property image = "personaje_abajo.png"
+}
+
+object personajeIzquierda{
+    const property image = "personaje_izquierda.png"
 }
 
 object armaPrincipal{

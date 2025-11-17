@@ -1,8 +1,10 @@
 import wollok.game.*
 import elementosDelMapa.*
+import personaje.*
 
 object izquierda{
     const elementosEnElMapa = elementosDelMapa
+    const property estadoDePersonajeAsociado = personajeIzquierda // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
         const siguientePosicion = posicion.left(1)
@@ -16,6 +18,7 @@ object izquierda{
 
 object derecha{
     const elementosEnElMapa = elementosDelMapa
+    const property estadoDePersonajeAsociado = personajeDerecha // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
         const siguientePosicion = posicion.right(1)
@@ -29,6 +32,7 @@ object derecha{
 
 object abajo{
     const elementosEnElMapa = elementosDelMapa
+    const property estadoDePersonajeAsociado = personajeAbajo // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
         const siguientePosicion = posicion.down(1)
@@ -42,6 +46,7 @@ object abajo{
 
 object arriba{
     const elementosEnElMapa = elementosDelMapa
+    const property estadoDePersonajeAsociado = personajeArriba // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
         const siguientePosicion = posicion.up(1)
