@@ -1,0 +1,37 @@
+import personaje.*
+import movimiento.*
+import wollok.game.*
+
+
+
+describe "Movimiento  del personaje" {
+
+    test " Personaje arranca en el centro del tablero" {
+	 assert.equals(game.center(), personaje.position())
+	}
+
+
+    test " Personaje se mueve a la derecha" {
+        const posicion = personaje.position()
+        personaje.mover(derecha)
+        assert.equals( game.center().right(1), personaje.position())
+	
+	}
+
+    test " Personaje se mueve a la izquierda" {
+        const posicion = personaje.position()
+        personaje.mover(izquierda)
+        assert.equals(game.center().left(1), personaje.position())
+	}
+
+    test " Personaje se mueve arriba " {
+        personaje.mover(arriba)
+        assert.equals(game.center().up(1), personaje.position())
+	}
+
+    test " Personaje se mueve abajo" {
+        personaje.mover(abajo)
+	    assert.equals(game.center().down(1), personaje.position())
+	}
+
+}
