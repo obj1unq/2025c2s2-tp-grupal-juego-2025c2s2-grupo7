@@ -24,7 +24,9 @@ object reyDeLaPradera{
         drops.borrarDrops()
         personaje.volverAPosicionInicial()
         nivelActual = nivelActual.siguienteNivel()
+        game.removeVisual(vida)
         nivelActual.jugarNivel()
+
     }
 
     method reiniciarNivel(){

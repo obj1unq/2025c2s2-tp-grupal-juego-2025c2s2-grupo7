@@ -60,6 +60,7 @@ class Nivel{
     method jugarNivel(){
         fondoDelJuego.cambiarFondo(imagenDeFondo)
         self.crearNivel()
+        game.addVisual(vida)
         enemigos = enemigosIniciales.copy()
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
