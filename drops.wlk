@@ -1,53 +1,81 @@
 import wollok.game.*
 import personaje.*
 import randomizer.*
+import factories.*
 
-class Botiquin {
-    var property position = game.at(7,5)
-    var property curacionQueAporta = 20 // La idea es que tenga 2 o 3 valores randoms ej:
-                                        // (20,50,80 dependiendo del daño de enemigos)
+object drops {
+    const property dropsCreados = []
 
-    method image(){
-        return "botiquin1.png"
+    method crear(position) {
+        const probabilidad = self.rollDropeo()
+        if (probabilidad <= 0.50){
+            self.agregarNuevoDrop(position, probabilidad)
+        }
+	}
+
+    method agregarDrop(drop){
+        dropsCreados.add(drop)
+        game.addVisual(drop)
     }
+
+    method borrarDrops(){
+        dropsCreados.forEach({drop => game.removeVisual(drop)})
+        dropsCreados.clear()
+    }
+
+    method agregarNuevoDrop(position, probabilidad){
+        if (probabilidad <= 0.15){
+            self.agregarDrop(escopetaFactory.crear(position))
+        } else if (probabilidad <= 0.30){
+            self.agregarDrop(metralletaFactory.crear(position))
+        } else if (probabilidad <= 0.45){
+            self.agregarDrop(lanzacohetesFactory.crear(position))
+        } else {
+            self.agregarDrop(vidaFactory.crear(position))
+        }
+    }
+
+    method rollDropeo(){
+        return 0.randomUpTo(1)
+    }
+}
+
+
+class Drop {
+    const property image
+    const property position
 
     method colisionarConPersonaje(){
-        personaje.curarCon(self)
+        personaje.recolectarArma(self)
         game.removeVisual(self)
     }
-}
 
-class Escopeta {
-
-    var property position = game.at(9,7)
-
-    method image(){
-        return "escopeta.png"
+    method colisionarConPersonaje (personaje){
+        // El personaje agarra el drop.
     }
 
-    method colisionarConPersonaje(){
-        personaje.cambiarArma(self)
-        game.removeVisual(self)
+    method colisionarConBala(arma){
+        // No se hace nada.
     }
 }
 
-class Metralleta {
-    var property position = game.at(2,7)
-
-    method image(){
-        return "uzi.png"
+class DropDeArma inherits Drop{
+    override method colisionarConPersonaje(){
+        self.validarRecoleccionDeArma()
+        super()
     }
 
-     method colisionarConPersonaje(){
-        personaje.cambiarArma(self)
-        game.removeVisual(self)
-     }
-}
-
-class Lanzacohetes {
-    var property position = game.at(10,10)
-    
-    method image(){
-        return "lanzacohetes.png"
+    method validarRecoleccionDeArma(){
+        if (personaje.tieneArmaSecundaria()){
+            self.error ("Ya tiene un arma secundaria en poseción")
+        }
     }
 }
+
+class VidaDrop inherits Drop(image = "drop_vida.png"){}
+
+class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png"){}
+
+class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png"){}
+
+class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png"){}

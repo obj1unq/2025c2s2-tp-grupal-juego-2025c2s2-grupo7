@@ -1,26 +1,29 @@
 import wollok.game.*
+import elementosDelMapa.*
 
 object randomizer {
-	method position() {
+	const tableroDelJuego = tablero
+
+	method posicion() {
 		return 	game.at( 
-					(0 .. game.width() - 1 ).anyOne(),
-					(0..  game.height() - 1).anyOne()
+					(0 .. tableroDelJuego.width() - 1 ).anyOne(),
+					(0..  tableroDelJuego.height() - 1).anyOne()
 		) 
 	}
 	
-	method emptyPosition() {
-		const position = self.position()
-		if(game.getObjectsIn(position).isEmpty()) {
+	method posicionVacia() {
+		const position = self.posicion()
+		if(!tableroDelJuego.hayAlgoAca(position)) {
 			return position	
 		}
 		else {
-			return self.emptyPosition()
+			return self.posicionVacia()
 		}
 	}
 
 	method posicionVaciaCentral(){
 		const position = self.posicionParaEnemigo()
-		if(game.getObjectsIn(position).isEmpty()) {
+		if(!tableroDelJuego.hayAlgoAca(position)) {
 			return position	
 		}
 		else {
@@ -29,11 +32,9 @@ object randomizer {
 	}
 
 	method posicionParaEnemigo(){
-		const width = game.width()-1  // game.width()-1, pero por ahora pongo el número directamente, ya que sino toma como que el tablero es 5x5 (se ejecuta antes de definir el tablero)
-		const height = game.height()-1 // Deberia ser game.height()-1, idem arriba.
-		const mitadWidth = width.div(2)
-		const mitadHeight = height.div(2)
-		return 	[game.at([mitadWidth - 1, mitadWidth, mitadWidth + 1].anyOne(), [0, height].anyOne()),
-				 game.at([0, width].anyOne(), [mitadHeight - 1, mitadHeight, mitadHeight + 1].anyOne())].anyOne()
+		const anchoYAlto = tableroDelJuego.width() - 1 // Para que esto funcione bien width == height en el juego.
+		const mitadAnchoYAlto = anchoYAlto.div(2)
+		return 	[game.at([mitadAnchoYAlto - 1, mitadAnchoYAlto, mitadAnchoYAlto + 1].anyOne(), [0, anchoYAlto].anyOne()),
+				 game.at([0, anchoYAlto].anyOne(), [mitadAnchoYAlto - 1, mitadAnchoYAlto, mitadAnchoYAlto + 1].anyOne())].anyOne()
 	}
 }
