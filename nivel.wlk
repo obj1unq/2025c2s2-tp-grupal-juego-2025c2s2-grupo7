@@ -79,7 +79,7 @@ class Nivel{
 // NIVELES
 
 const primerNivel = new Nivel(
-layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
@@ -100,7 +100,7 @@ enemigosIniciales = [zmb, zmb],
 siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png")
 
 const segundoNivel = new Nivel(
-layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
@@ -121,7 +121,7 @@ enemigosIniciales = [zmb, zmb],
 siguienteNivel = tercerNivel, imagenDeFondo = "fondo_nivel2.png")
 
 const tercerNivel = new Nivel(
-layout = [[a,a,a,a,a,a,a,_,_,_,a,a,a,a,a,a,a],
+layout = [[_,_,_,a,a,a,a,_,_,_,a,a,a,a,a,a,a],
           [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
           [a,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,a],
           [a,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
@@ -142,7 +142,7 @@ enemigosIniciales = [zmb, zmb],
 siguienteNivel = cuartoNivel, imagenDeFondo = "fondo_nivel3.png")
 
 const cuartoNivel = new Nivel(
-layout = [[s,s,s,s,s,s,s,_,_,_,s,s,s,s,s,s,s],
+layout = [[_,_,_,s,s,s,s,_,_,_,s,s,s,s,s,s,s],
           [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
           [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
           [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
@@ -165,7 +165,7 @@ siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel4.png")
 // NIVEL FINAL (JEFE)
 
 object nivelFinal inherits Nivel(
-layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
