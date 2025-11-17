@@ -1,6 +1,6 @@
 import wollok.game.*
 import enemigos.*
-import nivel.*
+import juego.*
 
 object personaje{
     var position = game.center()
@@ -67,8 +67,12 @@ object personaje{
             juego.perderJuego()
         } else {
             juego.reiniciarNivel()
-            position = game.center()
+            self.volverAPosicionInicial()
         }
+    }
+
+    method volverAPosicionInicial(){
+        position = game.center()
     }
 
     method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.

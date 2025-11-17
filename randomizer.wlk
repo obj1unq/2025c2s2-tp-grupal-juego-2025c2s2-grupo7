@@ -32,7 +32,7 @@ object randomizer {
 	}
 
 	method posicionParaEnemigo(){
-		const anchoYAlto = game.width()-1 // Para que esto funcione bien, en el juego width == height
+		const anchoYAlto = tableroDelJuego.width() - 1 // Para que esto funcione bien width == height en el juego.
 		const mitadAnchoYAlto = anchoYAlto.div(2)
 		return 	[game.at([mitadAnchoYAlto - 1, mitadAnchoYAlto, mitadAnchoYAlto + 1].anyOne(), [0, anchoYAlto].anyOne()),
 				 game.at([0, anchoYAlto].anyOne(), [mitadAnchoYAlto - 1, mitadAnchoYAlto, mitadAnchoYAlto + 1].anyOne())].anyOne()

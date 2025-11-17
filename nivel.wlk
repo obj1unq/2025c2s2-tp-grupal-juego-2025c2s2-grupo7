@@ -1,65 +1,21 @@
 import wollok.game.*
-import enemigos.*
 import personaje.*
-import config.*
-import drops.*
 import elementosDelMapa.*
-
-object reyDeLaPradera{
-    var nivelActual =new Nivel(enemigosIniciales = [zmb, zmb, zmb, zmb], tiempoDeSpawn =350,ejercitoDeNivel = ejercito, elementosEnNivel = elementosDelMapa, layout = [[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,m,_,_,_,_,_,_,_,_,_,m,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
-                                                                                                                                                                    [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]].reverse())
-
-    method empezarJuego(){
-        configuracion.configEscenario()
-        configuracion.configPersonaje()
-        configuracion.configVisuales()
-        configuracion.configColisiones()
-        nivelActual.jugarNivel()
-        game.start()
-    }
-
-    method terminoNivel(){
-        nivelActual = nivelActual.siguienteNivel()
-        nivelActual.jugarNivel()
-    }
-
-    method reiniciarNivel(){
-        nivelActual.reiniciarNivel()
-        drops.borrarDrops()
-    }
-
-    method perderJuego(){
-        game.stop()
-    }
-}
+import enemigos.*
+import juego.*
 
 class Nivel{
     const layout
-    var enemigos = enemigosIniciales.copy()
+    var enemigos = enemigosIniciales.copy() // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const enemigosIniciales // Un set de los enemigos que se van a spawnear en un nivel. (No se le deben eliminar o agregar elementos).
-    const ejercitoDeNivel   // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
-    const tiempoDeSpawn
-    const elementosEnNivel // Son los objetos que habra en el mapa, es decir, cajas, barriles, arbustos, etc, etc.
-   
+    const ejercitoDeNivel = ejercito
+    const tiempoDeSpawn = 500
+    const elementosEnNivel = elementosDelMapa
+    const limiteDeEnemigosEnMapa = 5
+    const property siguienteNivel
+    const juego = reyDeLaPradera
+    const imagenDeFondo
+    const fondoDelJuego = fondo
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>
@@ -75,28 +31,36 @@ class Nivel{
 
     method spawnearSiguienteEnemigo(){
         if (!enemigos.isEmpty()){
-           ejercitoDeNivel.agregarEnemigo(enemigos.first())
-           enemigos = enemigos.drop(1)
+            if (self.hayEspacioParaSpawnearEnemigo()){
+                const enemigoASpawnear = enemigos.anyOne()
+                ejercitoDeNivel.agregarEnemigo(enemigoASpawnear)
+                enemigos.remove(enemigoASpawnear)
+            }
         } else {
-            game.removeTickEvent("Spawn de enemigos del nivel")
+            self.esperarFinalDelNivel()
         }
     }
 
-
-
-    method maximo(){
-        return 4
+    method esperarFinalDelNivel(){
+        game.removeTickEvent("Spawn de enemigos del nivel")
+        game.onTick(3000, "chequeoFinalNivel", {self.terminarNivelSiSePuede()})
     }
 
+    method terminarNivelSiSePuede(){
+        if (ejercitoDeNivel.cantidadDeEnemigosEnMapa() == 0){
+            game.removeTickEvent("chequeoFinalNivel")
+            juego.terminarNivel()
+        }
+    }
 
+    method hayEspacioParaSpawnearEnemigo(){
+        return limiteDeEnemigosEnMapa > ejercitoDeNivel.cantidadDeEnemigosEnMapa()
+    }
 
     method jugarNivel(){
-        game.height(21)
-        game.width(21)
-        game.cellSize(48)
-        game.boardGround("fondo_nivel1.png")
+        fondoDelJuego.cambiarFondo(imagenDeFondo)
         self.crearNivel()
-        enemigos = enemigosIniciales
+        enemigos = enemigosIniciales.copy()
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje) // Hay que cambiar esto, para no usar la referencia global de personaje
@@ -104,14 +68,139 @@ class Nivel{
 
     method reiniciarNivel(){
         ejercitoDeNivel.matarTodos()
-        enemigos = enemigosIniciales
+        enemigos = enemigosIniciales.copy()
         self.spawnearEnemigos()
         ejercitoDeNivel.enemigosDanPaso()
         ejercitoDeNivel.enemigosPersiguen(personaje)
     }
+}
 
-    method siguienteNivel(){
-        return self
+// NIVELES
+
+const primerNivel = new Nivel(
+layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png")
+
+const segundoNivel = new Nivel(
+layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,m,m,m,_,_,_,m,m,m,_,_,_,c],
+          [c,_,_,_,m,_,_,_,_,_,_,_,m,_,_,_,c],
+          [c,_,_,_,m,_,_,_,_,_,_,_,m,_,_,_,c],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [c,_,_,_,m,_,_,_,_,_,_,_,m,_,_,_,c],
+          [c,_,_,_,m,_,_,_,_,_,_,_,m,_,_,_,c],
+          [c,_,_,_,m,m,m,_,_,_,m,m,m,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = tercerNivel, imagenDeFondo = "fondo_nivel2.png")
+
+const tercerNivel = new Nivel(
+layout = [[a,a,a,a,a,a,a,_,_,_,a,a,a,a,a,a,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,a],
+          [a,_,a,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,_,_,a,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [_,_,_,_,_,_,_,_,_,_,a,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,t,_,_,_,_,_,_],
+          [a,_,_,_,_,t,_,_,_,_,a,_,_,_,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,a,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,_,_,t,_,_,_,_,_,_,t,_,_,a,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,a],
+          [a,a,a,a,a,a,a,_,_,_,a,a,a,a,a,a,a]].reverse(),
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = cuartoNivel, imagenDeFondo = "fondo_nivel3.png")
+
+const cuartoNivel = new Nivel(
+layout = [[s,s,s,s,s,s,s,_,_,_,s,s,s,s,s,s,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,_,_,_,s,s,_,_,_,_,s,_,s,_,_,_,s],
+          [s,_,_,_,s,s,_,_,_,_,s,_,s,_,_,_,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,_,_,_,s,s,_,_,_,_,s,_,s,_,_,_,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,_,_,_,s,s,_,_,_,_,s,_,s,_,_,_,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,s],
+          [s,s,s,s,s,s,s,_,_,_,s,s,s,s,s,s,s]].reverse(),
+enemigosIniciales = [zmb, zmb],
+siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel4.png")
+
+// NIVEL FINAL (JEFE)
+
+object nivelFinal inherits Nivel(
+layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
+enemigosIniciales = [],
+siguienteNivel = self, imagenDeFondo = "fondo_nivelFinal.png")
+{
+
+}
+
+object fondo{
+    var image = "fondo_nivel1.png"
+    const property position = game.origin()
+
+    method agregarFondo(){
+        game.addVisual(self)
+    }
+
+    method cambiarFondo(fondo){
+        image = fondo
+    }
+
+    method image(){
+        return image
     }
 
 }

@@ -6,39 +6,43 @@ import drops.*
 import elementosDelMapa.*
 
 object ejercito{
-    const enemigos = #{}
+    const enemigosEnMapa = #{}
     const dropeo = drops
 
     method agregarEnemigo(tipoDeEnemigo){
         const enemigo = tipoDeEnemigo.crear()
-        enemigos.add(enemigo)
+        enemigosEnMapa.add(enemigo)
         game.addVisual(enemigo)
     }
 
     method enemigosDanPaso(){
-        game.onTick(150, "Enemigos dan paso", {enemigos.forEach({enemigo => enemigo.darPaso()})})
+        game.onTick(150, "Enemigos dan paso", {enemigosEnMapa.forEach({enemigo => enemigo.darPaso()})})
     }
 
     method enemigosPersiguen(personaje){
-        game.onTick(300, "Enemigos persiguen a personaje.", {enemigos.forEach({enemigo => enemigo.perseguir(personaje)})})
+        game.onTick(300, "Enemigos persiguen a personaje.", {enemigosEnMapa.forEach({enemigo => enemigo.perseguir(personaje)})})
     }
 
     method enemigoMurio(enemigo){
         dropeo.crear(enemigo.position())
         game.removeVisual(enemigo)
-        enemigos.remove(enemigo)
-        if (enemigos.isEmpty()){
+        enemigosEnMapa.remove(enemigo)
+        if (enemigosEnMapa.isEmpty()){
             game.removeTickEvent("Enemigos dan paso")
             game.removeTickEvent("Enemigos persiguen a personaje.")
         }
     }
 
     method matarTodos(){
-        enemigos.forEach({enemigo => enemigo.muerte()})
+        enemigosEnMapa.forEach({enemigo => enemigo.muerte()})
+    }
+
+    method cantidadDeEnemigosEnMapa(){
+        return enemigosEnMapa.size()
     }
 
     method hayEnemigoAca(position){
-        return enemigos.any({enemigo => enemigo.position() == position})
+        return enemigosEnMapa.any({enemigo => enemigo.position() == position})
     }
 }
 
@@ -58,13 +62,11 @@ class Enemigo {
     }
 
     method perseguir(personaje) {
-        self.perseguirEntreSiguientesPosiciones(personaje, tableroDeNivel.posicionesLindantesVacias(position))
+        position = self.mejorPosicionParaPerseguirEntre(tableroDeNivel.posicionesLindantesOrdenadasXDistancia(position, personaje.position()))
     }
 
-    method perseguirEntreSiguientesPosiciones(personaje, posiciones){
-        if (!posiciones.isEmpty()){
-            position = posiciones.min({posicion => posicion.distance(personaje.position())})
-        }
+    method mejorPosicionParaPerseguirEntre(posiciones){
+        return posiciones.findOrDefault({posicion => !tableroDeNivel.hayAlgoAca(posicion)}, position)
     }
 
     method aplicarDaño(daño){
@@ -94,8 +96,8 @@ class Enemigo {
 }
 
 class Vampiro inherits Enemigo(vida = 20, estado = vampiroArriba){ 
-    override method perseguir(personaje){
-        self.perseguirEntreSiguientesPosiciones(personaje, tableroDeNivel.posicionesLindantesSinEnemigos(position)) // El vampiro vuela encima de las cajas.
+    override method mejorPosicionParaPerseguirEntre(posiciones){
+        return posiciones.findOrDefault({posicion => !tableroDeNivel.hayEnemigoAca(posicion)}, position) // Los vampiros vuelan sobre los elementos del mapa.
     }
 }
 
@@ -179,7 +181,9 @@ object momiaPasoIzquierdo{
 class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
 
     override method perseguir(personaje){
-        position = estado.posicionAPerseguir(personaje, position)
+        if (estado.puedeMoverse()){
+            super(personaje)
+        }
     }
 
     override method aplicarDaño(daño){
@@ -200,20 +204,11 @@ class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegi
 
 object desprotegido {
     var estado = acorazadoPasoDerecho
-    const tableroDeNivel = tablero
     const property siguienteEstado = protegido
+    const property puedeMoverse = true
 
     method image(){
         return estado.image()
-    }
-
-    method posicionAPerseguir(personaje, posicionInicial){
-        const posicionesLindantesVacias = tableroDeNivel.posicionesLindantesVacias(posicionInicial)
-        if (!posicionesLindantesVacias.isEmpty()){
-            return posicionesLindantesVacias.min({posicion => posicion.distance(personaje.position())})
-        } else {
-            return posicionInicial
-        }
     }
 
     method darPaso(){
@@ -223,10 +218,7 @@ object desprotegido {
 
 object protegido{
     const property image = "enemigo_acorazadoProtegido.png"
-
-    method posicionAPerseguir(personaje, posicionInicial){
-        return posicionInicial
-    }
+    const property puedeMoverse = false
 
     method siguienteEstado(){
         return self
