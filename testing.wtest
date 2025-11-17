@@ -1,12 +1,14 @@
 import personaje.*
 import movimiento.*
 import wollok.game.*
+import elementosDelMapa.*
+import enemigos.*
+import factories.*
 
  describe "Estado inicial del personaje" {
         test "Personaje inicia en el centro del mapa" {
              assert.equals(game.center(), personaje.position())
          }
-
          test "Personaje inicia con 3 vidas" {
              assert.equals(3, personaje.vidas())
          }
@@ -19,7 +21,6 @@ import wollok.game.*
          test "La imagen inicial del personaje es mirando a la derecha" {
              assert.equals("personaje_derecha.png", personaje.image())
          }    
-
 }
  describe "Movimiento del personaje" {
         test "El personaje se mueve a la derecha" {
@@ -63,10 +64,116 @@ import wollok.game.*
              assert.equals(inicial, personaje.position())
          }
 }
+ describe "Vida del personaje" {
+        test "No gana vida si ya tiene 3" {
+             personaje.setVidas(3)
+             personaje.ganarVida()
+             assert.equals(3, personaje.vidas())
+         }
+        test "Gana vida si tiene menos de 3" {
+             personaje.setVidas(1)
+             personaje.ganarVida()
+             assert.equals(2, personaje.vidas())
+         }
+        test "No puede superar las 3 vidas" {
+             personaje.setVidas(3)
+             personaje.ganarVida()
+             assert.equals(3, personaje.vidas())
+         }
+}
+ describe "Muerte del personaje" {
+        test "El personaje pierde una vida al morir" {
+             personaje.setVidas(3)
+             personaje.muerte()
+             assert.equals(2, personaje.vidas())
+        }
+        test "Si muere con vidas restantes vuelve al centro" {
+             personaje.setVidas(2)
+             personaje.setPosition(game.at(0,0))
+             personaje.muerte()
+             assert.equals(game.center(), personaje.position())
+        }
+        test "Si el personaje queda sin vidas no respawnea" {
+             personaje.setVidas(1)
+             personaje.setPosition(game.at(5,5))
+             personaje.muerte()
+             assert.that(personaje.position() == game.at(5,5))
+         }
+}
+ describe "Disparo del personaje" {
+        test "Al disparar la bala aparece en la posicion del personaje" {
+             armaPrincipal.disparar(derecha)
+             assert.equals(personaje.position(), armaPrincipal.position())
+        }
+        test "Direccion del disparo conicide con la direcion de la bala" {
+             armaPrincipal.disparar(derecha)
+             armaPrincipal.balaViajando(derecha)
+             assert.equals(personaje.position().right(1), armaPrincipal.position())
+        }
+        test "La bala vuelve al personaje si choca con el borde del mapa" {  
+             personaje.setPosition(game.at(game.width() - 1, game.center().y()))
+             armaPrincipal.disparar(derecha)
+             armaPrincipal.balaViajando(derecha)
+             assert.equals(personaje.position(), armaPrincipal.position())
+        }
 
+}
+describe "Interacciones del personaje" {
+     var bala
+     var enemigo
+     var objeto
 
-    
-    
+    method initialize() {
+         personaje.setPosition(game.center())
+         personaje.setVidas(3)
+ 
+        bala = object {
+             method daño(){ 10 }
+             method colisiono(){}
+         }
+        enemigo = object {
+             method colisionarConPersonaje(personaje) {
+                 personaje.muerte()
+             }
+             method position() {
+                 return personaje.position()
+             }
+         }
+    }
+    test "La bala no afecta al personaje" {
+        personaje.colisionarConBala(bala)
+        assert.equals(3, personaje.vidas())
+    }
+    method probarElementoNoAtravesable(factory) {
+         personaje.mover(derecha)
+         assert.equals(game.center().right(1), personaje.position())
+         personaje.setPosition(game.center())
+         assert.equals(game.center(), personaje.position())
+         objeto = factory.crear(game.center().right(1))
+         elementosDelMapa.agregarElemento(objeto)
+         personaje.mover(derecha)
+         assert.equals(game.center(), personaje.position())
+     }
+    test "El personaje no atraviesa el muro" {
+         self.probarElementoNoAtravesable(muroFactory)
+    }
+    test "El personaje no atraviesa el arbusto" {
+         self.probarElementoNoAtravesable(arbustoFactory)
+    }
+    test "El personaje no atraviesa un cactus" {
+         self.probarElementoNoAtravesable(cactusFactory)
+    }
+    test "El personaje no atraviesa un tronco" {
+         self.probarElementoNoAtravesable(troncoFactory)
+    }
+    test "El personaje no atraviesa un sepulcro" {
+        self.probarElementoNoAtravesable(sepulcroFactory)
+    }
+    test "El personaje pierde una vida al colisionar con un enemigo" {
+         personaje.setVidas(3)
+         enemigo.colisionarConPersonaje(personaje)
+         assert.equals(2, personaje.vidas())
+    }
 
-
+}
 
