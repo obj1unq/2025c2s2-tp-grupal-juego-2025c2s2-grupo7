@@ -14,6 +14,14 @@ object izquierda{
             return posicion
         }
     }
+
+    method siguienteHastaBorde(posicion){
+        if (posicion.x() >= 0){
+            return posicion.left(1)
+        } else {
+            return posicion
+        }
+    }
 }
 
 object derecha{
@@ -24,6 +32,14 @@ object derecha{
         const siguientePosicion = posicion.right(1)
         if (siguientePosicion.x() != game.width() and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
             return siguientePosicion
+        } else {
+            return posicion
+        }
+    }
+
+    method siguienteHastaBorde(posicion){
+        if (posicion.x() < game.width()){
+            return posicion.right(1)
         } else {
             return posicion
         }
@@ -42,6 +58,14 @@ object abajo{
             return posicion
         }
     }
+
+    method siguienteHastaBorde(posicion){
+        if (posicion.y() >= 0){
+            return posicion.down(1)
+        } else {
+            return posicion
+        }
+    }
 }
 
 object arriba{
@@ -52,6 +76,14 @@ object arriba{
         const siguientePosicion = posicion.up(1)
         if (siguientePosicion.y() != game.width() and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
             return siguientePosicion
+        } else {
+            return posicion
+        }
+    }
+
+    method siguienteHastaBorde(posicion){
+        if (posicion.y() < game.width()){
+            return posicion.up(1)
         } else {
             return posicion
         }

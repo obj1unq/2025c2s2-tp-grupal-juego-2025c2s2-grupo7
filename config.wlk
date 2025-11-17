@@ -35,7 +35,6 @@ object configuracion {
 
     method configColisiones(){
        game.onCollideDo(personaje, {objeto => objeto.colisionarConPersonaje(personaje)})
-       game.onCollideDo(armaPrincipal, {objeto => objeto.colisionarConBala(armaPrincipal)})
     }
 
 }

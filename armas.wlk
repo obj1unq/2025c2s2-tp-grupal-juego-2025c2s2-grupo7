@@ -1,74 +1,52 @@
 import personaje.*
 import wollok.game.*
+import personaje.*
 
-class Arma{
-    const poseedor = personaje
-    const balas = #{}
-    const tipoDeBala = balaFactory
-    const velocidadDeDisparo
-
-    method disparar(direccion){
-        const position = poseedor.position()
-        if (balas.size() <= 5 and direccion.siguienteHastaBorde(position) !== position){
-            const b = tipoDeBala.crear(direccion.siguienteHastaBorde(position))
-            balas.add(b)
-            game.addVisual(b)
-            game.onCollideDo(b, {_ => b.volverATirador()})
-        }
-        balas.forEach({bala => bala.viajar(direccion)})
-    }
-
-    method velocidadDeDisparo(){
-        return velocidadDeDisparo
-    }
-}
-
-/*
 object arma{
     const balas = #{}
+    const property velocidadDeDisparo = 350
+    const poseedor = personaje
 
-    method dispararBalas(_direccion){
+    method disparar(direccion){
         if (balas.size() <= 5){
-            const b = new Bala(direccion = _direccion, siguienteDireccion = _direccion)
+            const b = new Bala(direccion = direccion, position = direccion.siguienteHastaBorde(poseedor.position()))
             balas.add(b)
-            game.onCollideDo(b, {_ => b.volverAPoseedor()})
+            b.dispararse()
         }
-        balas.forEach({bala => if (_direccion !== bala.direccion()){
-                                    bala.direccion(_direccion)
-                                    }bala.balaViajando()})
+        balas.forEach({bala => bala.siguienteDireccion(direccion)})
     }
 }
 
 class Bala{
-    var position = poseedor.position()
+    var position
     const poseedor = personaje
-    const daño = 2
-    const image = "bala.png"
-    var direccion = abajo
-    var siguienteDireccion = arriba
+    const daño = 10
+    const property image = "bala.png"
+    var direccion
+    var siguienteDireccion = direccion
 
     method direccion(){
         return direccion
     }
 
-    method direccion(_siguienteDireccion){
+    method siguienteDireccion(_siguienteDireccion){
         siguienteDireccion = _siguienteDireccion
-    }
-    
-    method image(){
-        return image
     }
 
     method position(){
         return position
     }
 
+    method dispararse(){
+        game.onCollideDo(self, {_ => self.colisionoOSalioDelMapa()})
+        game.addVisual(self)
+        game.onTick(50, "Bala disparandose", {self.balaViajando()})
+    }
+
     method balaViajando(){
-        if (!game.hasVisual(self)){
-            game.addVisual(self)
-        }
-        if (position.x().between(0,14) and position.y().between(0,14)){
-            position = direccion.viajar(position)
+        const siguientePosicion = direccion.siguienteHastaBorde(position)
+        if (position != siguientePosicion){
+            position = siguientePosicion
         } else {
             self.colisionoOSalioDelMapa()
         }
@@ -80,158 +58,17 @@ class Bala{
     }
 
     method colisionoOSalioDelMapa(){
-        game.removeVisual(self)
+        direccion = siguienteDireccion
         self.volverAPoseedor()
     }
 
     method volverAPoseedor(){
         position = poseedor.position()
-        direccion = siguienteDireccion
-    }
-}
-*/
-
-class Bala {
-    const daño = 10
-    const image = "bala.png"
-    const tirador = personaje
-    var position
-
-    method image(){
-        return image
     }
 
-    method position(){
-        return position
-    }
-
-    method viajar(direccion){
-        const siguientePosicion = direccion.siguienteHastaBorde(position)
-        if (!self.estaFueraDeRango(siguientePosicion)){
-            position = siguientePosicion
-        } else {
-            self.volverATirador()
-        }
-    }
-
-    method colisionarCon (enemigo){
-        enemigo.aplicarDaño(daño)
-        self.volverATirador()
-    }
-
-    method volverATirador(){
-        position = tirador.position()
-    }
-
-    method estaFueraDeRango (_position){
-        const x = _position.x()
-        const y = _position.y()
-        return x < 0 or x >= game.width() or y < 0 or y >= game.height()
-    }
+    method colisionarConPersonaje(personaje){}
 }
 
 object balaFactory{
-    method crear(position){
-        return (new Bala (position = position))
-    }
+
 }
-
-class Revolver inherits Arma (velocidadDeDisparo = 250){}
-/*
-class Uzi inherits Arma{
-    var municion = 25
-    const armaPorDefecto = Revolver
-
-    override method disparar(direccion){
-        if (!balaADisparar.fueDisparada()){
-            balaADisparar.disparar(direccion)
-            municion =- 1
-        }
-        if (municion == 0){
-            self.volverAArmaPorDefecto()
-        }
-    }
-
-    method volverAArmaPorDefecto(){
-        poseedor.arma(armaPorDefecto)
-    }
-}
-
-class Escopeta inherits Arma{
-    var municion = 10
-    const armaPorDefecto = Revolver
-
-    override method disparar(direccion){
-        if (!balaADisparar.fueDisparada()){
-            balaADisparar.disparar(direccion)
-            municion =- 1
-        }
-        if (municion == 0){
-            self.volverAArmaPorDefecto()
-        }
-    }
-
-    method volverAArmaPorDefecto(){
-        poseedor.arma(armaPorDefecto)
-    }
-}
-
-class Lanzacohetes inherits Arma{
-    var municion = 2
-    const armaPorDefecto = Revolver
-
-    override method disparar(direccion){
-        if (balaADisparar.fueDisparada()){
-            balaADisparar.disparar(direccion)
-            municion -= 1
-        }
-        if (municion == 0){
-            self.volverAArmaPorDefecto()
-        }
-    }
-
-    method volverAArmaPorDefecto(){
-        poseedor.arma(armaPorDefecto)
-    }
-}
-
-object cartucho{}
-
-object misil{}
-
-
-/*
-object armaPrincipal{
-    var position = game.at(7,7)
-    const image = "bala.png"
-    const poseedor = personaje 
-    const daño = 10
-
-    
-
-    method disparar(direccion){
-        game.removeTickEvent("Arma dispara")
-        game.removeVisual(self)
-        position = poseedor.position()
-        game.addVisual(self)
-        game.onTick (100, "Arma dispara", {self.balaViajando(direccion)})
-    }
-
-    method balaViajando(direccion){
-        if (position.x().between(1,game.height()-1) and position.y().between(1,game.width()-1)){
-            position = direccion.siguiente(position)
-        } else {
-            game.removeTickEvent("Arma dispara")
-            game.removeVisual(self)
-            position = poseedor.position()
-        }
-    }
-
-    method colisionarCon(enemigo){
-        enemigo.aplicarDaño(daño)
-        game.removeTickEvent("Arma dispara")
-        game.removeVisual(self)
-        position = poseedor.position()
-    }
-}
-*/
