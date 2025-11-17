@@ -2,36 +2,71 @@ import personaje.*
 import movimiento.*
 import wollok.game.*
 
+ describe "Estado inicial del personaje" {
+        test "Personaje inicia en el centro del mapa" {
+             assert.equals(game.center(), personaje.position())
+         }
 
-
-describe "Movimiento  del personaje" {
-
-    test " Personaje arranca en el centro del tablero" {
-	 assert.equals(game.center(), personaje.position())
-	}
-
-
-    test " Personaje se mueve a la derecha" {
-        const posicion = personaje.position()
-        personaje.mover(derecha)
-        assert.equals( game.center().right(1), personaje.position())
-	
-	}
-
-    test " Personaje se mueve a la izquierda" {
-        const posicion = personaje.position()
-        personaje.mover(izquierda)
-        assert.equals(game.center().left(1), personaje.position())
-	}
-
-    test " Personaje se mueve arriba " {
-        personaje.mover(arriba)
-        assert.equals(game.center().up(1), personaje.position())
-	}
-
-    test " Personaje se mueve abajo" {
-        personaje.mover(abajo)
-	    assert.equals(game.center().down(1), personaje.position())
-	}
+         test "Personaje inicia con 3 vidas" {
+             assert.equals(3, personaje.vidas())
+         }
+         test "El arma inicial del personaje es el arma principal" {
+             assert.equals(armaPrincipal, personaje.armaUtilizada())
+         }
+         test "El personaje no tiene arma secundaria al inicio" {
+             assert.that(!personaje.tieneArmaSecundaria())
+         }
+         test "La imagen inicial del personaje es mirando a la derecha" {
+             assert.equals("personaje_derecha.png", personaje.image())
+         }    
 
 }
+ describe "Movimiento del personaje" {
+        test "El personaje se mueve a la derecha" {
+             personaje.mover(derecha)
+             assert.equals(game.center().right(1), personaje.position())
+         }
+        test "El personaje se mueve a la izquierda" {
+             personaje.mover(izquierda)
+             assert.equals(game.center().left(1), personaje.position())
+         }
+        test "El personaje se mueve arriba" {
+             personaje.mover(arriba)
+             assert.equals(game.center().up(1), personaje.position())
+         }
+        test "El personaje se mueve abajo" {
+             personaje.mover(abajo)
+             assert.equals(game.center().down(1), personaje.position())
+         }
+        test "No puede moverse a la izquierda si esta en x = 0" {
+             personaje.setPosition(game.at(0, game.center().y()))
+             const inicial = personaje.position()
+             personaje.mover(izquierda)
+             assert.equals(inicial, personaje.position())
+         }
+        test "No puede moverse abajo si esta en y = 0" {
+             personaje.setPosition(game.at(game.center().x(), 0))
+             const inicial = personaje.position()
+             personaje.mover(abajo)
+             assert.equals(inicial, personaje.position())
+         }
+        test "No puede moverse a la derecha si x + 1 == game.width()" {
+             personaje.setPosition(game.at(game.width() - 1, game.center().y()))
+             const inicial = personaje.position()
+             personaje.mover(derecha)
+             assert.equals(inicial, personaje.position())
+         }
+        test "No puede moverse arriba si y + 1 == game.width()" {
+             personaje.setPosition(game.at(game.center().x(), game.width() - 1))
+             const inicial = personaje.position()
+             personaje.mover(arriba)
+             assert.equals(inicial, personaje.position())
+         }
+}
+
+
+    
+    
+
+
+

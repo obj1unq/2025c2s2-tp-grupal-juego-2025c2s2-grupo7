@@ -102,3 +102,4 @@ object cactusFactory {
         return new ElementoDelMapa(image="elemento_cactus.png", position=posicion)
     }
 }
+

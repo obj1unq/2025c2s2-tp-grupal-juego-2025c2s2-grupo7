@@ -20,6 +20,10 @@ object personaje{
         }
     }
 
+    method setVidas(cantidad){
+        vidas = cantidad
+    }
+
     method text() {
 		return armaUtilizada.toString()
 	}
@@ -51,6 +55,11 @@ object personaje{
     method position(){
         return position
     }
+    
+    method setPosition(nuevaPosicion){
+        position = nuevaPosicion
+    }
+
 
     method mover(direccion){
         position = direccion.siguiente(position)
