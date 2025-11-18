@@ -2,6 +2,31 @@ import wollok.game.*
 import enemigos.*
 import juego.*
 
+
+
+object vida{
+    var property position= game.at(0,16) 
+    method vidaPersonaje(){
+        return personaje.vidas()
+    }
+    method image(){
+        return "vida_"+ personaje.vidas()  +".png" // no carga la img
+        //   if( self.vidaPersonaje() == 3){  
+        //     return "vida_3.png"
+        //   }else if(self.vidaPersonaje() ==2){
+        //     return "vida_2.png"
+        //   }else if (self.vidaPersonaje() == 1){
+        //     return "vida_1.png"
+        //   }else{
+        //     return "vida_0.png"
+        //   }
+        
+        
+        //(+ self.vidaPersonaje() + "._jpg"
+    }
+}
+
+
 object personaje{
     var position = game.center()
     var property vidas = 3
