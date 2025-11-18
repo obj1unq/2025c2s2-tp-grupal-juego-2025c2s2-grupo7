@@ -1,31 +1,6 @@
 import wollok.game.*
-import enemigos.*
 import juego.*
-
-
-
-object vida{
-    var property position= game.at(0,16) 
-    method vidaPersonaje(){
-        return personaje.vidas()
-    }
-    method image(){
-        return "vida_"+ personaje.vidas()  +".png" // no carga la img
-        //   if( self.vidaPersonaje() == 3){  
-        //     return "vida_3.png"
-        //   }else if(self.vidaPersonaje() ==2){
-        //     return "vida_2.png"
-        //   }else if (self.vidaPersonaje() == 1){
-        //     return "vida_1.png"
-        //   }else{
-        //     return "vida_0.png"
-        //   }
-        
-        
-        //(+ self.vidaPersonaje() + "._jpg"
-    }
-}
-
+import armas.*
 
 object personaje{
     var position = game.center()
@@ -112,6 +87,8 @@ object personaje{
     method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
 }
 
+// ESTADOS DEL PERSONAJE
+
 object personajeArriba{
     const property image = "personaje_arriba.png"
 }
@@ -126,42 +103,4 @@ object personajeAbajo{
 
 object personajeIzquierda{
     const property image = "personaje_izquierda.png"
-}
-
-object armaPrincipal{
-    var position = game.at(7,7)
-    const property image = "bala.png"
-    const poseedor = personaje 
-    const property daño = 10
-
-    method position(){
-        return position
-    }
-
-    method disparar(direccion){
-        game.removeTickEvent("Arma dispara")
-        game.removeVisual(self)
-        position = poseedor.position()
-        game.addVisual(self)
-        game.onTick (100, "Arma dispara", {self.balaViajando(direccion)})
-    }
-
-    method balaViajando(direccion){
-        const nuevaPosicion = direccion.siguiente(position)
-        if (nuevaPosicion != position){ // La bala puede moverse a su siguiente posicion ya que esta vacía y esta dentro de los limites del mapa.
-            position = nuevaPosicion
-        } else { // Significa que la bala colisiono con un elemento del mapa o con el borde del mapa.
-            game.removeTickEvent("Arma dispara")
-            game.removeVisual(self)
-            position = poseedor.position()
-        }
-    }
-
-    method colisiono(){
-        game.removeTickEvent("Arma dispara")
-        game.removeVisual(self)
-        position = poseedor.position()
-    }
-
-    method colisionarConPersonaje(personaje){} // No se hace nada. El personaje no interacciona con su bala disparada.
 }

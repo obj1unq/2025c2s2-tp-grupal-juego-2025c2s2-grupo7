@@ -1,48 +1,42 @@
-import movimiento.*
-import randomizer.*
 import wollok.game.*
-import factories.*
 import drops.*
-import elementosDelMapa.*
+import tableroYRepresentaciones.*
 
-object ejercito{
-    const enemigosEnMapa = #{}
-    const dropeo = drops
+object enemigos{
+    const enemigosEnNivel = #{}
 
     method agregarEnemigo(tipoDeEnemigo){
         const enemigo = tipoDeEnemigo.crear()
-        enemigosEnMapa.add(enemigo)
+        enemigosEnNivel.add(enemigo)
         game.addVisual(enemigo)
     }
 
     method enemigosDanPaso(){
-        game.onTick(150, "Enemigos dan paso", {enemigosEnMapa.forEach({enemigo => enemigo.darPaso()})})
+        game.onTick(150, "Enemigos dan paso", {enemigosEnNivel.forEach({enemigo => enemigo.darPaso()})})
     }
 
     method enemigosPersiguen(personaje){
-        game.onTick(300, "Enemigos persiguen a personaje.", {enemigosEnMapa.forEach({enemigo => enemigo.perseguir(personaje)})})
+        game.onTick(300, "Enemigos persiguen a personaje.", {enemigosEnNivel.forEach({enemigo => enemigo.perseguir(personaje)})})
     }
 
     method enemigoMurio(enemigo){
-        dropeo.crear(enemigo.position())
-        game.removeVisual(enemigo)
-        enemigosEnMapa.remove(enemigo)
-        if (enemigosEnMapa.isEmpty()){
+        enemigosEnNivel.remove(enemigo)
+        if (enemigosEnNivel.isEmpty()){
             game.removeTickEvent("Enemigos dan paso")
             game.removeTickEvent("Enemigos persiguen a personaje.")
         }
     }
 
     method matarTodos(){
-        enemigosEnMapa.forEach({enemigo => enemigo.muerte()})
+        enemigosEnNivel.forEach({enemigo => enemigo.muerte()})
     }
 
     method cantidadDeEnemigosEnMapa(){
-        return enemigosEnMapa.size()
+        return enemigosEnNivel.size()
     }
 
     method hayEnemigoAca(position){
-        return enemigosEnMapa.any({enemigo => enemigo.position() == position})
+        return enemigosEnNivel.any({enemigo => enemigo.position() == position})
     }
 }
 
@@ -50,8 +44,9 @@ class Enemigo {
     var estado
     var position 
     var vida
-    const ejercitoDeNivel = ejercito
+    const ejercitoDeNivel = enemigos
     const tableroDeNivel = tablero
+    const dropeo = drops
 
     method image(){
         return estado.image()
@@ -72,12 +67,14 @@ class Enemigo {
     method aplicarDaño(daño){
         if(vida > daño){
             vida = vida - daño
-        }else {
+        } else {
             self.muerte()
         }
     }
 
     method muerte (){
+        dropeo.crear(position)
+        game.removeVisual(self)
         ejercitoDeNivel.enemigoMurio(self)
     }
 
@@ -238,8 +235,7 @@ object acorazadoPasoIzquierdo{
 }
 
 class EnemigoPrueba inherits Enemigo {
-     
-     override method perseguir(personaje){
-        position = self.position()
-     }
+    override method perseguir(personaje){}
+
+    override method darPaso(){}
 }

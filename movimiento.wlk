@@ -3,7 +3,7 @@ import elementosDelMapa.*
 import personaje.*
 
 object izquierda{
-    const elementosEnElMapa = elementosDelMapa
+    const elementosEnElMapa = elementos
     const property estadoDePersonajeAsociado = personajeIzquierda // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
@@ -17,7 +17,7 @@ object izquierda{
 }
 
 object derecha{
-    const elementosEnElMapa = elementosDelMapa
+    const elementosEnElMapa = elementos
     const property estadoDePersonajeAsociado = personajeDerecha // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
@@ -31,7 +31,7 @@ object derecha{
 }
 
 object abajo{
-    const elementosEnElMapa = elementosDelMapa
+    const elementosEnElMapa = elementos
     const property estadoDePersonajeAsociado = personajeAbajo // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
@@ -45,7 +45,7 @@ object abajo{
 }
 
 object arriba{
-    const elementosEnElMapa = elementosDelMapa
+    const elementosEnElMapa = elementos
     const property estadoDePersonajeAsociado = personajeArriba // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){

@@ -1,5 +1,5 @@
 import wollok.game.*
-import elementosDelMapa.*
+import tableroYRepresentaciones.*
 
 object randomizer {
 	const tableroDelJuego = tablero

@@ -1,8 +1,9 @@
 import wollok.game.*
 import personaje.*
 import movimiento.*
-import elementosDelMapa.*
-import nivel.*
+import tableroYRepresentaciones.*
+import imagenesEnPantalla.*
+import armas.*
 
 object configuracion {
     const tableroDelJuego = tablero
@@ -16,13 +17,12 @@ object configuracion {
     }
 
     method configVisuales(){
-        
         game.addVisual(personaje)
         game.addVisual(instrucciones)
         game.schedule(10000, {game.removeVisual(instrucciones)})
     }
 
-    method configPersonaje(){
+    method configControles(){
         keyboard.w().onPressDo({personaje.mover(arriba)})
         keyboard.s().onPressDo({personaje.mover(abajo)})
         keyboard.a().onPressDo({personaje.mover(izquierda)})
@@ -39,14 +39,4 @@ object configuracion {
        game.onCollideDo(armaPrincipal, {objeto => objeto.colisionarConBala(armaPrincipal)})
     }
 
-}
-
-object instrucciones {
-    const property image = "instrucciones.png"
-    const property position = game.at(6,2)
-}
-
-object gameOver {
-    const property image = "game_over.png"
-    const property position = game.at(4,5)
 }

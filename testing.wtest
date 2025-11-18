@@ -4,6 +4,7 @@ import wollok.game.*
 import elementosDelMapa.*
 import enemigos.*
 import factories.*
+import armas.*
 
  describe "Estado inicial del personaje" {
         test "Personaje inicia en el centro del mapa" {
@@ -150,7 +151,7 @@ describe "Interacciones del personaje" {
          personaje.setPosition(game.center())
          assert.equals(game.center(), personaje.position())
          objeto = factory.crear(game.center().right(1))
-         elementosDelMapa.agregarElemento(objeto)
+         elementos.agregarElemento(objeto)
          personaje.mover(derecha)
          assert.equals(game.center(), personaje.position())
      }

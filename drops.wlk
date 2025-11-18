@@ -1,6 +1,5 @@
 import wollok.game.*
 import personaje.*
-import randomizer.*
 import factories.*
 
 object drops {
