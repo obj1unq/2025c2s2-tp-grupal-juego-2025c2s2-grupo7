@@ -4,9 +4,11 @@ import movimiento.*
 import tableroYRepresentaciones.*
 import imagenesEnPantalla.*
 import armas.*
+import juego.*
 
 object configuracion {
     const tableroDelJuego = tablero
+    const juego = reyDeLaPradera
 
     method configEscenario(){
         game.height(tableroDelJuego.height())
@@ -16,7 +18,7 @@ object configuracion {
         fondo.agregarFondo()
     }
 
-    method configVisuales(){
+    method configVisualesEmpezarJuego(){
         game.addVisual(personaje)
         game.addVisual(instrucciones)
         game.schedule(10000, {game.removeVisual(instrucciones)})
@@ -32,6 +34,7 @@ object configuracion {
         keyboard.left().onPressDo({personaje.disparar(izquierda)})
         keyboard.right().onPressDo({personaje.disparar(derecha)})
         keyboard.space().onPressDo({personaje.cambiarArma()})
+        keyboard.enter().onPressDo({juego.pasarASiguienteNivel()})
     }
 
     method configColisiones(){

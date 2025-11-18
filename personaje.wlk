@@ -72,7 +72,7 @@ object personaje{
 
     method muerte(){
         vidas -= 1
-        if (vidas == 0){
+        if (vidas == -1){ // Es -1 porque el personaje tiene una "vida 0".
             juego.perderJuego()
         } else {
             juego.reiniciarNivel()

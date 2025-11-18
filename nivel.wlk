@@ -17,7 +17,9 @@ class Nivel{
     const property siguienteNivel
     const juego = reyDeLaPradera
     const imagenDeFondo
-    const fondoDelJuego = fondo
+    const fondoDelNivel = fondo
+    const jugador = personaje
+    const property cancion = game.sound("cancion_nivel.mp3")
 
     method crearNivel(){
         (0 .. layout.size() - 1).forEach({ y =>
@@ -51,7 +53,7 @@ class Nivel{
     method terminarNivelSiSePuede(){
         if (enemigosEnNivel.cantidadDeEnemigosEnMapa() == 0){
             game.removeTickEvent("chequeoFinalNivel")
-            juego.terminarNivel()
+            juego.pasarASiguienteNivel()
         }
     }
 
@@ -60,13 +62,13 @@ class Nivel{
     }
 
     method jugarNivel(){
-        fondoDelJuego.image(imagenDeFondo)
+        fondoDelNivel.image(imagenDeFondo)
         self.crearNivel()
-        game.addVisual(vida)
+        game.addVisual(vidas)
         enemigosASpawnear = enemigosASpawnearIniciales.copy()
         self.spawnearEnemigos()
         enemigosEnNivel.enemigosDanPaso()
-        enemigosEnNivel.enemigosPersiguen(personaje) // Hay que cambiar esto, para no usar la referencia global de personaje
+        enemigosEnNivel.enemigosPersiguen(jugador) // Hay que cambiar esto, para no usar la referencia global de personaje
     }
 
     method reiniciarNivel(){
@@ -78,7 +80,51 @@ class Nivel{
     }
 }
 
+object menu{
+    const siguienteNivel = nivelTutorial
+    const fondoDelJuego = fondo
+    const property cancion = game.sound("_cancion_menu.mp3")
+    const imagenDeMenu = "menu_fondo2.png"
+
+    method jugarNivel(){
+        fondoDelJuego.image(imagenDeMenu)
+    }
+
+    method siguienteNivel(){
+        keyboard.enter().onPressDo({})
+        return siguienteNivel
+    }
+}
+
 // NIVELES
+
+object nivelTutorial inherits Nivel(
+layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
+          [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
+enemigosASpawnearIniciales = [ep, ep, ep, ep, ep],
+siguienteNivel = primerNivel, imagenDeFondo = "fondo_nivel1.png"){
+    override method jugarNivel(){
+        game.addVisual(jugador)
+        game.addVisual(instrucciones)
+        game.schedule(10000, {game.removeVisual(instrucciones)})
+        super()
+    }
+}
 
 const primerNivel = new Nivel(
 layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
@@ -98,7 +144,9 @@ layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
-enemigosASpawnearIniciales = [ep, ep, ep, ep, ep],
+enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb, zmb],
 siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png")
 
 const segundoNivel = new Nivel(

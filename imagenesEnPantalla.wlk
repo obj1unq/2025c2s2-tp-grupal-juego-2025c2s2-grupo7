@@ -15,7 +15,7 @@ object instrucciones {
     const property position = game.at(6,2)
 }
 
-object vida{
+object vidas{
     const property position= game.at(0,16)
     const jugador = personaje
 
