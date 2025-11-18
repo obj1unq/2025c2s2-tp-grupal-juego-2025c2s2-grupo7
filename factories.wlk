@@ -2,6 +2,7 @@ import enemigos.*
 import randomizer.*
 import elementosDelMapa.*
 import drops.*
+import wollok.game.*
 
 // ENEMIGOS
 
@@ -42,6 +43,21 @@ object momiaFactory{
 
     method crear(){
         return new Momia(position = randomizador.posicionVaciaCentral())
+    }
+}
+
+object enemigoPruebaFactory { // LAS CONSTANTES ESTAN MEDIAS FEITAS :(, PERO ES LO QUE SE ME OCURRIO
+     const enemigoPrueba1 = new EnemigoPrueba (vida = 10, position = game.at(2,2), estado = zombiePasoDerecho)
+     const enemigoPrueba2 = new EnemigoPrueba (vida = 20, position = game.at(14,14), estado = vampiroArriba)
+     const enemigoPrueba3 = new EnemigoPrueba (vida = 30, position = game.at(14,2), estado = minotauroPasoDerecho)
+     const enemigoPrueba4 = new EnemigoPrueba (vida = 150, position = game.at(2,14), estado = momiaPasoDerecho)
+     const enemigoPrueba5 = new EnemigoPrueba (vida = 70, position = game.at(8,14), estado = desprotegido)
+     const enemigosPruebas = [enemigoPrueba1,enemigoPrueba2,enemigoPrueba3,enemigoPrueba4,enemigoPrueba5]
+
+    method crear(){
+        const enemigo = enemigosPruebas.anyOne()
+        enemigosPruebas.remove(enemigo)
+        return enemigo
     }
 }
 

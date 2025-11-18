@@ -41,6 +41,11 @@ object configuracion {
 }
 
 object instrucciones {
-    var property image = "instrucciones.png"
-    var property position = game.at(8,2)
+    const property image = "instrucciones.png"
+    const property position = game.at(6,2)
+}
+
+object gameOver {
+    const property image = "game_over.png"
+    const property position = game.at(4,5)
 }

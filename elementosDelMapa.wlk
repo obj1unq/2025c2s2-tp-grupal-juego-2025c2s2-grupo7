@@ -103,6 +103,13 @@ object mom{ // Momia.
     }
 }
 
+
+object ep { // Enemigo prueba nivel muestra.
+    method crear(){
+        return enemigoPruebaFactory.crear()
+    }
+}
+
 object _{ // Espacio vacío del mapa.
     method crear(posicion, elemento){}
 }

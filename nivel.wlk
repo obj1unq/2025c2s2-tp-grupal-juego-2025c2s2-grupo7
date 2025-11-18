@@ -95,7 +95,7 @@ layout = [[c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
-enemigosIniciales = [zmb, zmb],
+enemigosIniciales = [ep, ep, ep, ep, ep],
 siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png")
 
 const segundoNivel = new Nivel(
