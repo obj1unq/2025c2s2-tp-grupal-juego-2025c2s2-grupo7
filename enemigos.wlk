@@ -236,3 +236,10 @@ object acorazadoPasoIzquierdo{
     const property image = "enemigo_acorazadoIzquierdo.png"
     const property siguienteEstado = acorazadoPasoDerecho
 }
+
+class EnemigoPrueba inherits Enemigo {
+     
+     override method perseguir(personaje){
+        position = self.position()
+     }
+}

@@ -35,6 +35,7 @@ object reyDeLaPradera{
     }
 
     method perderJuego(){
+        game.addVisual(gameOver)
         game.stop()
     }
 }
