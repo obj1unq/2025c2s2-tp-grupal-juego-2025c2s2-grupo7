@@ -3,8 +3,8 @@ import juego.*
 import armas.*
 
 object personaje{
-    var position = game.center()
-    var property vidas = 3
+    var property position = game.center() // Es property para tener un setter que facilitara los tests.
+    var property vidas = 3                // Es property para tener un setter que facilitara los tests.
     var property armaUtilizada = armaPrincipal
     var property armaSecundaria = null
     const juego = reyDeLaPradera
@@ -18,10 +18,6 @@ object personaje{
         if (vidas < 3){
             vidas += 1
         }
-    }
-
-    method setVidas(cantidad){
-        vidas = cantidad
     }
 
     method text() {
@@ -50,14 +46,6 @@ object personaje{
 
     method tieneArmaSecundaria(){
         return armaSecundaria != null
-    }
-    
-    method position(){
-        return position
-    }
-    
-    method setPosition(nuevaPosicion){
-        position = nuevaPosicion
     }
 
 

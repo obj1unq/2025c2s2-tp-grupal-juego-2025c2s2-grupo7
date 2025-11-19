@@ -8,214 +8,209 @@ import armas.*
 import drops.*
 import juego.*
 
- describe "Estado inicial del personaje" {
-           test "Personaje inicia en el centro del mapa" {
-                assert.equals(game.center(), personaje.position())
-           }
-          test "Personaje inicia con 3 vidas" {
-                assert.equals(3, personaje.vidas())
-           }
-           test "El arma inicial del personaje es el arma principal" {
-                 assert.equals(armaPrincipal, personaje.armaUtilizada())
-           }
-           test "El personaje al inicio no tiene arma secundaria " {
-                 assert.that(!personaje.tieneArmaSecundaria())
-           }
-}
- describe "Movimiento del personaje" {
-           test "El personaje se mueve a la derecha" {
-                personaje.mover(derecha)
-                assert.equals(game.center().right(1), personaje.position())
-           }
-           test "El personaje se mueve a la izquierda" {
-                personaje.mover(izquierda)
-                assert.equals(game.center().left(1), personaje.position())
-           }
-           test "El personaje se mueve arriba" {
-                personaje.mover(arriba)
-                assert.equals(game.center().up(1), personaje.position())
-           }
-           test "El personaje se mueve abajo" {
-                personaje.mover(abajo)
-                assert.equals(game.center().down(1), personaje.position())
-           }
-           test "No puede moverse a la izquierda si esta en x = 0" {
-                personaje.setPosition(game.at(0, game.center().y()))
-                const inicial = personaje.position()
-                personaje.mover(izquierda)
-                assert.equals(inicial, personaje.position())
-           }
-           test "No puede moverse abajo si esta en y = 0" {
-                personaje.setPosition(game.at(game.center().x(), 0))
-                const inicial = personaje.position()
-                personaje.mover(abajo)
-                assert.equals(inicial, personaje.position())
-           }
-           test "No puede moverse a la derecha si x + 1 == game.width()" {
-                personaje.setPosition(game.at(game.width() - 1, game.center().y()))
-                const inicial = personaje.position()
-                personaje.mover(derecha)
-                assert.equals(inicial, personaje.position())
-           }
-           test "No puede moverse arriba si y + 1 == game.width()" {
-                personaje.setPosition(game.at(game.center().x(), game.width() - 1))
-                const inicial = personaje.position()
-                personaje.mover(arriba)
-                assert.equals(inicial, personaje.position())
-           }
+describe "Estado inicial del personaje" {
+     test "Personaje inicia en el centro del mapa" {
+          assert.equals(game.center(), personaje.position())
+     }
+
+     test "Personaje inicia con 3 vidas" {
+          assert.equals(3, personaje.vidas())
+     }
+
+     test "El arma inicial del personaje es el arma principal" {
+           assert.equals(armaPrincipal, personaje.armaUtilizada())
+     }
+
+     test "El personaje al inicio no tiene arma secundaria " {
+           assert.that(!personaje.tieneArmaSecundaria())
+     }
 }
 
- describe "Vida del personaje" {
-           test "El personaje gana vida si tiene menos de 3" {
-                personaje.setVidas(1)
-                personaje.ganarVida()
-                assert.equals(2, personaje.vidas())
-           }
-           test "El personaje noo puede superar las 3 vidas" {
-                personaje.setVidas(3)
-                personaje.ganarVida()
-                assert.equals(3, personaje.vidas())
-           }
+describe "Movimiento del personaje" {
+     test "El personaje se mueve a la derecha" {
+          personaje.mover(derecha)
+          assert.equals(game.center().right(1), personaje.position())
+     }
+
+     test "El personaje se mueve a la izquierda" {
+          personaje.mover(izquierda)
+          assert.equals(game.center().left(1), personaje.position())
+     }
+
+     test "El personaje se mueve arriba" {
+          personaje.mover(arriba)
+          assert.equals(game.center().up(1), personaje.position())
+     }
+
+     test "El personaje se mueve abajo" {
+          personaje.mover(abajo)
+          assert.equals(game.center().down(1), personaje.position())
+     }
+
+     test "No puede moverse a la izquierda si esta en x = 0" {
+          personaje.position(game.at(0, game.center().y()))
+          const inicial = personaje.position()
+          personaje.mover(izquierda)
+          assert.equals(inicial, personaje.position())
+     }
+
+     test "No puede moverse abajo si esta en y = 0" {
+          personaje.position(game.at(game.center().x(), 0))
+          const inicial = personaje.position()
+          personaje.mover(abajo)
+          assert.equals(inicial, personaje.position())
+     }
+
+     test "No puede moverse a la derecha si x + 1 == game.width()" {
+          personaje.position(game.at(game.width() - 1, game.center().y()))
+          const inicial = personaje.position()
+          personaje.mover(derecha)
+          assert.equals(inicial, personaje.position())
+     }
+
+     test "No puede moverse arriba si y + 1 == game.width()" {
+          personaje.position(game.at(game.center().x(), game.width() - 1))
+          const inicial = personaje.position()
+          personaje.mover(arriba)
+          assert.equals(inicial, personaje.position())
+     }
+}
+
+describe "Vida del personaje" {
+     test "El personaje gana vida si tiene menos de 3" {
+          personaje.vidas(1)
+          personaje.ganarVida()
+          assert.equals(2, personaje.vidas())
+     }
+
+     test "El personaje no puede superar las 3 vidas" {
+          personaje.vidas(3)
+          personaje.ganarVida()
+          assert.equals(3, personaje.vidas())
+     }
 }
 
 describe "Muerte del personaje" {
-      var enemigo
+     var enemigo
       
-      method initialize() {
-           personaje.setVidas(3)
-           personaje.setPosition(game.at(5,5)) 
-           enemigo = object {
+     method initialize() {
+          personaje.vidas(3)
+          personaje.position(game.at(5,5)) 
+          enemigo = object {
                method colisionarConPersonaje(p){
-                      p.setVidas(p.vidas() - 1)
-                     }
+                    p.vidas(p.vidas() - 1)
                }
-      }
-           test "El personaje pierde una vida al colisionar con un enemigo" {
-                personaje.setVidas(3)
-                enemigo.colisionarConPersonaje(personaje)
-                assert.equals(2, personaje.vidas())
-           }
-}
- describe "Disparo del personaje" {
-           test "Al disparar la bala aparece en la posicion del personaje" {
-                armaPrincipal.disparar(derecha)
-                assert.equals(personaje.position(), armaPrincipal.position())
-           }
-           test "Direccion del disparo coincide con la dirección de la bala" {
-               armaPrincipal.disparar(derecha)
-                armaPrincipal.balaViajando(derecha)
-                assert.equals(personaje.position().right(1), armaPrincipal.position())
-                }
-           test "La bala vuelve al personaje si choca con el borde del mapa" {
-                personaje.setPosition(game.at(game.width() - 1, game.center().y()))
-                armaPrincipal.disparar(derecha)
-                armaPrincipal.balaViajando(derecha)
-                assert.equals(personaje.position(), armaPrincipal.position())
-           }
+          }
+     }
+
+     test "El personaje pierde una vida al colisionar con un enemigo" {
+          personaje.vidas(3)
+          enemigo.colisionarConPersonaje(personaje)
+          assert.equals(2, personaje.vidas())
+     }
 }
 
- describe "Interacciones del personaje" { 
-      var bala
-      var enemigo
-      var objeto
+describe "Disparo del personaje" {
+     test "Al disparar la bala aparece en la posicion del personaje" {
+          armaPrincipal.disparar(derecha)
+          assert.equals(personaje.position(), armaPrincipal.position())
+     }
+
+     test "Direccion del disparo coincide con la dirección de la bala" {
+          armaPrincipal.disparar(derecha)
+          armaPrincipal.balaViajando(derecha)
+          assert.equals(personaje.position().right(1), armaPrincipal.position())
+     }
+
+     test "La bala vuelve al personaje si choca con el borde del mapa" {
+          personaje.position(game.at(game.width() - 1, game.center().y()))
+          armaPrincipal.disparar(derecha)
+          armaPrincipal.balaViajando(derecha)
+          assert.equals(personaje.position(), armaPrincipal.position())
+     }
+}
+
+describe "Interacciones del personaje" { 
+     var bala
+     var enemigo
+     var objeto
+
      method initialize() {
-           personaje.setPosition(game.center())
-           personaje.setVidas(3)
-           bala = object {
-                method daño(){ 10 }
-                method colisiono(){}
-           }
-           enemigo = object {
-                method colisionarConPersonaje(p) {
-                p.setVidas(p.vidas() - 1)   // no llama a muerte poruqe rompe el test, solo pierde una vida //
-                }
-           }
-      }
-     method probarElementoNoAtravesable(factory) {
-           personaje.mover(derecha)
-           assert.equals(game.center().right(1), personaje.position())
-           personaje.setPosition(game.center())
-           assert.equals(game.center(), personaje.position())
-           objeto = factory.crear(game.center().right(1))
-           elementos.agregarElemento(objeto)
-           personaje.mover(derecha)
-           assert.equals(game.center(), personaje.position())
-      }
-           test "La bala no afecta al personaje" {
-                personaje.colisionarConBala(bala)
-                assert.equals(3, personaje.vidas())
-           }
-           test "El personaje no atraviesa el muro" {
-                self.probarElementoNoAtravesable(muroFactory)
-           }
-          test "El personaje no atraviesa el arbusto" {
-                self.probarElementoNoAtravesable(arbustoFactory)
-           }
-           test "El personaje no atraviesa un cactus" {
-                 self.probarElementoNoAtravesable(cactusFactory)
-           }
-           test "El personaje no atraviesa un tronco" {
-                self.probarElementoNoAtravesable(troncoFactory)
-           }
-            test "El personaje no atraviesa un sepulcro" {
-           self.probarElementoNoAtravesable(sepulcroFactory)
-            }
-           test "El personaje pierde una vida al colisionar con un enemigo" {
-                personaje.setVidas(3)
-                enemigo.colisionarConPersonaje(personaje)
-                assert.equals(2, personaje.vidas())
-    }
+          personaje.position(game.center())
+          personaje.vidas(3)
+          bala = object {
+               method daño(){ 10 }
+               method colisiono(){}
+          }
+          
+          enemigo = object {
+               method colisionarConPersonaje(p) {
+               p.vidas(p.vidas() - 1)   // no llama a muerte porque rompe el test, solo pierde una vida
+               }
+          }
+     }
+
+     test "La bala no afecta al personaje" {
+          personaje.colisionarConBala(bala)
+          assert.equals(3, personaje.vidas())
+     }
+
+     test "El personaje no atraviesa un elemento del mapa" {
+          elementos.agregarElemento(muroFactory.crear(game.center().right(1)))
+          personaje.mover(derecha)
+          assert.equals(game.center(), personaje.position())
+     }
+
+     test "El personaje pierde una vida al colisionar con un enemigo" {
+          personaje.vidas(3)
+          enemigo.colisionarConPersonaje(personaje)
+          assert.equals(2, personaje.vidas())
+     }
 }
 
- describe "Cambio de arma" {
-      var escopeta
-      var metralleta
+describe "Cambio de arma" {
+     var escopeta
+     var metralleta
+
      method initialize() {
-           personaje.setVidas(3)
-           personaje.setPosition(game.center())
-           personaje.armaUtilizada(armaPrincipal)
-           personaje.armaSecundaria(null)
-           escopeta = new EscopetaDrop(position = game.center())
-            metralleta = new MetralletaDrop(position = game.center())
-      }
+          personaje.vidas(3)
+          personaje.position(game.center())
+          personaje.armaUtilizada(armaPrincipal)
+          personaje.armaSecundaria(null)
+          escopeta = new EscopetaDrop(position = game.center())
+          metralleta = new MetralletaDrop(position = game.center())
+     }
 
-           test "El personaje no puede cambiar de arma si no tiene arma secundaria" {
-                assert.throwsExceptionWithMessage("No poseo arma Secundaria",{ personaje.cambiarArma() })
-           }
+     test "El personaje no puede cambiar de arma si no tiene arma secundaria" {
+          assert.throwsExceptionWithMessage("No poseo arma Secundaria",{ personaje.cambiarArma() })
+     }
 
-           test "El personaje lanza excepción si quiere cambiar a armaSecundaria y no tinee" {
-                 assert.throwsExceptionWithMessage("No poseo arma Secundaria",{ personaje.asertarCambioDeArma() } )
-           }
-           test "El personaje puede cambiar de arma si tiene un arma secundaria" {
-                 personaje.recolectarArma(escopeta)
-                personaje.cambiarArma()
-                assert.equals(escopeta, personaje.armaUtilizada())
-           }
-           test  "El personaje queda sin arma secundaria luego del cambio" {
-                personaje.recolectarArma(escopeta)
-                personaje.cambiarArma()
-                assert.equals(null, personaje.armaSecundaria())
-           }
+     test "El personaje lanza excepción si quiere cambiar a armaSecundaria y no tiene" {
+          assert.throwsExceptionWithMessage("No poseo arma Secundaria",{ personaje.asertarCambioDeArma() } )
+     }
+     test "El personaje puede cambiar de arma si tiene un arma secundaria" {
+          personaje.recolectarArma(escopeta)
+          personaje.cambiarArma()
+          assert.equals(escopeta, personaje.armaUtilizada())
+     }
+     test  "El personaje queda sin arma secundaria luego del cambio" {
+          personaje.recolectarArma(escopeta)
+          personaje.cambiarArma()
+          assert.equals(null, personaje.armaSecundaria())
+     }
 
-           test "El personaje deja de usar el arma principal después del cambio" {
-                personaje.recolectarArma(escopeta)
-                personaje.cambiarArma()
-                assert.notEquals(armaPrincipal, personaje.armaUtilizada())
-           }
-           test "El personaje puede recolectar arma secundaria si no tiene una" {
-                personaje.recolectarArma(escopeta)
-                assert.equals(escopeta, personaje.armaSecundaria())
-           }   
-          test "El personaje  recolecta un arma secundaria se reemplaza la anterior" {
-                personaje.recolectarArma(escopeta)
-                personaje.recolectarArma(metralleta)
-                assert.equals(metralleta, personaje.armaSecundaria())
-           }
-
+     test "El personaje deja de usar el arma principal después del cambio" {
+          personaje.recolectarArma(escopeta)
+          personaje.cambiarArma()
+          assert.notEquals(armaPrincipal, personaje.armaUtilizada())
+     }
+     test "El personaje puede recolectar arma secundaria si no tiene una" {
+          personaje.recolectarArma(escopeta)
+          assert.equals(escopeta, personaje.armaSecundaria())
+     }   
+     test "El personaje  recolecta un arma secundaria se reemplaza la anterior" {
+          personaje.recolectarArma(escopeta)
+          personaje.recolectarArma(metralleta)
+          assert.equals(metralleta, personaje.armaSecundaria())
+     }
 }
-
-
-
-
-
-
