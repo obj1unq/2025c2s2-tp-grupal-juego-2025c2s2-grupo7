@@ -1,3 +1,4 @@
+import armas.*
 import wollok.game.*
 import personaje.*
 import movimiento.*
@@ -34,7 +35,12 @@ object configuracion {
     }
 
     method configColisiones(){
-       game.onCollideDo(personaje, {objeto => objeto.colisionarConPersonaje(personaje)})
+        game.onCollideDo(personaje, {objeto => objeto.colisionarConPersonaje(personaje)})
+        game.onCollideDo(municionNormal, {objeto => objeto.colisionarConBala(municionNormal)})
+        game.onCollideDo(municionPenetrante, {objeto => objeto.colisionarConBala(municionPenetrante)})
+        game.onCollideDo(municionRapida, {objeto => objeto.colisionarConBala(municionRapida)})
+        game.onCollideDo(cartucho, {objeto => objeto.colisionarConBala(cartucho)})
+        game.onCollideDo(municionExplosiva, {objeto => objeto.colisionarConBala(municionExplosiva)})
     }
 
 }

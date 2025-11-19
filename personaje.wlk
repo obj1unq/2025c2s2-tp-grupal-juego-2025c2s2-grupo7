@@ -7,12 +7,10 @@ import movimiento.*
 object personaje{
     var position = game.center()
     var property vidas = 3
-    var property armaUtilizada = arma
+    var property municion = cartucho
     var property armaSecundaria = null
     const juego = reyDeLaPradera
     var estado = personajeDerecha
-    var direccionDeDisparo = derecha
-    var estaDisparando = false
 
     method image(){
         return estado.image()
@@ -25,7 +23,7 @@ object personaje{
     }
 
     method text() {
-		return armaUtilizada.toString()
+		return municion.toString()
 	}
 	method textColor() {
 		return "FF0000FF"
@@ -33,8 +31,8 @@ object personaje{
 
     method cambiarArma(){
         self.asertarCambioDeArma()
-        armaUtilizada = armaSecundaria
-        game.schedule(10000, {armaUtilizada = arma})
+        municion = armaSecundaria
+        game.schedule(10000, {municion = municionNormal})
         armaSecundaria = null
     }
 
@@ -44,8 +42,8 @@ object personaje{
         }
     }
 
-    method recolectarArma(arma){
-        armaSecundaria = arma
+    method recolectarArma(_arma){
+        armaSecundaria = _arma
     }
 
     method tieneArmaSecundaria(){
@@ -61,7 +59,8 @@ object personaje{
     }
 
     method disparar(direccion){
-        arma.disparar(direccion)
+        estado = direccion.estadoDePersonajeAsociado()
+        municion.disparar(direccion)
     }
 
     method muerte(){
@@ -78,7 +77,7 @@ object personaje{
         position = game.center()
     }
 
-    method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
+    method colisionarConBala(_arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
 }
 
 object personajeArriba{

@@ -45,12 +45,8 @@ object ejercito{
         return enemigosEnMapa.any({enemigo => enemigo.position() == position})
     }
 
-    method hayEnemigoAca(position){
-      return enemigos.any({enemigo => position == enemigo.position()})
-    }
-
     method enemigoAca (position){
-      return enemigos.find({enemigo => position == enemigo.position()})
+      return enemigosEnMapa.find({enemigo => position == enemigo.position()})
     }
 }
 
@@ -97,9 +93,8 @@ class Enemigo {
         personaje.muerte()
     }
 
-    method colisionarConBala(arma){
-        self.aplicarDaño(arma.daño())
-        arma.colisiono()
+    method colisionarConBala(municion){
+        municion.colisionoConEnemigo(self)
     }
 }
 
