@@ -1,14 +1,17 @@
 import wollok.game.*
-import elementosDelMapa.*
 import config.*
-import drops.*
+import tableroYRepresentaciones.*
 import nivel.*
 import personaje.*
 import imagenesEnPantalla.*
+import drops.*
 
 object reyDeLaPradera{
     var nivelActual = menu
-    const elementosEnElMapa = elementos
+    const tableroDelJuego = tablero
+    const jugador = personaje
+    const dropsEnElJuego = drops
+    const reproductorMusica = reproductor
 
     method empezarJuego(){
         configuracion.configEscenario()
@@ -20,20 +23,16 @@ object reyDeLaPradera{
     }
 
     method pasarASiguienteNivel(){
-        reproductorMusica.parar(nivelActual.cancion())
-        elementosEnElMapa.limpiarNivel()
-        drops.borrarDrops()
-        personaje.volverAPosicionInicial()
+        self.limpiarNivelActual()
+        jugador.volverAPosicionInicial()
         nivelActual = nivelActual.siguienteNivel()
-        game.removeVisual(vidas)
-        nivelActual.jugarNivel()
-        reproductorMusica.reproducir(nivelActual.cancion())
+        self.iniciarSiguienteNivel()
     }
 
     method reiniciarNivel(){
         reproductorMusica.parar(nivelActual.cancion())
-        nivelActual.reiniciarNivel()
-        drops.borrarDrops()
+        nivelActual.reiniciarEnemigos()
+        dropsEnElJuego.borrarDrops()
         reproductorMusica.reproducir(nivelActual.cancion())
     }
 
@@ -42,11 +41,21 @@ object reyDeLaPradera{
         game.addVisual(gameOver)
         game.stop()
     }
+
+    method iniciarSiguienteNivel(){
+        nivelActual.jugarNivel()
+        reproductorMusica.reproducir(nivelActual.cancion())
+    }
+
+    method limpiarNivelActual(){
+        reproductorMusica.parar(nivelActual.cancion())
+        tableroDelJuego.limpiarTablero()
+    }
 }
 
-object reproductorMusica{
+object reproductor{
     method reproducir(cancion){
-        cancion.shouldLoop(true)
+        cancion.shouldLoop(false)
         cancion.play()
     }
 

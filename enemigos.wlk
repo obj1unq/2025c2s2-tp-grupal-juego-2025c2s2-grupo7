@@ -133,6 +133,16 @@ class Zombie inherits EnemigoDeMovimientoLento(vida = 10, estado = zombiePasoDer
     }
 }
 
+class ZombieTutorial inherits Zombie(){
+    override method perseguir(personaje){}
+
+    override method darPaso(){}
+
+    override method colisionarConPersonaje(personaje){
+        personaje.volverAPosicionInicial()
+    }
+}
+
 object zombiePasoDerecho{
     const property image = "enemigo_zombieDerecho.png"
     const property siguienteEstado = zombiePasoIzquierdo
@@ -232,10 +242,4 @@ object acorazadoPasoDerecho{
 object acorazadoPasoIzquierdo{
     const property image = "enemigo_acorazadoIzquierdo.png"
     const property siguienteEstado = acorazadoPasoDerecho
-}
-
-class EnemigoPrueba inherits Enemigo {
-    override method perseguir(personaje){}
-
-    override method darPaso(){}
 }

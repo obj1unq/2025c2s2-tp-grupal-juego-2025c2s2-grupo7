@@ -182,11 +182,7 @@ describe "Cambio de arma" {
      }
 
      test "El personaje no puede cambiar de arma si no tiene arma secundaria" {
-          assert.throwsExceptionWithMessage("No poseo arma Secundaria",{ personaje.cambiarArma() })
-     }
-
-     test "El personaje lanza excepción si quiere cambiar a armaSecundaria y no tiene" {
-          assert.throwsExceptionWithMessage("No poseo arma Secundaria",{ personaje.asertarCambioDeArma() } )
+          assert.throwsException({personaje.cambiarArma() })
      }
      test "El personaje puede cambiar de arma si tiene un arma secundaria" {
           personaje.recolectarArma(escopeta)

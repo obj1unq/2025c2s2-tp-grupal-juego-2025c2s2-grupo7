@@ -20,6 +20,7 @@ object configuracion {
 
     method configVisualesEmpezarJuego(){
         game.addVisual(personaje)
+        game.addVisual(vidas)
         game.addVisual(instrucciones)
         game.schedule(10000, {game.removeVisual(instrucciones)})
     }

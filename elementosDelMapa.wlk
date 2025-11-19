@@ -24,7 +24,7 @@ object elementos {
         //       Es elemento del borde superior o inferior   O    Es elemento del borde derecho o izquierdo  
     }
 
-    method limpiarNivel(){
+    method limpiarElementos(){
         elementosEnNivel.forEach({elemento => game.removeVisual(elemento)})
         elementosEnNivel.clear()
         elementosDestructiblesEnNivel.clear()

@@ -1,18 +1,21 @@
+import wollok.game.*
 import enemigos.*
 import elementosDelMapa.*
 import factories.*
+import drops.*
 // import personaje.* // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
 object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
     const property width = 17
     const property height = 17
     const property cellSize = 48
-    const ejercitoEnElTablero = enemigos
+    const dropsEnElTablero = drops
+    const enemigosEnElTablero = enemigos
     const elementosEnElTablero = elementos // SOLO HACE FALTA EN LA VERSION LENTA DE hayAlgoAca
     // const jugador = personaje // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
     method hayAlgoAca(position){ // VERSION LENTA
-        return ejercitoEnElTablero.hayEnemigoAca(position) or 
+        return enemigosEnElTablero.hayEnemigoAca(position) or 
                elementosEnElTablero.hayElementoAca(position)
     }
 
@@ -33,7 +36,20 @@ object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA M
     }
 
     method hayEnemigoAca(position){
-        return ejercitoEnElTablero.hayEnemigoAca(position)
+        return enemigosEnElTablero.hayEnemigoAca(position)
+    }
+
+    method limpiarTablero(){
+        elementosEnElTablero.limpiarElementos()
+        dropsEnElTablero.borrarDrops()
+    }
+
+    method crearNivel(layout){
+        (0 .. layout.size() - 1).forEach({ y =>
+            (0 .. layout.get(y).size() - 1).forEach({ x =>
+                layout.get(y).get(x).crear(game.at(x, y), elementosEnElTablero)
+            })
+        })
     }
 }
 
@@ -69,9 +85,9 @@ object mom{ // Momia.
     }
 }
 
-object ep { // Enemigo prueba nivel muestra.
+object ttr { // Zombie del nivel tutorial.
     method crear(){
-        return enemigoPruebaFactory.crear()
+        return zombieTutorialFactory.crear()
     }
 }
 

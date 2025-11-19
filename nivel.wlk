@@ -5,29 +5,22 @@ import enemigos.*
 import juego.*
 import tableroYRepresentaciones.*
 import imagenesEnPantalla.*
+import config.*
 
 class Nivel{
     const layout
-    var enemigosASpawnear = enemigosASpawnearIniciales.copy() // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
+    const property siguienteNivel
+    const imagenDeFondo
     const enemigosASpawnearIniciales // Un set de los enemigos que se van a spawnear en un nivel. (No se le deben eliminar o agregar elementos).
+    var enemigosASpawnear = enemigosASpawnearIniciales.copy() // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const enemigosEnNivel = enemigos
     const tiempoDeSpawn = 500
-    const elementosEnNivel = elementos
     const limiteDeEnemigosEnMapa = 5
-    const property siguienteNivel
     const juego = reyDeLaPradera
-    const imagenDeFondo
     const fondoDelNivel = fondo
     const jugador = personaje
-    const property cancion = game.sound("cancion_nivel.mp3")
-
-    method crearNivel(){
-        (0 .. layout.size() - 1).forEach({ y =>
-            (0 .. layout.get(y).size() - 1).forEach({ x =>
-                layout.get(y).get(x).crear(game.at(x, y), elementosEnNivel)
-            })
-        })
-    }
+    const property cancion = game.sound("_cancion_nivel.mp3")
+    const tableroDelJuego = tablero
 
     method spawnearEnemigos(){
         game.onTick(tiempoDeSpawn, "Spawn de enemigos del nivel", {self. spawnearSiguienteEnemigo()})
@@ -47,13 +40,18 @@ class Nivel{
 
     method esperarFinalDelNivel(){
         game.removeTickEvent("Spawn de enemigos del nivel")
-        game.onTick(3000, "chequeoFinalNivel", {self.terminarNivelSiSePuede()})
+        game.onTick(3000, "Chequeo final del nivel", {self.terminarNivel()})
     }
 
-    method terminarNivelSiSePuede(){
-        if (enemigosEnNivel.cantidadDeEnemigosEnMapa() == 0){
-            game.removeTickEvent("chequeoFinalNivel")
-            juego.pasarASiguienteNivel()
+    method terminarNivel(){
+        self.validarPuedeTerminarseNivel()
+        game.removeTickEvent("Chequeo final del nivel")
+        juego.pasarASiguienteNivel()
+    }
+
+    method validarPuedeTerminarseNivel(){
+        if (enemigosEnNivel.cantidadDeEnemigosEnMapa() != 0){
+            self.error("")
         }
     }
 
@@ -63,20 +61,21 @@ class Nivel{
 
     method jugarNivel(){
         fondoDelNivel.image(imagenDeFondo)
-        self.crearNivel()
-        game.addVisual(vidas)
+        tableroDelJuego.crearNivel(layout)
         enemigosASpawnear = enemigosASpawnearIniciales.copy()
-        self.spawnearEnemigos()
-        enemigosEnNivel.enemigosDanPaso()
-        enemigosEnNivel.enemigosPersiguen(jugador) // Hay que cambiar esto, para no usar la referencia global de personaje
+        self.inicializarEnemigos()
     }
 
-    method reiniciarNivel(){
+    method reiniciarEnemigos(){
         enemigosEnNivel.matarTodos()
         enemigosASpawnear = enemigosASpawnearIniciales.copy()
+        self.inicializarEnemigos()
+    }
+
+    method inicializarEnemigos(){
         self.spawnearEnemigos()
         enemigosEnNivel.enemigosDanPaso()
-        enemigosEnNivel.enemigosPersiguen(personaje)
+        enemigosEnNivel.enemigosPersiguen(jugador)
     }
 }
 
@@ -116,12 +115,12 @@ layout = [[_,_,_,c,c,c,c,_,_,_,c,c,c,c,c,c,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,c],
           [c,c,c,c,c,c,c,_,_,_,c,c,c,c,c,c,c]].reverse(),
-enemigosASpawnearIniciales = [ep, ep, ep, ep, ep],
+enemigosASpawnearIniciales = [ttr, ttr, ttr, ttr],
 siguienteNivel = primerNivel, imagenDeFondo = "fondo_nivel1.png"){
+    const configuracionDelJuego = configuracion
+
     override method jugarNivel(){
-        game.addVisual(jugador)
-        game.addVisual(instrucciones)
-        game.schedule(10000, {game.removeVisual(instrucciones)})
+        configuracionDelJuego.configVisualesEmpezarJuego()
         super()
     }
 }

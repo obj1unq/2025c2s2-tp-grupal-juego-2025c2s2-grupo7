@@ -28,13 +28,13 @@ object personaje{
 	}
 
     method cambiarArma(){
-        self.asertarCambioDeArma()
+        self.validarCambioDeArma()
         armaUtilizada = armaSecundaria
         game.schedule(10000, {armaUtilizada = armaPrincipal})
         armaSecundaria = null
     }
 
-    method asertarCambioDeArma(){
+    method validarCambioDeArma(){
         if(armaSecundaria == null){
             self.error("No poseo arma Secundaria")
         }
