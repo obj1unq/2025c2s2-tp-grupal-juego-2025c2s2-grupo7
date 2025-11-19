@@ -2,58 +2,60 @@ import wollok.game.*
 import elementosDelMapa.*
 import personaje.*
 
-object izquierda{
+class Direccion{
     const elementosEnElMapa = elementos
-    const property estadoDePersonajeAsociado = personajeIzquierda // Capaz haya una forma mejor de que el personaje cambie de estado.
+    const property estadoDePersonajeAsociado // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
-        const siguientePosicion = posicion.left(1)
-        if (siguientePosicion.x() != -1 and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
+        const siguientePosicion = self.siguientePosicion(posicion)
+        if (self.estaDentroDelTablero(siguientePosicion) and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
             return siguientePosicion
         } else {
             return posicion
         }
     }
+
+    method estaDentroDelTablero(posicion)
+
+    method siguientePosicion(posicion)
 }
 
-object derecha{
-    const elementosEnElMapa = elementos
-    const property estadoDePersonajeAsociado = personajeDerecha // Capaz haya una forma mejor de que el personaje cambie de estado.
+object izquierda inherits Direccion (estadoDePersonajeAsociado = personajeIzquierda){
+    override method estaDentroDelTablero(posicion){
+        return posicion.x() != -1
+    }
 
-    method siguiente(posicion){
-        const siguientePosicion = posicion.right(1)
-        if (siguientePosicion.x() != game.width() and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
-            return siguientePosicion
-        } else {
-            return posicion
-        }
+    override method siguientePosicion(posicion){
+        return posicion.left(1)
     }
 }
 
-object abajo{
-    const elementosEnElMapa = elementos
-    const property estadoDePersonajeAsociado = personajeAbajo // Capaz haya una forma mejor de que el personaje cambie de estado.
+object derecha inherits Direccion(estadoDePersonajeAsociado = personajeDerecha){
+    override method estaDentroDelTablero(posicion){
+        return posicion.x() != game.width()
+    }
 
-    method siguiente(posicion){
-        const siguientePosicion = posicion.down(1)
-        if (siguientePosicion.y() != -1 and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
-            return siguientePosicion
-        } else {
-            return posicion
-        }
+    override method siguientePosicion(posicion){
+        return posicion.right(1)
     }
 }
 
-object arriba{
-    const elementosEnElMapa = elementos
-    const property estadoDePersonajeAsociado = personajeArriba // Capaz haya una forma mejor de que el personaje cambie de estado.
+object abajo inherits Direccion(estadoDePersonajeAsociado = personajeAbajo){
+    override method estaDentroDelTablero(posicion){
+        return posicion.y() != -1
+    }
 
-    method siguiente(posicion){
-        const siguientePosicion = posicion.up(1)
-        if (siguientePosicion.y() != game.width() and !elementosEnElMapa.hayElementoAca(siguientePosicion)){
-            return siguientePosicion
-        } else {
-            return posicion
-        }
+    override method siguientePosicion(posicion){
+        return posicion.down(1)
+    }
+}
+
+object arriba inherits Direccion(estadoDePersonajeAsociado = personajeArriba ){
+    override method estaDentroDelTablero(posicion){
+        return posicion.y() != game.width()
+    }
+
+    override method siguientePosicion(posicion){
+        return posicion.up(1)
     }
 }
