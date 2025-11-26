@@ -133,7 +133,6 @@ describe "Disparo del personaje" {
 describe "Interacciones del personaje" { 
      var bala
      var enemigo
-     var objeto
 
      method initialize() {
           personaje.position(game.center())

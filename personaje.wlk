@@ -9,6 +9,7 @@ object personaje{
     var property armaSecundaria = null
     const juego = reyDeLaPradera
     var estado = personajeDerecha
+    const sonidoDeMuerte = "_sonido_perderJuego.mp3"
 
     method image(){
         return estado.image()
@@ -65,6 +66,7 @@ object personaje{
 
     method muerte(){
         vidas -= 1
+        game.sound(sonidoDeMuerte).play()
         if (self.debePerderElJuego()){ 
             juego.perderJuego()
         } else {
