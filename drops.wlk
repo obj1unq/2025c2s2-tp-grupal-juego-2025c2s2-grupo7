@@ -44,13 +44,8 @@ class Drop {
     const property image
     const property position
 
-    method colisionarConPersonaje(){
-        personaje.recolectarArma(self)
-        game.removeVisual(self)
-    }
-
-    method colisionarConPersonaje (personaje){
-        // El personaje agarra el drop.
+    method colisionarConPersonaje(personaje){
+        
     }
 
     method colisionarConBala(arma){
@@ -59,19 +54,25 @@ class Drop {
 }
 
 class DropDeArma inherits Drop{
-    override method colisionarConPersonaje(){
-        self.validarRecoleccionDeArma()
-        super()
+    
+    override method colisionarConPersonaje(personaje){
+        if(not personaje.tieneArmaSecundaria()){
+        personaje.recolectarArma(self)
+        game.removeVisual(self)
+        }
     }
 
-    method validarRecoleccionDeArma(){
-        if (personaje.tieneArmaSecundaria()){
-            self.error ("Ya tiene un arma secundaria en poseción")
+}
+
+class VidaDrop inherits Drop(image = "drop_vida.png"){
+
+     override method colisionarConPersonaje(personaje){
+        if(personaje.puedeAgarrarVida()){
+        personaje.recolectarVida()
+        game.removeVisual(self)
         }
     }
 }
-
-class VidaDrop inherits Drop(image = "drop_vida.png"){}
 
 class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png"){}
 
