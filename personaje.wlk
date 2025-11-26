@@ -14,10 +14,17 @@ object personaje{
         return estado.image()
     }
 
-    method ganarVida(){
-        if (vidas < 3){
+    method puedeAgarrarVida(){
+        return vidas < self.maximoVidas()
+    }
+
+    method recolectarVida(){
             vidas += 1
-        }
+    }
+    
+
+    method maximoVidas(){
+        return 3
     }
 
     method text() {
@@ -28,16 +35,14 @@ object personaje{
 	}
 
     method cambiarArma(){
-        self.validarCambioDeArma()
+        if(self.puedeCambiarDeArma())
         armaUtilizada = armaSecundaria
         game.schedule(10000, {armaUtilizada = armaPrincipal})
         armaSecundaria = null
     }
 
-    method validarCambioDeArma(){
-        if(armaSecundaria == null){
-            self.error("No poseo arma Secundaria")
-        }
+    method puedeCambiarDeArma(){
+        return armaSecundaria != null
     }
 
     method recolectarArma(arma){
