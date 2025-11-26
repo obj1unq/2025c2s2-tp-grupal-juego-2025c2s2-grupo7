@@ -1,33 +1,32 @@
 import wollok.game.*
+import tableroYRepresentaciones.*
 
 object elementos {
     const elementosEnNivel = #{}
-    const elementosDestructiblesEnNivel = #{}
+    const tableroDelJuego = tablero
     
     method agregarElemento(elemento){
         elementosEnNivel.add(elemento)
-        if (!self.hayElementoDeBordeDeMapaAca(elemento.position())){
-            elementosDestructiblesEnNivel.add(elemento)
-        }
         game.addVisual(elemento)
     }
 
     method hayElementoAca (position){
         return self.hayElementoDeBordeDeMapaAca(position) or
-               elementosDestructiblesEnNivel.any({elemento => elemento.position() == position})
+               elementosEnNivel.any({elemento => elemento.position() == position})
     }
 
     method hayElementoDeBordeDeMapaAca(position){ // Se crea esta función para evitar recorrer el set de elementos del mapa lo más que se pueda.
         const x = position.x()
         const y = position.y()
-        return ( (x == 0 or x == 16) and (y < 7 or y > 9) ) or ( (y == 0 or y == 16) and (x < 7 or x > 9) )  
+        const anchoYAlto = tableroDelJuego.width() - 1
+        const mitadAnchoYAlto = anchoYAlto.div(2)
+        return ( (x == 0 or x == anchoYAlto) and (y < mitadAnchoYAlto - 1 or y > mitadAnchoYAlto + 1)) or ((y == 0 or y == anchoYAlto) and (x < mitadAnchoYAlto - 1 or x > mitadAnchoYAlto + 1))
         //       Es elemento del borde superior o inferior   O    Es elemento del borde derecho o izquierdo  
     }
 
     method limpiarElementos(){
         elementosEnNivel.forEach({elemento => game.removeVisual(elemento)})
         elementosEnNivel.clear()
-        elementosDestructiblesEnNivel.clear()
     }
 }
 

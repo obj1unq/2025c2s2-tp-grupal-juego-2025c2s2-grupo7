@@ -79,13 +79,13 @@ describe "Movimiento del personaje" {
 describe "Vida del personaje" {
      test "El personaje gana vida si tiene menos de 3" {
           personaje.vidas(1)
-          personaje.ganarVida()
+          personaje.recolectarVida()
           assert.equals(2, personaje.vidas())
      }
 
      test "El personaje no puede superar las 3 vidas" {
           personaje.vidas(3)
-          personaje.ganarVida()
+          personaje.recolectarVida()
           assert.equals(3, personaje.vidas())
      }
 }

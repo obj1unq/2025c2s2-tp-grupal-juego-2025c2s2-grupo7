@@ -66,10 +66,10 @@ class DropDeArma inherits Drop{
 
 class VidaDrop inherits Drop(image = "drop_vida.png"){
 
-     override method colisionarConPersonaje(personaje){
+    override method colisionarConPersonaje(personaje){
         if(personaje.puedeAgarrarVida()){
-        personaje.recolectarVida()
-        game.removeVisual(self)
+            personaje.recolectarVida()
+            game.removeVisual(self)
         }
     }
 }

@@ -19,9 +19,8 @@ object personaje{
     }
 
     method recolectarVida(){
-            vidas += 1
+        vidas += 1
     }
-    
 
     method maximoVidas(){
         return 3
@@ -30,6 +29,7 @@ object personaje{
     method text() {
 		return armaUtilizada.toString()
 	}
+
 	method textColor() {
 		return "FF0000FF"
 	}
@@ -65,7 +65,7 @@ object personaje{
 
     method muerte(){
         vidas -= 1
-        if (vidas == -1){ // Es -1 porque el personaje tiene una "vida 0".
+        if (self.debePerderElJuego()){ 
             juego.perderJuego()
         } else {
             juego.reiniciarNivel()
@@ -78,6 +78,10 @@ object personaje{
     }
 
     method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
+
+    method debePerderElJuego(){
+        return vidas == -1 // Es -1 porque el personaje tiene una "vida 0".
+    }
 }
 
 // ESTADOS DEL PERSONAJE
