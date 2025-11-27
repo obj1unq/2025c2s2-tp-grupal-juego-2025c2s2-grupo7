@@ -86,9 +86,9 @@ class Enemigo {
         personaje.muerte()
     }
 
-    method colisionarConBala(arma){
-        self.aplicarDaño(arma.daño())
-        arma.colisiono()
+    method colisionarConBala(bala){
+        self.aplicarDaño(bala.daño())
+        bala.colisiono()
     }
 }
 

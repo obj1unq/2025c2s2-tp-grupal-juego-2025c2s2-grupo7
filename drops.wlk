@@ -1,6 +1,7 @@
 import wollok.game.*
 import personaje.*
 import factories.*
+import armas.*
 
 object drops {
     const property dropsCreados = []
@@ -11,6 +12,11 @@ object drops {
             self.agregarNuevoDrop(position, probabilidad)
         }
 	}
+
+    method borrarDropSuelto(drop){
+        dropsCreados.remove(drop)
+        game.removeVisual(drop)
+    }
 
     method agregarDrop(drop){
         dropsCreados.add(drop)
@@ -23,16 +29,23 @@ object drops {
     }
 
     method agregarNuevoDrop(position, probabilidad){
+       var drop 
         if (probabilidad <= 0.15){
-            self.agregarDrop(escopetaFactory.crear(position))
+            drop = escopetaFactory.crear(position)
+            self.agregarDrop(drop)
         } else if (probabilidad <= 0.30){
-            self.agregarDrop(metralletaFactory.crear(position))
+            drop = metralletaFactory.crear(position)
+            self.agregarDrop(drop)
         } else if (probabilidad <= 0.45){
-            self.agregarDrop(lanzacohetesFactory.crear(position))
+            drop = lanzacohetesFactory.crear(position)
+            self.agregarDrop(drop)
         } else {
-            self.agregarDrop(vidaFactory.crear(position))
+            drop = vidaFactory.crear(position)
+            self.agregarDrop(drop)
         }
+        game.schedule(5000, {self.borrarDropSuelto(drop)})
     }
+    
 
     method rollDropeo(){
         return 0.randomUpTo(1)
@@ -54,12 +67,17 @@ class Drop {
 }
 
 class DropDeArma inherits Drop{
+    const arma 
     
     override method colisionarConPersonaje(personaje){
         if(not personaje.tieneArmaSecundaria()){
-        personaje.recolectarArma(self)
+        personaje.recolectarArma(self.arma())
         game.removeVisual(self)
         }
+    }
+
+    method arma(){
+        return arma
     }
 
 }
@@ -74,8 +92,8 @@ class VidaDrop inherits Drop(image = "drop_vida.png"){
     }
 }
 
-class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png"){}
+class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png", arma = escopeta){}
 
-class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png"){}
+class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png",arma = uzi){}
 
-class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png"){}
+class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png",arma = lanzacohetes){}
