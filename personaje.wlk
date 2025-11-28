@@ -5,7 +5,7 @@ import armas.*
 object personaje{
     var property position = game.center() // Es property para tener un setter que facilitara los tests.
     var property vidas = 3                // Es property para tener un setter que facilitara los tests.
-    var property armaUtilizada = armaPrincipal
+    var property armaUtilizada = escopeta
     var property armaSecundaria = null
     const juego = reyDeLaPradera
     var estado = personajeDerecha
