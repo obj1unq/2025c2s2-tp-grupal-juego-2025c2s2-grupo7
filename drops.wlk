@@ -1,6 +1,7 @@
 import wollok.game.*
 import personaje.*
 import factories.*
+import armas.*
 
 object drops {
     const property dropsCreados = []
@@ -11,6 +12,11 @@ object drops {
             self.agregarNuevoDrop(position, probabilidad)
         }
 	}
+
+    method borrarDropSuelto(drop){
+        dropsCreados.remove(drop)
+        game.removeVisual(drop)
+    }
 
     method agregarDrop(drop){
         dropsCreados.add(drop)
@@ -23,17 +29,23 @@ object drops {
     }
 
     method agregarNuevoDrop(position, probabilidad){
+       var drop 
         if (probabilidad <= 0.15){
-            self.agregarDrop(escopetaFactory.crear(position))
+            drop = escopetaFactory.crear(position)
+            self.agregarDrop(drop)
         } else if (probabilidad <= 0.30){
-            self.agregarDrop(metralletaFactory.crear(position))
+            drop = metralletaFactory.crear(position)
+            self.agregarDrop(drop)
         } else if (probabilidad <= 0.45){
-            self.agregarDrop(lanzacohetesFactory.crear(position))
+            drop = lanzacohetesFactory.crear(position)
+            self.agregarDrop(drop)
         } else {
-            self.agregarDrop(vidaFactory.crear(position))
+            drop = vidaFactory.crear(position)
+            self.agregarDrop(drop)
         }
+        game.schedule(5000, {self.borrarDropSuelto(drop)})
     }
-
+    
     method rollDropeo(){
         return 0.randomUpTo(1)
     }
@@ -44,38 +56,33 @@ class Drop {
     const property image
     const property position
 
-    method colisionarConPersonaje(personaje){
-        
-    }
+    method colisionarConPersonaje(personaje)
 
-    method colisionarConBala(arma){
-        // No se hace nada.
-    }
-}
-
-class DropDeArma inherits Drop{
-    
-    override method colisionarConPersonaje(personaje){
-        if(not personaje.tieneArmaSecundaria()){
-        personaje.recolectarArma(self)
-        game.removeVisual(self)
-        }
-    }
-
+    method colisionarConBala(arma){} // No se hace nada.
 }
 
 class VidaDrop inherits Drop(image = "drop_vida.png"){
-
     override method colisionarConPersonaje(personaje){
-        if(personaje.puedeAgarrarVida()){
-            personaje.recolectarVida()
+        personaje.recolectarVida()
+        game.removeVisual(self)
+    }
+}
+
+class ArmaDrop inherits Drop{
+    const arma 
+    
+    override method colisionarConPersonaje(personaje){
+        if (!personaje.tieneArmaSecundaria()){
+            personaje.armaSecundaria(arma)
             game.removeVisual(self)
         }
     }
 }
 
-class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png"){}
+class EscopetaDrop inherits ArmaDrop(image = "drop_escopeta.png", arma = escopeta){}
 
-class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png"){}
+class MetralletaDrop inherits ArmaDrop(image = "drop_metralleta.png",arma = metralleta){}
 
-class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png"){}
+class LanzacohetesDrop inherits ArmaDrop(image = "drop_lanzacohetes.png",arma = lanzacohetes){}
+
+class ArcoDrop inherits ArmaDrop(image = "drop_arco.png",arma = arco){}

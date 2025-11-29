@@ -65,7 +65,7 @@ class Enemigo {
         return posiciones.findOrDefault({posicion => !tableroDeNivel.hayAlgoAca(posicion)}, position)
     }
 
-    method aplicarDaño(daño){
+    method recibirDaño(daño){
         if(vida > daño){
             vida = vida - daño
         } else {
@@ -88,9 +88,8 @@ class Enemigo {
         personaje.muerte()
     }
 
-    method colisionarConBala(arma){
-        self.aplicarDaño(arma.daño())
-        arma.colisiono()
+    method colisionarConBala(bala){
+        bala.colisionarConEnemigo(self)
     }
 }
 
@@ -126,7 +125,7 @@ class EnemigoDeMovimientoLento inherits Enemigo{
 }
 
 class Zombie inherits EnemigoDeMovimientoLento(vida = 10, estado = zombiePasoDerecho, ticksParaMoverse = 1){
-    override method aplicarDaño(daño){ // El zombie muere de un solo golpe sin importar que.
+    override method recibirDaño(daño){ // El zombie muere de un solo golpe sin importar que.
         self.muerte()
     }
 
@@ -195,7 +194,7 @@ class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegi
         }
     }
 
-    override method aplicarDaño(daño){
+    override method recibirDaño(daño){
         super(daño)
         if (vida <= 50){
             estado = estado.siguienteEstado()

@@ -4,7 +4,6 @@ import personaje.*
 
 class Direccion{
     const elementosEnElMapa = elementos
-    const property estadoDePersonajeAsociado // Capaz haya una forma mejor de que el personaje cambie de estado.
 
     method siguiente(posicion){
         const siguientePosicion = self.siguientePosicion(posicion)
@@ -20,17 +19,17 @@ class Direccion{
     method siguientePosicion(posicion)
 }
 
-object izquierda inherits Direccion (estadoDePersonajeAsociado = personajeIzquierda){
+object arriba inherits Direccion(){
     override method estaDentroDelTablero(posicion){
-        return posicion.x() != -1
+        return posicion.y() != game.width()
     }
 
     override method siguientePosicion(posicion){
-        return posicion.left(1)
+        return posicion.up(1)
     }
 }
 
-object derecha inherits Direccion(estadoDePersonajeAsociado = personajeDerecha){
+object derecha inherits Direccion(){
     override method estaDentroDelTablero(posicion){
         return posicion.x() != game.width()
     }
@@ -40,7 +39,7 @@ object derecha inherits Direccion(estadoDePersonajeAsociado = personajeDerecha){
     }
 }
 
-object abajo inherits Direccion(estadoDePersonajeAsociado = personajeAbajo){
+object abajo inherits Direccion(){
     override method estaDentroDelTablero(posicion){
         return posicion.y() != -1
     }
@@ -50,12 +49,12 @@ object abajo inherits Direccion(estadoDePersonajeAsociado = personajeAbajo){
     }
 }
 
-object arriba inherits Direccion(estadoDePersonajeAsociado = personajeArriba ){
+object izquierda inherits Direccion (){
     override method estaDentroDelTablero(posicion){
-        return posicion.y() != game.width()
+        return posicion.x() != -1
     }
 
     override method siguientePosicion(posicion){
-        return posicion.up(1)
+        return posicion.left(1)
     }
 }
