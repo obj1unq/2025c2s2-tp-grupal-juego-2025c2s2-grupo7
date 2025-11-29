@@ -17,12 +17,12 @@ describe "Estado inicial del personaje" {
           assert.equals(3, personaje.vidas())
      }
 
-     test "El arma inicial del personaje es el arma principal" {
-           assert.equals(armaPrincipal, personaje.armaUtilizada())
+     test "El arma inicial del personaje es el revolver" {
+          assert.equals(revolver, personaje.armaUtilizada())
      }
 
      test "El personaje al inicio no tiene arma secundaria " {
-           assert.that(!personaje.tieneArmaSecundaria())
+          assert.that(!personaje.tieneArmaSecundaria())
      }
 }
 
@@ -111,29 +111,28 @@ describe "Muerte del personaje" {
 }
 
 describe "Disparo del personaje" {
-     test "Al disparar la bala aparece en la posicion del personaje" {
-          armaPrincipal.disparar(derecha)
-          assert.equals(personaje.position(), armaPrincipal.position())
+     test "Al disparar la bala aparece en la posicion siguiente a la del personaje en la direccion disparada" {
+          personaje.disparar(derecha)
+          assert.equals(personaje.position().right(1), personaje.armaUtilizada().municion().position())
      }
 
-     test "Direccion del disparo coincide con la dirección de la bala" {
-          armaPrincipal.disparar(derecha)
-          armaPrincipal.balaViajando(derecha)
-          assert.equals(personaje.position().right(1), armaPrincipal.position())
+     test "La bala viaja correctamente" {
+          personaje.disparar(derecha)
+          personaje.armaUtilizada().municion().balaViajando(derecha) // Se simula que pasa un tick para el test.
+          assert.equals(personaje.position().right(2), personaje.armaUtilizada().municion().position())
      }
 
      test "La bala vuelve al personaje si choca con el borde del mapa" {
           personaje.position(game.at(game.width() - 1, game.center().y()))
-          armaPrincipal.disparar(derecha)
-          armaPrincipal.balaViajando(derecha)
-          assert.equals(personaje.position(), armaPrincipal.position())
+          personaje.disparar(derecha)
+          personaje.armaUtilizada().municion().balaViajando(derecha)
+          assert.equals(personaje.position(), personaje.armaUtilizada().municion().position())
      }
 }
 
 describe "Interacciones del personaje" { 
      var bala
      var enemigo
-     var objeto
 
      method initialize() {
           personaje.position(game.center())
@@ -175,38 +174,40 @@ describe "Cambio de arma" {
      method initialize() {
           personaje.vidas(3)
           personaje.position(game.center())
-          personaje.armaUtilizada(armaPrincipal)
+          personaje.armaUtilizada(revolver)
           personaje.armaSecundaria(null)
           escopeta = new EscopetaDrop(position = game.center())
           metralleta = new MetralletaDrop(position = game.center())
      }
 
      test "El personaje no puede cambiar de arma si no tiene arma secundaria" {
-          assert.throwsException({personaje.cambiarArma() })
+          personaje.cambiarArma()
+          assert.equals(revolver, personaje.armaUtilizada())
      }
+
      test "El personaje puede cambiar de arma si tiene un arma secundaria" {
-          personaje.recolectarArma(escopeta)
+          personaje.armaSecundaria(escopeta)
           personaje.cambiarArma()
           assert.equals(escopeta, personaje.armaUtilizada())
      }
      test  "El personaje queda sin arma secundaria luego del cambio" {
-          personaje.recolectarArma(escopeta)
+          personaje.armaSecundaria(escopeta)
           personaje.cambiarArma()
           assert.equals(null, personaje.armaSecundaria())
      }
 
      test "El personaje deja de usar el arma principal después del cambio" {
-          personaje.recolectarArma(escopeta)
+          personaje.armaSecundaria(escopeta)
           personaje.cambiarArma()
-          assert.notEquals(armaPrincipal, personaje.armaUtilizada())
+          assert.notEquals(revolver, personaje.armaUtilizada())
      }
      test "El personaje puede recolectar arma secundaria si no tiene una" {
-          personaje.recolectarArma(escopeta)
+          personaje.armaSecundaria(escopeta)
           assert.equals(escopeta, personaje.armaSecundaria())
      }   
      test "El personaje  recolecta un arma secundaria se reemplaza la anterior" {
-          personaje.recolectarArma(escopeta)
-          personaje.recolectarArma(metralleta)
+          personaje.armaSecundaria(escopeta)
+          personaje.armaSecundaria(metralleta)
           assert.equals(metralleta, personaje.armaSecundaria())
      }
 }
