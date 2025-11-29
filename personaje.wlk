@@ -9,6 +9,7 @@ object personaje{
     var property armaUtilizada = revolver // Es property para tener un setter que facilitara los tests.
     var property armaSecundaria = null
     const juego = reyDeLaPradera
+    const sonidoDeMuerte = "_sonido_perderJuego.mp3"
 
     method image(){
         return image

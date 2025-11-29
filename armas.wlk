@@ -3,9 +3,11 @@ import personaje.*
 
 class Arma {
     const property municion 
+    const sonidoDeDisparo = "_sonido_disparo.mp3"
     
     method disparar(direccion){
         municion.serDisparada(direccion)
+        game.sound(sonidoDeDisparo).play()
     }
 }
 
@@ -67,19 +69,19 @@ class Municion{
     method colisionarConPersonaje(personaje){} // No se hace nada. El personaje no interacciona con su bala disparada.
 }
 
-object municionNormal inherits Municion (velocidadDeProyectil = 100, daño = 10, image = "municion_normal_derecha.png"){
+object municionNormal inherits Municion (velocidadDeProyectil = 100, daño = 100, image = "municion_normal_derecha.png"){
     override method nombreDeImagen(){
         return "municion_normal_"
     }
 }
 
-object municionVeloz inherits Municion (velocidadDeProyectil = 50, daño = 10, image = "municion_veloz_derecha.png"){
+object municionVeloz inherits Municion (velocidadDeProyectil = 50, daño = 200, image = "municion_veloz_derecha.png"){
     override method nombreDeImagen(){
         return "municion_veloz_"
     }
 }
 
-object municionExplosiva inherits Municion (velocidadDeProyectil = 150, daño = 10, image = "municion_explosiva_derecha.png"){
+object municionExplosiva inherits Municion (velocidadDeProyectil = 150, daño = 1000, image = "municion_explosiva_derecha.png"){
     override method nombreDeImagen(){
         return "municion_explosiva_"
     }
@@ -108,13 +110,13 @@ class MunicionPenetrante inherits Municion(){
     }
 }
 
-object flecha inherits MunicionPenetrante (velocidadDeProyectil = 150, daño = 10, image = "municion_flecha_derecha.png"){
+object flecha inherits MunicionPenetrante (velocidadDeProyectil = 150, daño = 200, image = "municion_flecha_derecha.png"){
     override method nombreDeImagen(){
         return "municion_flecha_"
     }
 }
 
-object cartucho inherits MunicionPenetrante (velocidadDeProyectil = 100, daño = 200, image = "municion_cartucho_derecha.png"){
+object cartucho inherits MunicionPenetrante (velocidadDeProyectil = 100, daño = 400, image = "municion_cartucho_derecha.png"){
     override method nombreDeImagen(){
         return "municion_cartucho_"
     }

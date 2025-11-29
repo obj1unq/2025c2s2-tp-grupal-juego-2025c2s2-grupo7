@@ -93,7 +93,7 @@ class Enemigo {
     }
 }
 
-class Vampiro inherits Enemigo(vida = 20, estado = vampiroArriba){ 
+class Vampiro inherits Enemigo(vida = 200, estado = vampiroArriba){ 
     override method mejorPosicionParaPerseguirEntre(posiciones){
         return posiciones.findOrDefault({posicion => !tableroDeNivel.hayEnemigoAca(posicion)}, position) // Los vampiros vuelan sobre los elementos del mapa.
     }
@@ -124,7 +124,7 @@ class EnemigoDeMovimientoLento inherits Enemigo{
     method ticksParaMoverseIniciales()
 }
 
-class Zombie inherits EnemigoDeMovimientoLento(vida = 10, estado = zombiePasoDerecho, ticksParaMoverse = 1){
+class Zombie inherits EnemigoDeMovimientoLento(vida = 100, estado = zombiePasoDerecho, ticksParaMoverse = 1){
     override method recibirDaño(daño){ // El zombie muere de un solo golpe sin importar que.
         self.muerte()
     }
@@ -154,7 +154,7 @@ object zombiePasoIzquierdo{
     const property siguienteEstado = zombiePasoDerecho
 }
 
-class Minotauro inherits EnemigoDeMovimientoLento(vida = 30, estado = minotauroPasoDerecho, ticksParaMoverse = 1){
+class Minotauro inherits EnemigoDeMovimientoLento(vida = 400, estado = minotauroPasoDerecho, ticksParaMoverse = 1){
     override method ticksParaMoverseIniciales(){
         return 1
     }
@@ -170,7 +170,7 @@ object minotauroPasoIzquierdo{
     const property siguienteEstado = minotauroPasoDerecho
 }
 
-class Momia inherits EnemigoDeMovimientoLento(vida = 150, estado = momiaPasoDerecho, ticksParaMoverse = 4){
+class Momia inherits EnemigoDeMovimientoLento(vida = 700, estado = momiaPasoDerecho, ticksParaMoverse = 3){
     override method ticksParaMoverseIniciales(){
         return 4
     }
@@ -186,7 +186,7 @@ object momiaPasoIzquierdo{
     const property siguienteEstado = momiaPasoDerecho
 }
 
-class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
+class Acorazado inherits EnemigoDeMovimientoLento(vida = 700, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
 
     override method perseguir(personaje){
         if (estado.puedeMoverse()){
@@ -196,7 +196,7 @@ class Acorazado inherits EnemigoDeMovimientoLento(vida = 70, estado = desprotegi
 
     override method recibirDaño(daño){
         super(daño)
-        if (vida <= 50){
+        if (vida <= 500){
             estado = estado.siguienteEstado()
         }
     }

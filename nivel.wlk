@@ -15,7 +15,7 @@ class Nivel{
     var enemigosASpawnear = enemigosASpawnearIniciales.copy() // Un set de los enemigos que aun no se han spawneado durante la ejecución de un nivel.
     const enemigosEnNivel = enemigos
     const tiempoDeSpawn = 500
-    const limiteDeEnemigosEnMapa = 5
+    const limiteDeEnemigosEnMapa = 4
     const juego = reyDeLaPradera
     const fondoDelNivel = fondo
     const jugador = personaje
@@ -143,9 +143,11 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b]].reverse(),
-enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb, zmb,
-                              zmb, zmb, zmb, zmb, zmb,
-                              zmb, zmb, zmb, zmb, zmb],
+enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              acz, acz],
 siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png")
 
 const segundoNivel = new Nivel(
@@ -166,7 +168,11 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b]].reverse(),
-enemigosASpawnearIniciales = [zmb, zmb],
+enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              acz, acz, mtr, mtr],
 siguienteNivel = tercerNivel, imagenDeFondo = "fondo_nivel2.png")
 
 const tercerNivel = new Nivel(
@@ -187,7 +193,14 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b]].reverse(),
-enemigosASpawnearIniciales = [zmb, zmb],
+enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              vmp, vmp, vmp, vmp,
+                              mtr, mtr, mtr, mtr,
+                              acz, acz],
 siguienteNivel = cuartoNivel, imagenDeFondo = "fondo_nivel3.png")
 
 const cuartoNivel = new Nivel(
@@ -208,7 +221,15 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b]].reverse(),
-enemigosASpawnearIniciales = [zmb, zmb],
+enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              zmb, zmb, zmb, zmb,
+                              vmp, vmp, vmp, vmp,
+                              vmp, vmp, vmp, vmp,
+                              mtr, mtr, mtr, mtr,
+                              acz, acz, mom, mom],
 siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel4.png")
 
 // NIVEL FINAL (JEFE)
