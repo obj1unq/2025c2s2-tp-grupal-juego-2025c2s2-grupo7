@@ -34,29 +34,30 @@ class Nivel{
                 enemigosASpawnear.remove(enemigoASpawnear)
             }
         } else {
+            game.removeTickEvent("Spawn de enemigos del nivel")
             self.esperarFinalDelNivel()
         }
     }
 
     method esperarFinalDelNivel(){
-        game.removeTickEvent("Spawn de enemigos del nivel")
         game.onTick(3000, "Chequeo final del nivel", {self.terminarNivel()})
     }
 
     method terminarNivel(){
         self.validarPuedeTerminarseNivel()
         game.removeTickEvent("Chequeo final del nivel")
+        enemigos.detenerEnemigos()
         juego.pasarASiguienteNivel()
     }
 
     method validarPuedeTerminarseNivel(){
-        if (enemigosEnNivel.cantidadDeEnemigosEnMapa() != 0){
+        if (enemigosEnNivel.quedanEnemigos()){
             self.error("")
         }
     }
 
     method hayEspacioParaSpawnearEnemigo(){
-        return limiteDeEnemigosEnMapa > enemigosEnNivel.cantidadDeEnemigosEnMapa()
+        return limiteDeEnemigosEnMapa > enemigosEnNivel.cantidadDeEnemigos()
     }
 
     method jugarNivel(){
@@ -67,15 +68,16 @@ class Nivel{
     }
 
     method reiniciarEnemigos(){
+        game.removeTickEvent("Chequeo final del nivel")
         enemigosEnNivel.matarTodos()
+        enemigos.detenerEnemigos()
         enemigosASpawnear = enemigosASpawnearIniciales.copy()
         self.inicializarEnemigos()
     }
 
     method inicializarEnemigos(){
         self.spawnearEnemigos()
-        enemigosEnNivel.enemigosDanPaso()
-        enemigosEnNivel.enemigosPersiguen(jugador)
+        enemigos.iniciarEnemigos(jugador)
     }
 }
 

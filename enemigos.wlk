@@ -11,6 +11,16 @@ object enemigos{
         game.addVisual(enemigo)
     }
 
+    method iniciarEnemigos(personaje){
+        self.enemigosDanPaso()
+        self.enemigosPersiguen(personaje)
+    }
+
+    method detenerEnemigos(){
+        game.removeTickEvent("Enemigos dan paso")
+        game.removeTickEvent("Enemigos persiguen a personaje.")
+    }
+
     method enemigosDanPaso(){
         game.onTick(150, "Enemigos dan paso", {enemigosEnNivel.forEach({enemigo => enemigo.darPaso()})})
     }
@@ -20,23 +30,24 @@ object enemigos{
     }
 
     method enemigoMurio(enemigo){
+        game.removeVisual(enemigo)
         enemigosEnNivel.remove(enemigo)
-        if (enemigosEnNivel.isEmpty()){
-            game.removeTickEvent("Enemigos dan paso")
-            game.removeTickEvent("Enemigos persiguen a personaje.")
-        }
     }
 
     method matarTodos(){
         enemigosEnNivel.forEach({enemigo => enemigo.muerte()})
     }
 
-    method cantidadDeEnemigosEnMapa(){
+    method cantidadDeEnemigos(){
         return enemigosEnNivel.size()
     }
 
     method hayEnemigoAca(position){
         return enemigosEnNivel.any({enemigo => enemigo.position() == position})
+    }
+
+    method quedanEnemigos(){
+        return !enemigosEnNivel.isEmpty()
     }
 }
 
@@ -74,10 +85,9 @@ class Enemigo {
     }
 
     method muerte (){
-        dropeo.crear(position)
-        game.removeVisual(self)
         ejercitoDeNivel.enemigoMurio(self)
         game.sound(sonidosDeMuerte.anyOne()).play()
+        dropeo.crear(position)
     }
 
     method darPaso(){
@@ -244,3 +254,45 @@ object acorazadoPasoIzquierdo{
     const property image = "enemigo_acorazadoIzquierdo.png"
     const property siguienteEstado = acorazadoPasoDerecho
 }
+
+/*
+object jefeFinal{
+    var estado = jefeProtegido
+    const aliados = #{}
+    var position = game.at(8,2)
+    var vida = 1000
+    const ejercitoDeNivel = enemigos
+    const tableroDeNivel = tablero
+    const sonidosDeMuerte = #{"_sonido_muerteEnemigo1.mp3", "_sonido_muerteEnemigo2.mp3"}
+    var contadorDeAliadosMuertos = 0
+
+    method image(){
+        return estado.image()
+    }
+
+    method position(){
+        return position
+    }
+
+    method mostrarse(){
+
+    }
+
+    method spawnearAliados(){
+        game.onTick(100, "jefe spawnea aliado", {self.spawnearAliado()})
+    }
+
+    method spawnearAliado(){
+        if (contadorDeAliadosMuertos == 0){
+            game.removeTickEvent("jefe spawnea aliado")
+            self.mostrarse()
+        } else {
+            if (aliados.size() < 4){
+                const aliado = aliadoFactory.crear()
+                aliados.add(aliado)
+                game.addVisual(aliado)
+            }
+        }
+    }
+}
+*/
