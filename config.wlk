@@ -41,7 +41,7 @@ object configuracion {
     method configColisiones(){
         game.onCollideDo(personaje, {objeto => objeto.colisionarConPersonaje(personaje)})
         game.onCollideDo(municionNormal, {objeto => objeto.colisionarConBala(municionNormal)})
-        game.onCollideDo(flechaPenetrante, {objeto => objeto.colisionarConBala(flechaPenetrante)})
+        game.onCollideDo(flecha, {objeto => objeto.colisionarConBala(flecha)})
         game.onCollideDo(municionVeloz, {objeto => objeto.colisionarConBala(municionVeloz)})
         game.onCollideDo(cartucho, {objeto => objeto.colisionarConBala(cartucho)})
         game.onCollideDo(municionExplosiva, {objeto => objeto.colisionarConBala(municionExplosiva)})

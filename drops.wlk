@@ -56,16 +56,19 @@ class Drop {
     const property image
     const property position
 
-    method colisionarConPersonaje(personaje){
-        
-    }
+    method colisionarConPersonaje(personaje)
 
-    method colisionarConBala(arma){
-        // No se hace nada.
+    method colisionarConBala(arma){} // No se hace nada.
+}
+
+class VidaDrop inherits Drop(image = "drop_vida.png"){
+    override method colisionarConPersonaje(personaje){
+        personaje.recolectarVida()
+        game.removeVisual(self)
     }
 }
 
-class DropDeArma inherits Drop{
+class ArmaDrop inherits Drop{
     const arma 
     
     override method colisionarConPersonaje(personaje){
@@ -76,17 +79,10 @@ class DropDeArma inherits Drop{
     }
 }
 
-class VidaDrop inherits Drop(image = "drop_vida.png"){
-    override method colisionarConPersonaje(personaje){
-        personaje.recolectarVida()
-        game.removeVisual(self)
-    }
-}
+class EscopetaDrop inherits ArmaDrop(image = "drop_escopeta.png", arma = escopeta){}
 
-class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png", arma = escopeta){}
+class MetralletaDrop inherits ArmaDrop(image = "drop_metralleta.png",arma = metralleta){}
 
-class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png",arma = metralleta){}
+class LanzacohetesDrop inherits ArmaDrop(image = "drop_lanzacohetes.png",arma = lanzacohetes){}
 
-class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png",arma = lanzacohetes){}
-
-class ArcoDrop inherits DropDeArma(image = "drop_arco.png",arma = arco){}
+class ArcoDrop inherits ArmaDrop(image = "drop_arco.png",arma = arco){}

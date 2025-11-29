@@ -18,7 +18,6 @@ object personaje{
         if (self.puedeAgarrarVida()){
             vidas += 1
         }
-        
     }
 
     method puedeAgarrarVida(){
@@ -29,8 +28,12 @@ object personaje{
         return 3
     }
 
-    method text() {
-		return armaUtilizada.toString()
+    method text(){
+        if (armaSecundaria == null){
+            return ""
+        } else {
+            return armaSecundaria.toString()
+        }
 	}
     
 	method textColor() {

@@ -17,7 +17,7 @@ object metralleta inherits Arma (municion = municionVeloz){}
 
 object lanzacohetes inherits Arma (municion = municionExplosiva){}
 
-object arco inherits Arma (municion = flechaPenetrante){}
+object arco inherits Arma (municion = flecha){}
 
 class Municion{
     var position = game.at(7,7)
@@ -80,6 +80,11 @@ object municionVeloz inherits Municion (velocidadDeProyectil = 50, daño = 10, i
 }
 
 object municionExplosiva inherits Municion (velocidadDeProyectil = 150, daño = 10, image = "municion_explosiva_derecha.png"){
+    override method nombreDeImagen(){
+        return "municion_explosiva_"
+    }
+
+    /*
     override method colisionarConEnemigo(enemigo){
         const posicionEnemigo = enemigo.position()
         self.explotar(enemigo)
@@ -94,10 +99,7 @@ object municionExplosiva inherits Municion (velocidadDeProyectil = 150, daño = 
     method efectoExplosion(){}
 
     method explotarPosicionesCercanas(posicion){}
-
-    override method nombreDeImagen(){
-        return "municion_explosiva_"
-    }
+    */
 }
 
 class MunicionPenetrante inherits Municion(){
@@ -106,13 +108,13 @@ class MunicionPenetrante inherits Municion(){
     }
 }
 
-object flechaPenetrante inherits MunicionPenetrante (velocidadDeProyectil = 150, daño = 10, image = "municion_flecha_derecha.png"){
+object flecha inherits MunicionPenetrante (velocidadDeProyectil = 150, daño = 10, image = "municion_flecha_derecha.png"){
     override method nombreDeImagen(){
         return "municion_flecha_"
     }
 }
 
-object cartucho inherits Municion (velocidadDeProyectil = 100, daño = 200, image = "municion_cartucho_derecha.png"){
+object cartucho inherits MunicionPenetrante (velocidadDeProyectil = 100, daño = 200, image = "municion_cartucho_derecha.png"){
     override method nombreDeImagen(){
         return "municion_cartucho_"
     }
