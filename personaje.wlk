@@ -3,25 +3,27 @@ import juego.*
 import armas.*
 
 object personaje{
+    var image = "personaje_derecha.png"
     var property position = game.center() // Es property para tener un setter que facilitara los tests.
     var property vidas = 3                // Es property para tener un setter que facilitara los tests.
-    var property armaUtilizada = escopeta
+    var property armaUtilizada = revolver // Es property para tener un setter que facilitara los tests.
     var property armaSecundaria = null
     const juego = reyDeLaPradera
-    var estado = personajeDerecha
 
     method image(){
-        return estado.image()
+        return image
+    }
+
+    method recolectarVida(){
+        if (self.puedeAgarrarVida()){
+            vidas += 1
+        }
+        
     }
 
     method puedeAgarrarVida(){
         return vidas < self.maximoVidas()
     }
-
-    method recolectarVida(){
-            vidas += 1
-    }
-    
 
     method maximoVidas(){
         return 3
@@ -30,23 +32,25 @@ object personaje{
     method text() {
 		return armaUtilizada.toString()
 	}
+    
 	method textColor() {
 		return "FF0000FF"
 	}
 
     method cambiarArma(){
-        if(self.puedeCambiarDeArma())
-        armaUtilizada = armaSecundaria
-        game.schedule(10000, {armaUtilizada = armaPrincipal})
-        armaSecundaria = null
+        if(self.puedeCambiarDeArma()){
+            armaUtilizada = armaSecundaria
+            game.schedule(10000, {armaUtilizada = revolver})
+            armaSecundaria = null
+        }
     }
 
     method puedeCambiarDeArma(){
         return armaSecundaria != null
     }
 
-    method recolectarArma(arma){
-        armaSecundaria = arma
+    method armaSecundaria(_armaSecundaria){
+        armaSecundaria = _armaSecundaria
     }
 
     method tieneArmaSecundaria(){
@@ -59,7 +63,7 @@ object personaje{
     }
 
     method disparar(direccion){
-        estado = direccion.estadoDePersonajeAsociado()
+        image = "personaje_" + direccion + ".png"
         armaUtilizada.disparar(direccion)
     }
 
@@ -78,22 +82,4 @@ object personaje{
     }
 
     method colisionarConBala(arma){} // No se hace nada. El personaje no interacciona con su bala disparada.
-}
-
-// ESTADOS DEL PERSONAJE
-
-object personajeArriba{
-    const property image = "personaje_arriba.png"
-}
-
-object personajeDerecha{
-    const property image = "personaje_derecha.png"
-}
-
-object personajeAbajo{
-    const property image = "personaje_abajo.png"
-}
-
-object personajeIzquierda{
-    const property image = "personaje_izquierda.png"
 }

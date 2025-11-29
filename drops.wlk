@@ -46,7 +46,6 @@ object drops {
         game.schedule(5000, {self.borrarDropSuelto(drop)})
     }
     
-
     method rollDropeo(){
         return 0.randomUpTo(1)
     }
@@ -70,30 +69,24 @@ class DropDeArma inherits Drop{
     const arma 
     
     override method colisionarConPersonaje(personaje){
-        if(not personaje.tieneArmaSecundaria()){
-        personaje.recolectarArma(self.arma())
-        game.removeVisual(self)
+        if (!personaje.tieneArmaSecundaria()){
+            personaje.armaSecundaria(arma)
+            game.removeVisual(self)
         }
     }
-
-    method arma(){
-        return arma
-    }
-
 }
 
 class VidaDrop inherits Drop(image = "drop_vida.png"){
-
-     override method colisionarConPersonaje(personaje){
-        if(personaje.puedeAgarrarVida()){
+    override method colisionarConPersonaje(personaje){
         personaje.recolectarVida()
         game.removeVisual(self)
-        }
     }
 }
 
 class EscopetaDrop inherits DropDeArma(image = "drop_escopeta.png", arma = escopeta){}
 
-class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png",arma = uzi){}
+class MetralletaDrop inherits DropDeArma(image = "drop_metralleta.png",arma = metralleta){}
 
 class LanzacohetesDrop inherits DropDeArma(image = "drop_lanzacohetes.png",arma = lanzacohetes){}
+
+class ArcoDrop inherits DropDeArma(image = "drop_arco.png",arma = arco){}
