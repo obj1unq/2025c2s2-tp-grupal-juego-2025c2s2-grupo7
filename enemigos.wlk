@@ -47,6 +47,7 @@ class Enemigo {
     const ejercitoDeNivel = enemigos
     const tableroDeNivel = tablero
     const dropeo = drops
+    const sonidosDeMuerte = #{"_sonido_muerteEnemigo1.mp3", "_sonido_muerteEnemigo2.mp3"}
 
     method image(){
         return estado.image()
@@ -76,6 +77,7 @@ class Enemigo {
         dropeo.crear(position)
         game.removeVisual(self)
         ejercitoDeNivel.enemigoMurio(self)
+        game.sound(sonidosDeMuerte.anyOne()).play()
     }
 
     method darPaso(){

@@ -94,7 +94,11 @@ object ttr { // Zombie del nivel tutorial.
 // OBJETOS que representan un elemento en una celda del layout de un nivel.
 
 object _{ // Celda vacia del nivel.
-    method crear(posicion, elemento){}
+    method crear(posicion, elementos){}
+}
+
+object b{ // Borde del mapa de un nivel (es un elemento, pero se encuentra incorporado a la imagen del nivel).
+    method crear(posicion, elementos){}
 }
 
 object m{ // Muro en el nivel.
