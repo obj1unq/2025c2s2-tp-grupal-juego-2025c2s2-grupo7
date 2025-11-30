@@ -9,8 +9,9 @@
 
 ## Capturas
 
-
-![Primer nivel](assets/fondo_nivel2.png)
+<p align="center">
+  <img src="assets/fondo_nivel2.png" alt="Mapa del juego" width="500"/>
+</p>
 ![Segundo nivel](assets/fondo_nivel3.png)
 ![Tercer nivel](assets/fondo_nivel4.png)
 
