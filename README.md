@@ -10,10 +10,17 @@
 ## Capturas
 
 <p align="center">
-  <img src="assets/fondo_nivel2.png" alt="Mapa del juego" width="500"/>
+  <img src="assets/fondo_nivel2.png" alt="Mapa del juego" width="400"/>
 </p>
-![Segundo nivel](assets/fondo_nivel3.png)
-![Tercer nivel](assets/fondo_nivel4.png)
+
+<p align="center">
+  <img src="assets/fondo_nivel3.png" alt="Mapa del juego" width="400"/>
+</p>
+
+<p align="center">
+  <img src="assets/fondo_nivel4.png" alt="Mapa del juego" width="400"/>
+</p>
+
 
 ![Enemigo Zombie](gifs/zombie.gif)
 ![Enemigo Acorazado](gifs/acorazado.gif)
