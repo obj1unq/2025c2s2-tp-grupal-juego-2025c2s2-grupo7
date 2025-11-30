@@ -51,7 +51,7 @@
 
 ### Objetivo: Acabar con el malvado Rey Lich y su ejercito
 
-## Teclas del juego
+### Teclas del juego
 <p align="center">
   <img src="assets/pantalla_instrucciones.png" alt="" width="300"/>
 </p>
