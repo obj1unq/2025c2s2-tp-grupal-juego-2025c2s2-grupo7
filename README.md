@@ -9,7 +9,7 @@
 
 ## Capturas
 
-(agregar)
+![Enemigo Zombie](assets/enemigo_zombieIzquierdo.png)
 
 ## Reglas de Juego / Instrucciones
 
