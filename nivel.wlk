@@ -117,7 +117,7 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b]].reverse(),
 enemigosASpawnearIniciales = [ttr, ttr, ttr, ttr],
-siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel1.png"){
+siguienteNivel = primerNivel, imagenDeFondo = "fondo_nivel1.png"){
     const configuracionDelJuego = configuracion
 
     override method jugarNivel(){
