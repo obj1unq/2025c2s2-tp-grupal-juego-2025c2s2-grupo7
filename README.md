@@ -23,9 +23,13 @@
 
 
 ![Enemigo Zombie](gifs/zombie.gif)
+
 ![Enemigo Acorazado](gifs/acorazado.gif)
+
 ![Enemigo Minotauro](gifs/minotauro.gif)
+
 ![Enemigo Vampiro](gifs/vampiro.gif)
+
 ![Enemigo Momia](gifs/momia.gif)
 
 ## Reglas de Juego / Instrucciones
