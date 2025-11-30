@@ -9,28 +9,32 @@
 
 ## Capturas
 
-<p align="center">
-  <img src="assets/fondo_nivel2.png" alt="Mapa del juego" width="300"/>
-</p>
+### Niveles
 
 <p align="center">
-  <img src="assets/fondo_nivel3.png" alt="Mapa del juego" width="300"/>
-</p>
-
-<p align="center">
-  <img src="assets/fondo_nivel4.png" alt="Mapa del juego" width="300"/>
+  <img src="imagenReadme/nivel2.png" alt="Mapa del juego" width="300"/>
 </p>
 
 
-![Enemigo Zombie](gifs/zombie.gif)
+<p align="center">
+  <img src="imagenReadme/nivel3.png" alt="Mapa del juego" width="300"/>
+</p>
 
-![Enemigo Acorazado](gifs/acorazado.gif)
+<p align="center">
+  <img src="imagenReadme/nivel4.png" alt="Mapa del juego" width="300"/>
+</p>
 
-![Enemigo Minotauro](gifs/minotauro.gif)
 
-![Enemigo Vampiro](gifs/vampiro.gif)
-
-![Enemigo Momia](gifs/momia.gif)
+### Enemigos
+| Monstruo | Descripción |
+| :---: | :--- | 
+| **Zombie Básico**<br><img src="imagenReadme/zombie.gif" alt="Sprite del zombie basico" width="70"/> | El enemigo más débil, eso no quita que con un simple rasguño la cosa se pueda ver fea. |
+| **Acorazado**<br><img src="imagenReadme/acorazado.gif" alt="Sprite del acorazado" width="70"/> | Enemigo blindado. Luego de recibir cierta cantidad de daño, cubre su cuerpo con espinas. |
+| **Minotauro**<br><img src="imagenReadme/minotauro.gif" alt="Sprite de Minotauro" width="70"/> | Una gran bestia capaz de resistir mucho daño. |
+| **Gargola**<br><img src="imagenReadme/gargola.gif" alt="Sprite de gargola" width="70"/> | Enemigo volador y veloz, capaz de sobrevolar cualquier obstáculo. |
+| **Momia**<br><img src="imagenReadme/monia.gif" alt="Sprite de momia" width="70"/> | Un enemigo algo lento, aunque compite con el minotauro por ver quién resiste más daño. |
+| **Vampiro**<br><img src="imagenReadme/monia.gif" alt="Sprite de vampiro" width="70"/> |. |
+| **Rey Lich**<br><img src="imagenReadme/reyLich.gif" alt="Sprite de rey Lich" width="70"/> |. |
 
 ## Reglas de Juego / Instrucciones
 
