@@ -1,6 +1,5 @@
 import wollok.game.*
 import personaje.*
-import elementosDelMapa.*
 import enemigos.*
 import juego.*
 import tableroYRepresentaciones.*
@@ -19,7 +18,7 @@ class Nivel{
     const juego = reyDeLaPradera
     const fondoDelNivel = fondo
     const jugador = personaje
-    const property cancion = game.sound("_cancion_nivel.mp3")
+    const property cancion = "_cancion_nivel.mp3"
     const tableroDelJuego = tablero
 
     method spawnearEnemigos(){
@@ -84,8 +83,8 @@ class Nivel{
 object menu{
     const siguienteNivel = nivelTutorial
     const fondoDelJuego = fondo
-    const property cancion = game.sound("_cancion_menu.mp3")
-    const imagenDeMenu = "menu_fondo2.png"
+    const property cancion = "_cancion_menu.mp3"
+    const imagenDeMenu = "pantalla_menu.png"
 
     method jugarNivel(){
         fondoDelJuego.image(imagenDeMenu)
@@ -255,7 +254,7 @@ layout = [[b,b,b,b,b,b,b,s,s,s,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,s,s,s,b,b,b,b,b,b,b]].reverse(),
 enemigosASpawnearIniciales = [],
-siguienteNivel = self, imagenDeFondo = "fondo_nivel4.png")
+siguienteNivel = self, imagenDeFondo = "fondo_nivel4.png", cancion = "_cancion_ultimoNivel.mp3")
 {
     const jefeDelNivel = jefeFinal
 
@@ -263,15 +262,6 @@ siguienteNivel = self, imagenDeFondo = "fondo_nivel4.png")
         fondoDelNivel.image(imagenDeFondo)
         tableroDelJuego.crearNivel(layout)
         game.addVisual(jefeDelNivel)
-        jefeDelNivel.activar()
-    }
-
-    override method reiniciarEnemigos(){
-        game.removeTickEvent("Chequeo final del nivel")
-        enemigosEnNivel.matarTodos()
-        enemigos.detenerEnemigos()
-        enemigosASpawnear = enemigosASpawnearIniciales.copy()
-        self.inicializarEnemigos()
         jefeDelNivel.activar()
     }
 }

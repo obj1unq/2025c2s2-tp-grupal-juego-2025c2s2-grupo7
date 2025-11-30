@@ -5,6 +5,7 @@ import nivel.*
 import personaje.*
 import imagenesEnPantalla.*
 import drops.*
+import reproductor.*
 
 object reyDeLaPradera{
     var nivelActual = menu
@@ -12,6 +13,7 @@ object reyDeLaPradera{
     const jugador = personaje
     const dropsEnElJuego = drops
     const reproductorMusica = reproductor
+    const cancionVictoria = "_cancion_victoria.mp3"
     var juegoIniciado = false
 
     method empezarJuego(){
@@ -20,7 +22,7 @@ object reyDeLaPradera{
         configuracion.configColisiones()
         nivelActual.jugarNivel()
         game.start()
-        game.schedule(1000, {reproductorMusica.reproducir(nivelActual.cancion())})
+        game.schedule(1000, {reproductorMusica.reproducirCancion(nivelActual.cancion())})
     }
 
     method pasarMenu(){
@@ -38,10 +40,20 @@ object reyDeLaPradera{
     }
 
     method reiniciarNivel(){
-        reproductorMusica.parar(nivelActual.cancion())
+        reproductorMusica.detenerCancion()
         nivelActual.reiniciarEnemigos()
         dropsEnElJuego.borrarDrops()
-        reproductorMusica.reproducir(nivelActual.cancion())
+        reproductorMusica.reproducirCancion(nivelActual.cancion())
+    }
+
+    method iniciarSiguienteNivel(){
+        nivelActual.jugarNivel()
+        reproductorMusica.reproducirCancion(nivelActual.cancion())
+    }
+
+    method limpiarNivelActual(){
+        reproductorMusica.detenerCancion()
+        tableroDelJuego.limpiarTablero()
     }
 
     method perderJuego(){
@@ -50,24 +62,11 @@ object reyDeLaPradera{
         game.stop()
     }
 
-    method iniciarSiguienteNivel(){
-        nivelActual.jugarNivel()
-        reproductorMusica.reproducir(nivelActual.cancion())
-    }
-
-    method limpiarNivelActual(){
-        reproductorMusica.parar(nivelActual.cancion())
-        tableroDelJuego.limpiarTablero()
-    }
-}
-
-object reproductor{
-    method reproducir(cancion){
-        cancion.shouldLoop(false)
-        cancion.play()
-    }
-
-    method parar(cancion){
-        cancion.stop()
+    method ganarJuego(){
+        reproductorMusica.detenerCancion()
+        reproductorMusica.reproducirCancion(cancionVictoria)
+        game.removeVisual(vidas)
+        game.addVisual(youWin)
+        game.schedule(500, {game.stop()})
     }
 }

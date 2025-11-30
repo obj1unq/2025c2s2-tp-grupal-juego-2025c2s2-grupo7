@@ -2,6 +2,7 @@ import wollok.game.*
 import drops.*
 import tableroYRepresentaciones.*
 import personaje.*
+import reproductor.*
 
 object enemigos{
     const enemigosEnNivel = #{}
@@ -18,12 +19,12 @@ object enemigos{
     }
 
     method detenerEnemigos(){
-        game.removeTickEvent("Enemigos dan paso")
+        game.removeTickEvent("Enemigos dan paso.")
         game.removeTickEvent("Enemigos persiguen a personaje.")
     }
 
     method enemigosDanPaso(){
-        game.onTick(150, "Enemigos dan paso", {enemigosEnNivel.forEach({enemigo => enemigo.darPaso()})})
+        game.onTick(150, "Enemigos dan paso.", {enemigosEnNivel.forEach({enemigo => enemigo.darPaso()})})
     }
 
     method enemigosPersiguen(personaje){
@@ -55,6 +56,7 @@ object enemigos{
 class Enemigo{
     var position 
     var vida
+    const reproductorSonidos = reproductor
 
     method position(){
         return position
@@ -107,7 +109,7 @@ class EnemigoPerseguidor inherits Enemigo{
 
     override method muerte(){
         enemigosDeNivel.enemigoMurio(self)
-        game.sound(sonidosDeMuerte.anyOne()).play()
+        reproductorSonidos.reproducirSonido(sonidosDeMuerte.anyOne())
         dropeo.crear(position)
     }
 }
@@ -173,7 +175,7 @@ class Acorazado inherits EnemigoPerseguidorDeMovimientoLento(vida = 700, estado 
     }
 }
 
-object jefeFinal inherits Enemigo(vida = 2500, position = game.at(8,2)){
+object jefeFinal inherits Enemigo(vida = 200, position = game.at(8,2)){
     const estado = jefeAnimado
     const enemigosDeNivel = enemigos
     const sonidoDeMuerte = "_sonido_muerteEnemigo1.mp3"
@@ -193,7 +195,7 @@ object jefeFinal inherits Enemigo(vida = 2500, position = game.at(8,2)){
     }
 
     override method muerte(){
-        game.sound(sonidoDeMuerte).play()
+        reproductorSonidos.reproducirSonido(sonidoDeMuerte)
         self.detenerOleada()
         game.removeVisual(self)
         self.dropearObjeto()

@@ -11,7 +11,7 @@ object fondo{
 }
 
 object instrucciones {
-    const property image = "instrucciones.png"
+    const property image = "pantalla_instrucciones.png"
     const property position = game.at(6,2)
 }
 
@@ -25,6 +25,11 @@ object vidas{
 }
 
 object gameOver {
-    const property image = "game_over.png"
+    const property image = "pantalla_gameOver.png"
+    const property position = game.at(4,5)
+}
+
+object youWin{
+    const property image = "pantalla_youWin.png"
     const property position = game.at(4,5)
 }

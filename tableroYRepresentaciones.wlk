@@ -3,29 +3,19 @@ import enemigos.*
 import elementosDelMapa.*
 import factories.*
 import drops.*
-// import personaje.* // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
 
-object tablero{ // TAL VEZ HABRIA QUE HACER QUE EL LAYOUT ESTE ACA O DE ALGUNA MANERA SE CONECTE CON ESTE OBJETO TABLERO
+object tablero{
     const property width = 17
     const property height = 17
     const property cellSize = 48
     const dropsEnElTablero = drops
     const enemigosEnElTablero = enemigos
-    const elementosEnElTablero = elementos // SOLO HACE FALTA EN LA VERSION LENTA DE hayAlgoAca
-    // const jugador = personaje // SOLO HACE FALTA EN LA VERSION RAPIDA DE hayAlgoAca
+    const elementosEnElTablero = elementos
 
-    method hayAlgoAca(position){ // VERSION LENTA
+    method hayAlgoAca(position){
         return enemigosEnElTablero.hayEnemigoAca(position) or 
                elementosEnElTablero.hayElementoAca(position)
     }
-
-    /*
-    method hayAlgoAca(position){ // VERSION RAPIDA
-        const objetosEnPosicion = game.getObjectsIn(position)
-        objetosEnPosicion.remove(jugador)
-        return !objetosEnPosicion.isEmpty()
-    }
-    */
 
     method posicionesLindantes(position){
         return [position.left(1), position.right(1), position.up(1), position.down(1)]

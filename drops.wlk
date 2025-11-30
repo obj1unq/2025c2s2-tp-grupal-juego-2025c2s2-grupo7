@@ -1,8 +1,8 @@
 import wollok.game.*
-import personaje.*
 import factories.*
 import armas.*
 import enemigos.*
+import juego.*
 
 object drops {
     const property dropsCreados = []
@@ -31,7 +31,7 @@ object drops {
 
     method agregarNuevoDrop(position, probabilidad){
         var drop 
-        if (probabilidad <= 0.5){
+        if (probabilidad <= 0.05){
             drop = escopetaFactory.crear(position)
             self.agregarDrop(drop)
         } else if (probabilidad <= 0.10){
@@ -69,8 +69,11 @@ class Drop {
 }
 
 object estrella inherits Drop(image = "drop_estrella.png", position = game.center()){
+    const juego = reyDeLaPradera
+
     override method colisionarConPersonaje(personaje){
         game.removeVisual(self)
+        juego.ganarJuego()
     }
 }
 
