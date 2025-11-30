@@ -68,7 +68,7 @@ class Drop {
     method colisionarConBala(arma){} // No se hace nada.
 }
 
-object estrella inherits Drop(image = "drop_estrella.png", position = game.center()){
+object placaDeSheriff inherits Drop(image = "drop_estrella.png", position = game.center()){
     const juego = reyDeLaPradera
 
     override method colisionarConPersonaje(personaje){
