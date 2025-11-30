@@ -36,14 +36,25 @@
 | **Rey Lich**<br><img src="imagenReadme/reyLich.gif" alt="Sprite de rey Lich" width="70"/> |La fuente y el causante de toda la corrupción. Este antiguo hechicero, tras alcanzar la inmortalidad a través de la nigromancia, busca someter el mundo a un invierno eterno.. |
 
 ### Drops
-| Monstruo | Descripción |
+| Drop | Descripción |
 | :---: | :--- | 
 | **Bomba atomica**<br><img src="assets/drop_nuclear.png" alt="Sprite bomba atomica" width="70"/> | Mata instantáneamente a todos los enemigos en pantalla.|
+| **Placa de sheriff**<br><img src="assets/drop_estrella.png" alt="Sprite Placa de sheriff" width="70"/> | El jugador gana el juego.|
+| **Vida**<br><img src="assets/drop_vida.png" alt="Sprite Vida" width="70"/> | Añade una vida siempre y cuando el jugador tenga menos de 3|
+| **Escopeta**<br><img src="assets/drop_escopeta.png" alt="Sprite Escopeta" width="70"/> |Dispara cartuchos potentes|
+| **Metralleta**<br><img src="assets/drop_metralleta.png" alt="Sprite Metralleta" width="70"/> |Dispara munición de alta velocidad|
+| **Lanzacohetes**<br><img src="assets/drop_lanzacohetes.png" alt="Sprite Lanzacohetes" width="70"/> | Dispara munición explosiva|
+| **Arco**<br><img src="assets/drop_arco.png" alt="Sprite Arco" width="70"/> |Dispara flechas que penetran al enemigo|
 
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+### Objetivo: Acabar con el malvado Rey Lich y su ejercito
+
+## Teclas del juego
+<p align="center">
+  <img src="assets/pantalla_instrucciones.png" alt="" width="300"/>
+</p>
 
 
 ## Otros
