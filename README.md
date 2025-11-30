@@ -9,8 +9,7 @@
 
 ## Capturas
 
-<p align="center">**Niveles**</p>
-
+ ### Niveles
 <p align="center">
   <img src="imagenReadme/nivel2.png" alt="Mapa del juego" width="300"/>
 </p>
