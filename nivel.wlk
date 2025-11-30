@@ -77,7 +77,7 @@ class Nivel{
 
     method inicializarEnemigos(){
         self.spawnearEnemigos()
-        enemigos.iniciarEnemigos(jugador)
+        enemigos.activarEnemigos(jugador)
     }
 }
 
@@ -118,7 +118,7 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b]].reverse(),
 enemigosASpawnearIniciales = [ttr, ttr, ttr, ttr],
-siguienteNivel = primerNivel, imagenDeFondo = "fondo_nivel1.png"){
+siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel1.png"){
     const configuracionDelJuego = configuracion
 
     override method jugarNivel(){
@@ -237,10 +237,10 @@ siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel4.png")
 // NIVEL FINAL (JEFE)
 
 object nivelFinal inherits Nivel(
-layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
+layout = [[b,b,b,b,b,b,b,s,s,s,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
-          [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
+          [b,_,_,_,_,_,_,s,s,s,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
@@ -250,12 +250,19 @@ layout = [[b,b,b,b,b,b,b,_,_,_,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
+          [b,_,_,_,_,_,_,s,s,s,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
-          [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
-          [b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b,b]].reverse(),
+          [b,b,b,b,b,b,b,s,s,s,b,b,b,b,b,b,b]].reverse(),
 enemigosASpawnearIniciales = [],
 siguienteNivel = self, imagenDeFondo = "fondo_nivelFinal.png")
 {
+    const jefeDelNivel = jefeFinal
 
+    override method jugarNivel(){
+        fondoDelNivel.image(imagenDeFondo)
+        tableroDelJuego.crearNivel(layout)
+        game.addVisual(jefeDelNivel)
+        jefeDelNivel.activar()
+    }
 }

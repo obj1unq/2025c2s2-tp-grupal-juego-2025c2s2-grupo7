@@ -12,6 +12,7 @@ object reyDeLaPradera{
     const jugador = personaje
     const dropsEnElJuego = drops
     const reproductorMusica = reproductor
+    var juegoIniciado = false
 
     method empezarJuego(){
         configuracion.configEscenario()
@@ -20,6 +21,13 @@ object reyDeLaPradera{
         nivelActual.jugarNivel()
         game.start()
         game.schedule(1000, {reproductorMusica.reproducir(nivelActual.cancion())})
+    }
+
+    method pasarMenu(){
+        if (!juegoIniciado){
+            juegoIniciado = true
+            self.pasarASiguienteNivel()
+        }
     }
 
     method pasarASiguienteNivel(){

@@ -46,6 +46,14 @@ object momiaFactory{
     }
 }
 
+object aliadoFactory{
+    const randomizador = randomizer
+
+    method crear(){
+        return new Aliado(position = randomizador.posicionVaciaCentral())
+    }
+}
+
 object zombieTutorialFactory {
     const posicionesTutorial = [game.at(2,2), game.at(14,14), game.at(2,14), game.at(14,2)]
 
@@ -111,5 +119,11 @@ object sepulcroFactory {
 object cactusFactory {
     method crear(posicion) {
         return new Elemento(image="elemento_cactus.png", position=posicion)
+    }
+}
+
+object lagoFactory {
+    method crear(posicion) {
+        return new Elemento(image="elemento_lago.png", position=posicion)
     }
 }

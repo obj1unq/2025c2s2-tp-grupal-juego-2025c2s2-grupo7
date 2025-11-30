@@ -1,6 +1,7 @@
 import wollok.game.*
 import drops.*
 import tableroYRepresentaciones.*
+import personaje.*
 
 object enemigos{
     const enemigosEnNivel = #{}
@@ -11,7 +12,7 @@ object enemigos{
         game.addVisual(enemigo)
     }
 
-    method iniciarEnemigos(personaje){
+    method activarEnemigos(personaje){
         self.enemigosDanPaso()
         self.enemigosPersiguen(personaje)
     }
@@ -103,20 +104,12 @@ class Enemigo {
     }
 }
 
+class Aliado inherits Enemigo (vida = 200, estado = aliadoPasoDerecho){}
+
 class Vampiro inherits Enemigo(vida = 200, estado = vampiroArriba){ 
     override method mejorPosicionParaPerseguirEntre(posiciones){
         return posiciones.findOrDefault({posicion => !tableroDeNivel.hayEnemigoAca(posicion)}, position) // Los vampiros vuelan sobre los elementos del mapa.
     }
-}
-
-object vampiroArriba{
-    const property image = "enemigo_vampiroArriba.png"
-    const property siguienteEstado = vampiroAbajo
-}
-
-object vampiroAbajo{
-    const property image = "enemigo_vampiroAbajo.png"
-    const property siguienteEstado = vampiroArriba
 }
 
 class EnemigoDeMovimientoLento inherits Enemigo{
@@ -154,30 +147,10 @@ class ZombieTutorial inherits Zombie(){
     }
 }
 
-object zombiePasoDerecho{
-    const property image = "enemigo_zombieDerecho.png"
-    const property siguienteEstado = zombiePasoIzquierdo
-}
-
-object zombiePasoIzquierdo{
-    const property image = "enemigo_zombieIzquierdo.png"
-    const property siguienteEstado = zombiePasoDerecho
-}
-
 class Minotauro inherits EnemigoDeMovimientoLento(vida = 400, estado = minotauroPasoDerecho, ticksParaMoverse = 1){
     override method ticksParaMoverseIniciales(){
         return 1
     }
-}
-
-object minotauroPasoDerecho{
-    const property image = "enemigo_minotauroDerecho.png"
-    const property siguienteEstado = minotauroPasoIzquierdo
-}
-
-object minotauroPasoIzquierdo{
-    const property image = "enemigo_minotauroIzquierdo.png"
-    const property siguienteEstado = minotauroPasoDerecho
 }
 
 class Momia inherits EnemigoDeMovimientoLento(vida = 700, estado = momiaPasoDerecho, ticksParaMoverse = 3){
@@ -186,18 +159,7 @@ class Momia inherits EnemigoDeMovimientoLento(vida = 700, estado = momiaPasoDere
     }
 }
 
-object momiaPasoDerecho{
-    const property image = "enemigo_momiaDerecho.png"
-    const property siguienteEstado = momiaPasoIzquierdo
-}
-
-object momiaPasoIzquierdo{
-    const property image = "enemigo_momiaIzquierdo.png"
-    const property siguienteEstado = momiaPasoDerecho
-}
-
 class Acorazado inherits EnemigoDeMovimientoLento(vida = 700, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
-
     override method perseguir(personaje){
         if (estado.puedeMoverse()){
             super(personaje)
@@ -220,6 +182,130 @@ class Acorazado inherits EnemigoDeMovimientoLento(vida = 700, estado = desproteg
     }
 }
 
+object jefeFinal{
+    var position = game.at(8,2)
+    var image = "protegido0.png"
+    var vida = 2500
+    const enemigosDeNivel = enemigos
+    const sonidosDeMuerte = #{"_sonido_muerteEnemigo1.mp3", "_sonido_muerteEnemigo2.mp3"}
+    const jugador = personaje
+    const enemigoAliado = ald
+    const coberturas = [game.at(8,2), game.at(8,14)]
+    const dropeo = drops
+    var contadorDeFrames = 0
+
+    method image(){
+        return image
+    }
+
+    method position(){
+        return position
+    }
+
+    method recibirDaño(daño){
+        if(vida > daño){
+            vida = vida - daño
+            self.moverse()
+        } else {
+            self.muerte()
+        }
+    }
+
+    method moverse(){
+        if (self.estaEnPrimeraCobertura()){
+            position = coberturas.get(1)
+        } else {
+            position = coberturas.get(0)
+        }
+    }
+
+    method estaEnPrimeraCobertura(){
+        return position == coberturas.get(0)
+    }
+
+    method muerte(){
+        game.sound(sonidosDeMuerte.anyOne()).play()
+        dropeo.crear(position)
+    }
+
+    method activar(){
+        self.realizarAnimacion()
+        enemigosDeNivel.activarEnemigos(jugador)
+        game.onTick(100, "Jefe spawnea aliado", {self.spawnearAliado()})
+        game.schedule(10000, {self.detenerOleada()})
+    }
+
+    method spawnearAliado(){
+        if (enemigosDeNivel.cantidadDeEnemigos() < 4){
+            enemigosDeNivel.agregarEnemigo(enemigoAliado)
+        }
+    }
+
+    method detenerOleada(){
+        game.removeTickEvent("Jefe spawnea aliado")
+        enemigosDeNivel.matarTodos()
+        enemigosDeNivel.detenerEnemigos()
+    }
+
+    method colisionarConBala(bala){
+        bala.colisionarConEnemigo(self)
+    }
+
+    method realizarAnimacion(){
+        game.onTick(250, "Jefe realiza animación", {self.cambiarFrame()})
+    }
+
+    method detenerAnimacion(){
+        game.removeTickEvent("Jefe realiza animación")
+    }
+
+    method cambiarFrame(){
+        if (contadorDeFrames == self.cantidadMaximaDeFrames()){
+            contadorDeFrames = 0
+        } else {
+            contadorDeFrames += 1
+        }
+        image = "protegido" + contadorDeFrames + ".png"
+    }
+
+    method cantidadMaximaDeFrames(){
+        return 4
+    }
+}
+
+// ESTADOS DE LOS ENEMIGOS
+
+class EstadoDeMovimientoDeEnemigo{
+    const property image
+    const property siguienteEstado
+}
+
+object momiaPasoDerecho inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_momiaDerecho.png", siguienteEstado = momiaPasoIzquierdo){}
+object momiaPasoIzquierdo inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_momiaIzquierdo.png", siguienteEstado = momiaPasoDerecho){}
+
+object minotauroPasoDerecho inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_minotauroDerecho.png", siguienteEstado = minotauroPasoIzquierdo){}
+object minotauroPasoIzquierdo inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_minotauroIzquierdo.png", siguienteEstado = minotauroPasoDerecho){}
+
+object zombiePasoDerecho inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_zombieDerecho.png", siguienteEstado = zombiePasoIzquierdo){}
+object zombiePasoIzquierdo inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_zombieIzquierdo.png", siguienteEstado = zombiePasoDerecho){}
+
+object vampiroArriba inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_vampiroArriba.png", siguienteEstado = vampiroAbajo){}
+object vampiroAbajo inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_vampiroAbajo.png",  siguienteEstado = vampiroArriba){}
+
+object aliadoPasoDerecho inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_aliadoDerecho.png",  siguienteEstado = aliadoPasoIzquierdo){}
+object aliadoPasoIzquierdo inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_aliadoIzquierdo.png", siguienteEstado = aliadoPasoDerecho){}
+
+object protegido{
+    const property image = "enemigo_acorazadoProtegido.png"
+    const property puedeMoverse = false
+
+    method siguienteEstado(){
+        return self
+    }
+
+    method darPaso(){}
+}
+
 object desprotegido {
     var estado = acorazadoPasoDerecho
     const property siguienteEstado = protegido
@@ -234,65 +320,5 @@ object desprotegido {
     }
 }
 
-object protegido{
-    const property image = "enemigo_acorazadoProtegido.png"
-    const property puedeMoverse = false
-
-    method siguienteEstado(){
-        return self
-    }
-
-    method darPaso(){}
-}
-
-object acorazadoPasoDerecho{
-    const property image = "enemigo_acorazadoDerecho.png"
-    const property siguienteEstado = acorazadoPasoIzquierdo
-}
-
-object acorazadoPasoIzquierdo{
-    const property image = "enemigo_acorazadoIzquierdo.png"
-    const property siguienteEstado = acorazadoPasoDerecho
-}
-
-/*
-object jefeFinal{
-    var estado = jefeProtegido
-    const aliados = #{}
-    var position = game.at(8,2)
-    var vida = 1000
-    const ejercitoDeNivel = enemigos
-    const tableroDeNivel = tablero
-    const sonidosDeMuerte = #{"_sonido_muerteEnemigo1.mp3", "_sonido_muerteEnemigo2.mp3"}
-    var contadorDeAliadosMuertos = 0
-
-    method image(){
-        return estado.image()
-    }
-
-    method position(){
-        return position
-    }
-
-    method mostrarse(){
-
-    }
-
-    method spawnearAliados(){
-        game.onTick(100, "jefe spawnea aliado", {self.spawnearAliado()})
-    }
-
-    method spawnearAliado(){
-        if (contadorDeAliadosMuertos == 0){
-            game.removeTickEvent("jefe spawnea aliado")
-            self.mostrarse()
-        } else {
-            if (aliados.size() < 4){
-                const aliado = aliadoFactory.crear()
-                aliados.add(aliado)
-                game.addVisual(aliado)
-            }
-        }
-    }
-}
-*/
+object acorazadoPasoDerecho inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_acorazadoDerecho.png", siguienteEstado = acorazadoPasoIzquierdo){}
+object acorazadoPasoIzquierdo inherits EstadoDeMovimientoDeEnemigo(image = "enemigo_acorazadoIzquierdo.png", siguienteEstado = acorazadoPasoDerecho){}

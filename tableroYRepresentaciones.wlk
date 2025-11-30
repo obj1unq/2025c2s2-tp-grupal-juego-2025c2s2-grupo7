@@ -91,6 +91,12 @@ object ttr { // Zombie del nivel tutorial.
     }
 }
 
+object ald{ // Aliado del jefe final.
+    method crear(){
+        return aliadoFactory.crear()
+    }
+}
+
 // OBJETOS que representan un elemento en una celda del layout de un nivel.
 
 object _{ // Celda vacia del nivel.
@@ -128,5 +134,11 @@ object t{ // Tronco en el nivel.
 object s{ // Sepulcro en el nivel.
     method crear(posicion, elementos) {
         elementos.agregarElemento(sepulcroFactory.crear(posicion))
+    }
+}
+
+object l{ // Lago en el nivel.
+    method crear(posicion, elementos) {
+        elementos.agregarElemento(lagoFactory.crear(posicion))
     }
 }

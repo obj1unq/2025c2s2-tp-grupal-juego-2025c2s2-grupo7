@@ -5,28 +5,24 @@ object randomizer {
 	const tableroDelJuego = tablero
 
 	method posicion() {
-		return 	game.at( 
-					(0 .. tableroDelJuego.width() - 1 ).anyOne(),
-					(0..  tableroDelJuego.height() - 1).anyOne()
-		) 
+		return game.at((0 .. tableroDelJuego.width() - 1 ).anyOne(),
+					   (0 .. tableroDelJuego.height() - 1).anyOne()) 
 	}
 	
 	method posicionVacia() {
 		const position = self.posicion()
-		if(!tableroDelJuego.hayAlgoAca(position)) {
+		if (!tableroDelJuego.hayAlgoAca(position)){
 			return position	
-		}
-		else {
+		} else {
 			return self.posicionVacia()
 		}
 	}
 
 	method posicionVaciaCentral(){
 		const position = self.posicionParaEnemigo()
-		if(!tableroDelJuego.hayAlgoAca(position)) {
+		if (!tableroDelJuego.hayAlgoAca(position)){
 			return position	
-		}
-		else {
+		} else {
 			return self.posicionVaciaCentral()
 		}
 	}
