@@ -10,15 +10,15 @@
 ## Capturas
 
 <p align="center">
-  <img src="assets/fondo_nivel2.png" alt="Mapa del juego" width="400"/>
+  <img src="assets/fondo_nivel2.png" alt="Mapa del juego" width="300"/>
 </p>
 
 <p align="center">
-  <img src="assets/fondo_nivel3.png" alt="Mapa del juego" width="400"/>
+  <img src="assets/fondo_nivel3.png" alt="Mapa del juego" width="300"/>
 </p>
 
 <p align="center">
-  <img src="assets/fondo_nivel4.png" alt="Mapa del juego" width="400"/>
+  <img src="assets/fondo_nivel4.png" alt="Mapa del juego" width="300"/>
 </p>
 
 
