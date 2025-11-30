@@ -156,7 +156,7 @@ class Minotauro inherits EnemigoPerseguidorDeMovimientoLento(vida = 400, estado 
 
 class Momia inherits EnemigoPerseguidorDeMovimientoLento(vida = 700, estado = momiaPasoDerecho, ticksParaMoverse = 3){}
 
-class Acorazado inherits EnemigoPerseguidorDeMovimientoLento(vida = 700, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 20 de vida en su estado desprotegido, luego se acoraza.
+class Acorazado inherits EnemigoPerseguidorDeMovimientoLento(vida = 700, estado = desprotegido, ticksParaMoverse = 1){ // Un acorazado aguanta 200 de vida en su estado desprotegido, luego se acoraza.
     override method perseguir(personaje){
         if (estado.puedeMoverse()){
             super(personaje)
