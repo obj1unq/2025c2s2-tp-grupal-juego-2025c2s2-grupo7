@@ -35,7 +35,7 @@ object configuracion {
         keyboard.left().onPressDo({personaje.disparar(izquierda)})
         keyboard.right().onPressDo({personaje.disparar(derecha)})
         keyboard.space().onPressDo({personaje.cambiarArma()})
-        keyboard.enter().onPressDo({juego.pasarASiguienteNivel()})
+        keyboard.enter().onPressDo({juego.pasarMenu()})
     }
 
     method configColisiones(){

@@ -1,13 +1,15 @@
 import wollok.game.*
 import personaje.*
+import reproductor.*
 
 class Arma {
     const property municion 
     const sonidoDeDisparo = "_sonido_disparo.mp3"
+    const reproductorSonidos = reproductor
     
     method disparar(direccion){
         municion.serDisparada(direccion)
-        game.sound(sonidoDeDisparo).play()
+        reproductorSonidos.reproducirSonido(sonidoDeDisparo)
     }
 }
 

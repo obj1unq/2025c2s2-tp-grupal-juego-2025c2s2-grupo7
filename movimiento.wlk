@@ -1,6 +1,5 @@
 import wollok.game.*
 import elementosDelMapa.*
-import personaje.*
 
 class Direccion{
     const elementosEnElMapa = elementos

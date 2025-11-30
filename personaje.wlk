@@ -1,6 +1,7 @@
 import wollok.game.*
 import juego.*
 import armas.*
+import reproductor.*
 
 object personaje{
     var image = "personaje_derecha.png"
@@ -10,6 +11,7 @@ object personaje{
     var property armaSecundaria = null
     const juego = reyDeLaPradera
     const sonidoDeMuerte = "_sonido_perderJuego.mp3"
+    const reproductorSonidos = reproductor
 
     method image(){
         return image
@@ -73,12 +75,13 @@ object personaje{
 
     method muerte(){
         vidas -= 1
-        game.sound(sonidoDeMuerte).play()
+        reproductorSonidos.reproducirSonido(sonidoDeMuerte)
         if (self.debePerderElJuego()){ 
             juego.perderJuego()
         } else {
             juego.reiniciarNivel()
             self.volverAPosicionInicial()
+            armaUtilizada = revolver
         }
     }
 
