@@ -67,9 +67,9 @@ object mtr{ // Minotauro.
     }
 }
 
-object vmp{ // Vampiro.
+object ggl{ // Gargola.
     method crear(){
-        return vampiroFactory.crear()
+        return gargolaFactory.crear()
     }
 }
 
@@ -91,9 +91,9 @@ object ttr { // Zombie del nivel tutorial.
     }
 }
 
-object ald{ // Aliado del jefe final.
+object vmp{ // Vampiro aliado del jefe final.
     method crear(){
-        return aliadoFactory.crear()
+        return vampiroFactory.crear()
     }
 }
 
@@ -134,11 +134,5 @@ object t{ // Tronco en el nivel.
 object s{ // Sepulcro en el nivel.
     method crear(posicion, elementos) {
         elementos.agregarElemento(sepulcroFactory.crear(posicion))
-    }
-}
-
-object l{ // Lago en el nivel.
-    method crear(posicion, elementos) {
-        elementos.agregarElemento(lagoFactory.crear(posicion))
     }
 }

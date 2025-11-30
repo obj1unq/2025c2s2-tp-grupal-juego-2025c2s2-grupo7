@@ -200,7 +200,7 @@ enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
-                              vmp, vmp, vmp, vmp,
+                              ggl, ggl, ggl, ggl,
                               mtr, mtr, mtr, mtr,
                               acz, acz],
 siguienteNivel = cuartoNivel, imagenDeFondo = "fondo_nivel3.png")
@@ -228,8 +228,8 @@ enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
-                              vmp, vmp, vmp, vmp,
-                              vmp, vmp, vmp, vmp,
+                              ggl, ggl, ggl, ggl,
+                              ggl, ggl, ggl, ggl,
                               mtr, mtr, mtr, mtr,
                               acz, acz, mom, mom],
 siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel4.png")
@@ -255,7 +255,7 @@ layout = [[b,b,b,b,b,b,b,s,s,s,b,b,b,b,b,b,b],
           [b,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,b],
           [b,b,b,b,b,b,b,s,s,s,b,b,b,b,b,b,b]].reverse(),
 enemigosASpawnearIniciales = [],
-siguienteNivel = self, imagenDeFondo = "fondo_nivelFinal.png")
+siguienteNivel = self, imagenDeFondo = "fondo_nivel4.png")
 {
     const jefeDelNivel = jefeFinal
 
@@ -263,6 +263,15 @@ siguienteNivel = self, imagenDeFondo = "fondo_nivelFinal.png")
         fondoDelNivel.image(imagenDeFondo)
         tableroDelJuego.crearNivel(layout)
         game.addVisual(jefeDelNivel)
+        jefeDelNivel.activar()
+    }
+
+    override method reiniciarEnemigos(){
+        game.removeTickEvent("Chequeo final del nivel")
+        enemigosEnNivel.matarTodos()
+        enemigos.detenerEnemigos()
+        enemigosASpawnear = enemigosASpawnearIniciales.copy()
+        self.inicializarEnemigos()
         jefeDelNivel.activar()
     }
 }

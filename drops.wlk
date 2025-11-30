@@ -2,13 +2,14 @@ import wollok.game.*
 import personaje.*
 import factories.*
 import armas.*
+import enemigos.*
 
 object drops {
     const property dropsCreados = []
 
     method crear(position) {
         const probabilidad = self.rollDropeo()
-        if (probabilidad <= 0.50){
+        if (probabilidad <= 0.25){
             self.agregarNuevoDrop(position, probabilidad)
         }
 	}
@@ -29,18 +30,24 @@ object drops {
     }
 
     method agregarNuevoDrop(position, probabilidad){
-       var drop 
-        if (probabilidad <= 0.15){
+        var drop 
+        if (probabilidad <= 0.5){
             drop = escopetaFactory.crear(position)
             self.agregarDrop(drop)
-        } else if (probabilidad <= 0.30){
+        } else if (probabilidad <= 0.10){
             drop = metralletaFactory.crear(position)
             self.agregarDrop(drop)
-        } else if (probabilidad <= 0.45){
+        } else if (probabilidad <= 0.15){
             drop = lanzacohetesFactory.crear(position)
             self.agregarDrop(drop)
-        } else {
+        } else if (probabilidad <= 0.20){
+            drop = arcoFactory.crear(position)
+            self.agregarDrop(drop)
+        } else if (probabilidad <= 0.22){
             drop = vidaFactory.crear(position)
+            self.agregarDrop(drop)
+        } else {
+            drop = nuclearFactory.crear(position)
             self.agregarDrop(drop)
         }
         game.schedule(5000, {self.borrarDropSuelto(drop)})
@@ -61,9 +68,24 @@ class Drop {
     method colisionarConBala(arma){} // No se hace nada.
 }
 
+object estrella inherits Drop(image = "drop_estrella.png", position = game.center()){
+    override method colisionarConPersonaje(personaje){
+        game.removeVisual(self)
+    }
+}
+
 class VidaDrop inherits Drop(image = "drop_vida.png"){
     override method colisionarConPersonaje(personaje){
         personaje.recolectarVida()
+        game.removeVisual(self)
+    }
+}
+
+class NuclearDrop inherits Drop(image = "drop_nuclear.png"){
+    const enemigosDelNivel = enemigos
+
+    override method colisionarConPersonaje(personaje){
+        enemigosDelNivel.matarTodos()
         game.removeVisual(self)
     }
 }

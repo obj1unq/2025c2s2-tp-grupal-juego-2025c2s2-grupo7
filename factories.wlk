@@ -22,11 +22,11 @@ object minotauroFactory{
     }
 }
 
-object vampiroFactory{
+object gargolaFactory{
     const randomizador = randomizer
 
     method crear(){
-        return new Vampiro(position = randomizador.posicionVaciaCentral())
+        return new Gargola(position = randomizador.posicionVaciaCentral())
     }
 }
 
@@ -46,11 +46,11 @@ object momiaFactory{
     }
 }
 
-object aliadoFactory{
+object vampiroFactory{
     const randomizador = randomizer
 
     method crear(){
-        return new Aliado(position = randomizador.posicionVaciaCentral())
+        return new Vampiro(position = randomizador.posicionVaciaCentral())
     }
 }
 
@@ -72,6 +72,12 @@ object vidaFactory {
 	}
 }
 
+object nuclearFactory {
+	method crear(_position) {
+		return new NuclearDrop(position= _position)
+	}
+}
+
 object escopetaFactory {
     method crear(_position){
         return new EscopetaDrop(position = _position)
@@ -87,6 +93,12 @@ object metralletaFactory {
 object lanzacohetesFactory {
 	method crear(_position) {
 		return new LanzacohetesDrop(position = _position)
+	}
+}
+
+object arcoFactory {
+	method crear(_position) {
+		return new ArcoDrop(position = _position)
 	}
 }
 
@@ -119,11 +131,5 @@ object sepulcroFactory {
 object cactusFactory {
     method crear(posicion) {
         return new Elemento(image="elemento_cactus.png", position=posicion)
-    }
-}
-
-object lagoFactory {
-    method crear(posicion) {
-        return new Elemento(image="elemento_lago.png", position=posicion)
     }
 }

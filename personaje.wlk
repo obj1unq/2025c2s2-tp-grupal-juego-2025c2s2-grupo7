@@ -79,6 +79,7 @@ object personaje{
         } else {
             juego.reiniciarNivel()
             self.volverAPosicionInicial()
+            armaUtilizada = revolver
         }
     }
 
