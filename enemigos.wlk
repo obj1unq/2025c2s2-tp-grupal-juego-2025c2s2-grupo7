@@ -54,8 +54,8 @@ object enemigos{
 }
 
 class Enemigo{
-    var position 
-    var vida
+    var property  position    // se hace property para facilitar el test
+    var property  vida        // se hace property para facilitar el test
     const reproductorSonidos = reproductor
 
     method position(){

@@ -7,7 +7,8 @@ import factories.*
 import armas.*
 import drops.*
 import juego.*
-
+import tableroYRepresentaciones.*
+import imagenesEnPantalla.*
 
 describe "Estado inicial del personaje" {
 
@@ -219,7 +220,8 @@ describe "Cambio de arma" {
     test "Ya no usa el arma principal tras el cambio" {
         personaje.armaSecundaria(escopeta)
         personaje.cambiarArma()
-        assert.notEquals(revolver, personaje.armaUtilizada())
+        assert.equals(escopeta, personaje.armaUtilizada())
+
     }
 
     test "Recolecta un arma secundaria si no tiene una" {
@@ -282,59 +284,336 @@ describe "Recolección de vida" {
 
 describe "Drop de vida" {
 
-    test "Gana una vida al tomar un drop de vida si tiene menos de 3" {
-        personaje.vidas(2)
-        const dropVida = new VidaDrop(position = game.at(1, 1))
-        dropVida.colisionarConPersonaje(personaje)
-        assert.equals(3, personaje.vidas())
-    }
+	test "Gana una vida al tomar un drop de vida si tiene menos de 3" {
+		personaje.vidas(2)
+		const dropVida = new VidaDrop(position = game.at(1, 1))
+		dropVida.colisionarConPersonaje(personaje)
+		assert.equals(3, personaje.vidas())
+	}
 
-    test "No gana vida si ya tiene 3" {
-        personaje.vidas(3)
-        const dropVida = new VidaDrop(position = game.at(1, 1))
-        dropVida.colisionarConPersonaje(personaje)
-        assert.equals(3, personaje.vidas())
-    }
+	test "No gana vida si ya tiene 3 vidas" {
+		personaje.vidas(3)
+		const dropVida = new VidaDrop(position = game.at(1, 1))
+		dropVida.colisionarConPersonaje(personaje)
+		assert.equals(3, personaje.vidas())
+	}
 
-    test "El drop desaparece al ser recolectado" {
-        const dropVida = new VidaDrop(position = game.at(1, 1))
-        dropVida.colisionarConPersonaje(personaje)
-        assert.notThat(game.hasVisual(dropVida))
-    }
+	test "El drop de vida desaparece al ser recolectado" {
+		const dropVida = new VidaDrop(position = game.at(1, 1))
+		game.addVisual(dropVida)
+		dropVida.colisionarConPersonaje(personaje)
+		assert.notThat(game.hasVisual(dropVida))
+	}
 }
-
 
 describe "Drop de arma secundaria" {
 
-    test "Obtiene arma secundaria si no tiene una" {
-        const dropEscopeta = new EscopetaDrop(position = game.at(1, 1))
-        dropEscopeta.colisionarConPersonaje(personaje)
-        assert.equals(escopeta, personaje.armaSecundaria())
-    }
+	test "Obtiene arma secundaria si no tiene una" {
+		personaje.armaSecundaria(null)
+		const dropEscopeta = new EscopetaDrop(position = game.at(1, 1))
+		dropEscopeta.colisionarConPersonaje(personaje)
+		assert.equals(escopeta, personaje.armaSecundaria())
+	}
 
-    test "No reemplaza su arma secundaria al tomar otro drop" {
-        personaje.armaSecundaria(escopeta)
-        const dropMetralleta = new MetralletaDrop(position = game.at(1, 1))
-        dropMetralleta.colisionarConPersonaje(personaje)
-        assert.equals(escopeta, personaje.armaSecundaria())
-    }
+	test "No reemplaza su arma secundaria al tomar otro drop" {
+		personaje.armaSecundaria(escopeta)
+		const dropMetralleta = new MetralletaDrop(position = game.at(1, 1))
+		dropMetralleta.colisionarConPersonaje(personaje)
+		assert.equals(escopeta, personaje.armaSecundaria())
+	}
 
-    test "El drop desaparece tras ser recolectado" {
-        const dropEscopeta = new EscopetaDrop(position = game.at(1, 1))
-        dropEscopeta.colisionarConPersonaje(personaje)
-        assert.notThat(game.hasVisual(dropEscopeta))
-    }
+	test "El drop de arma desaparece tras ser recolectado" {
+		const dropEscopeta = new EscopetaDrop(position = game.at(1, 1))
+		game.addVisual(dropEscopeta)
+		dropEscopeta.colisionarConPersonaje(personaje)
+		assert.notThat(game.hasVisual(dropEscopeta))
+	}
+}
+
+describe "Drop Nuclear" {
+
+	test "Al recolectar drop nuclear mueren todos los enemigos del nivel" {
+		const zombie1 = zombieFactory.crear()
+		const zombie2 = zombieFactory.crear()
+		game.addVisual(zombie1)
+		game.addVisual(zombie2)
+
+		const dropNuclear = new NuclearDrop(position = game.at(5, 5))
+		dropNuclear.colisionarConPersonaje(personaje)
+
+		assert.equals(0, enemigos.cantidadDeEnemigos())
+		assert.notThat(game.hasVisual(dropNuclear))
+	}
+}
+
+describe "Estrella de victoria" {
+
+    test "Al tocar la estrella desaparece y  se gana el juego" {
+        game.addVisual(estrella)
+
+        assert.throwsException({estrella.colisionarConPersonaje(personaje)})
+        assert.notThat(game.hasVisual(estrella))
+}
+
+}
+
+describe "Comportamiento general de drops" {
+
+	test "Todos los drops desaparecen al ser recolectados" {
+		const dropVida = new VidaDrop(position = game.at(1, 1))
+		const dropEscopeta = new EscopetaDrop(position = game.at(2, 2))
+		const dropNuclear = new NuclearDrop(position = game.at(3, 3))
+
+		game.addVisual(dropVida)
+		game.addVisual(dropEscopeta)
+		game.addVisual(dropNuclear)
+
+		dropVida.colisionarConPersonaje(personaje)
+		dropEscopeta.colisionarConPersonaje(personaje)
+		dropNuclear.colisionarConPersonaje(personaje)
+
+		assert.notThat(game.hasVisual(dropVida))
+		assert.notThat(game.hasVisual(dropEscopeta))
+		assert.notThat(game.hasVisual(dropNuclear))
+	}
 }
 
 
-describe "Drops – comportamiento general" {
+describe "Creación y vida inicial de enemigos" {
 
-    test "Todos los drops desaparecen tras ser recolectados" {
-        const dropVida = new VidaDrop(position = game.at(1, 1))
-        const dropEscopeta = new EscopetaDrop(position = game.at(2, 1))
-        dropVida.colisionarConPersonaje(personaje)
-        dropEscopeta.colisionarConPersonaje(personaje)
-        assert.notThat(game.hasVisual(dropVida))
-        assert.notThat(game.hasVisual(dropEscopeta))
+	var zombie
+
+	method initialize() {
+		zombie = zombieFactory.crear()
+		zombie.position(game.center().right(3))
+	}
+
+	test "Zombie se crea vivo" {
+		assert.notThat(zombie.debeMorir())
+	}
+
+	test "Zombie inicia con 100 de vida" {
+		assert.equals(100, zombie.vida())
+	}
+
+	test "Zombie se posiciona correctamente al crearse" {
+		assert.equals(game.center().right(3), zombie.position())
+	}
+
+	test "Vampiro se crea con 200 de vida" {
+		const vampiro = vampiroFactory.crear()
+		assert.equals(200, vampiro.vida())
+	}
+
+	test "Minotauro se crea con 400 de vida" {
+		const minotauro = minotauroFactory.crear()
+		assert.equals(400, minotauro.vida())
+	}
+
+	test "Acorazado se crea con 700 de vida" {
+		const acorazado = acorazadoFactory.crear()
+		assert.equals(700, acorazado.vida())
+	}
+
+	test "Momia se crea con 700 de vida" {
+		const momia = momiaFactory.crear()
+		assert.equals(700, momia.vida())
+	}
+
+	test "Gárgola se crea con 200 de vida" {
+		const gargola = gargolaFactory.crear()
+		assert.equals(200, gargola.vida())
+	}
+
+	test "Jefe final tiene 200 de vida" {
+		assert.equals(200, jefeFinal.vida())
+	}
+}
+describe "Daño y muerte de enemigos" {
+
+    var zombie
+
+    method initialize() {
+        zombie = zombieFactory.crear()
+        zombie.position(game.at(5,5))
+    }
+
+    test "Zombie muere de un solo golpe sin importar cuánto daño reciba" {
+        zombie.recibirDaño(10)
+        assert.notThat(enemigos.hayEnemigoAca(game.at(5,5)))
+    }
+
+    test "Vampiro pierde vida normalmente" {
+        const vampiro = vampiroFactory.crear()
+        vampiro.recibirDaño(50)
+        assert.equals(150, vampiro.vida())
+    }
+
+    test "Acorazado cambia a protegido cuando vida baja de 500" {
+        const acorazado = acorazadoFactory.crear()
+        acorazado.recibirDaño(201)
+        assert.equals("enemigo_acorazadoProtegido.png", acorazado.image())
+    }
+}
+describe "Persecución básica" {
+
+	var zombie
+	var gargola
+
+	method initialize() {
+		personaje.position(game.at(8,8))
+		zombie = zombieFactory.crear()
+		zombie.position(game.at(10,8))
+		gargola = gargolaFactory.crear()
+		gargola.position(game.at(12,8))
+	}
+
+	test "Enemigo común se mueve hacia el personaje si no hay obstáculos" {
+		zombie.perseguir(personaje)  // primer tick: no se mueve
+		zombie.perseguir(personaje)  // segundo tick: se mueve
+
+		assert.notThat(zombie.position() == game.at(10,8))
+		assert.that(tablero.posicionesLindantes(personaje.position()).contains(zombie.position()))
+	}
+
+test "Enemigo no atraviesa muro" {
+		elementos.agregarElemento(muroFactory.crear(game.at(9,8)))  // izquierda 
+		elementos.agregarElemento(muroFactory.crear(game.at(11,8))) // derecha
+		elementos.agregarElemento(muroFactory.crear(game.at(10,9))) // arriba
+		elementos.agregarElemento(muroFactory.crear(game.at(10,7))) // abajo
+
+		zombie.perseguir(personaje)
+		zombie.perseguir(personaje)
+
+		assert.that(zombie.position() == game.at(10,8))
+	}
+
+	test "Gárgola vuela y sí atraviesa muro" {
+		elementos.agregarElemento(muroFactory.crear(game.at(11,8))) // muro entre gárgola y personaje
+
+		const posicionAntes = gargola.position()
+		gargola.perseguir(personaje)
+
+	
+		assert.notThat(gargola.position() == posicionAntes)
+	}
+}
+describe "Jefe Final" {
+
+    method initialize() {
+        jefeFinal.position(game.at(8,2))
+    }
+
+    test "Jefe se teletransporta entre sus dos coberturas al recibir daño" {
+        jefeFinal.recibirDaño(10)
+        assert.equals(game.at(8,14), jefeFinal.position())
+
+        jefeFinal.recibirDaño(10)
+        assert.equals(game.at(8,2), jefeFinal.position())
+    }
+
+    test "Al morir el jefe aparece la estrella de victoria" {
+        jefeFinal.position(game.at(8,8))
+        jefeFinal.recibirDaño(1000)
+        assert.that(game.hasVisual(estrella))
+    }
+}
+describe "Disparo de armas" {
+
+	var position
+
+	method initialize() {
+		position = game.at(8,8)
+		personaje.position(position)
+		personaje.armaUtilizada(revolver)
+
+	}
+
+	test "Revolver dispara munición normal a la derecha" {
+		personaje.disparar(derecha)
+		const bala = game.allVisuals().find({ v => v.image().startsWith("municion_normal_") })
+		assert.that(bala.image() == "municion_normal_derecha.png")
+		assert.that(bala.position() == position.right(1))
+	}
+
+	test "Escopeta dispara cartucho penetrante" {
+		personaje.armaUtilizada(escopeta)
+		personaje.disparar(arriba)
+		const bala = game.allVisuals().find({ v => v.image().startsWith("municion_cartucho_") })
+		assert.that(bala.image().contains("arriba"))
+	}
+
+	test "Metralleta dispara munición veloz" {
+		personaje.armaUtilizada(metralleta)
+		personaje.disparar(izquierda)
+		const bala = game.allVisuals().find({ v => v.image().startsWith("municion_veloz_") })
+		assert.that(bala.image().contains("izquierda"))
+	}
+
+	test "Lanzacohetes dispara munición explosiva" {
+		personaje.armaUtilizada(lanzacohetes)
+		personaje.disparar(abajo)
+		const bala = game.allVisuals().find({ v => v.image().startsWith("municion_explosiva_") })
+		assert.that(bala.image().contains("abajo"))
+	}
+}
+describe "Daño de munición" {
+
+	test "Munición normal hace 100 de daño" {
+        const enemigo = minotauroFactory.crear()
+        enemigo.vida(1000)
+    
+        municionNormal.position(game.at(1,1))
+        game.addVisual(municionNormal)
+    
+        municionNormal.colisionarConEnemigo(enemigo)
+        assert.equals(900, enemigo.vida())
+    }
+
+	test "Munición veloz (metralleta) hace 200 de daño" {
+		const vampiro = vampiroFactory.crear()
+		vampiro.vida(1000)
+		
+		municionVeloz.position(game.at(2,2))
+		game.addVisual(municionVeloz)
+		
+		municionVeloz.colisionarConEnemigo(vampiro)
+		assert.equals(800, vampiro.vida())
+	}
+
+	test "Cartucho (escopeta) hace 400 de daño y penetra" {
+		const enemigo = minotauroFactory.crear()
+        enemigo.vida(1000)
+		
+		cartucho.position(game.at(3,3))
+		game.addVisual(cartucho)
+		
+		cartucho.colisionarConEnemigo(enemigo)
+		assert.equals(600, enemigo.vida())
+		assert.that(game.hasVisual(cartucho)) // sigue en el juego porque penetra
+	}
+
+	test "Flecha (arco) hace 200 de daño y penetra" {
+		const minotauro = minotauroFactory.crear()
+		minotauro.vida(1000)
+		
+		flecha.position(game.at(4,4))
+		game.addVisual(flecha)
+		
+		flecha.colisionarConEnemigo(minotauro)
+		assert.equals(800, minotauro.vida())
+		assert.that(game.hasVisual(flecha)) // sigue viva
+	}
+
+    test "Munición explosiva (lanzacohetes) hace 1000 de daño" {
+        const momia = momiaFactory.crear()
+        momia.vida(1000)
+    
+        municionExplosiva.position(game.at(5,5))
+        game.addVisual(municionExplosiva)
+    
+        municionExplosiva.colisionarConEnemigo(momia)
+    
+        assert.equals(0, momia.vida())
     }
 }

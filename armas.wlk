@@ -24,7 +24,7 @@ object lanzacohetes inherits Arma (municion = municionExplosiva){}
 object arco inherits Arma (municion = flecha){}
 
 class Municion{
-    var position = game.at(7,7)
+    var property position = game.at(7,7)  // se hace property para facilitar los test
     var image
     const velocidadDeProyectil
     const daño
