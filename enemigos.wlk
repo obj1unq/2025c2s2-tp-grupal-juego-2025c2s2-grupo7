@@ -193,7 +193,7 @@ object jefeFinal inherits Enemigo(vida = 2500, position = game.at(8,2)){
     const property sonidoDeMuerte = "_sonido_muerteEnemigo1.mp3"
     const coberturas = #{game.at(8,2), game.at(8,14)}
     const vidaInicial = vida
-    const objeto = estrella
+    const objeto = placaDeSheriff
 
     method image(){
         return estado.image()
