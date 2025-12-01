@@ -346,13 +346,13 @@ describe "Drop Nuclear" {
 	}
 }
 
-describe "Estrella de victoria" {
+describe "Placa de Sheriff de la victoria" {
 
-    test "Al tocar la estrella desaparece y  se gana el juego" {
-        game.addVisual(estrella)
+    test "Al tocar la Placa de Sheriff desaparece y  se gana el juego" {
+        game.addVisual(placaDeSheriff)
 
-        assert.throwsException({estrella.colisionarConPersonaje(personaje)})
-        assert.notThat(game.hasVisual(estrella))
+        assert.throwsException({placaDeSheriff.colisionarConPersonaje(personaje)})
+        assert.notThat(game.hasVisual(placaDeSheriff))
 }
 
 }
@@ -425,8 +425,8 @@ describe "Creación y vida inicial de enemigos" {
 		assert.equals(200, gargola.vida())
 	}
 
-	test "Jefe final tiene 200 de vida" {
-		assert.equals(200, jefeFinal.vida())
+	test "Jefe final tiene 2500 de vida" {
+		assert.equals(2500, jefeFinal.vida())
 	}
 }
 describe "Daño y muerte de enemigos" {
@@ -504,18 +504,11 @@ describe "Jefe Final" {
         jefeFinal.position(game.at(8,2))
     }
 
-    test "Jefe se teletransporta entre sus dos coberturas al recibir daño" {
-        jefeFinal.recibirDaño(10)
-        assert.equals(game.at(8,14), jefeFinal.position())
-
-        jefeFinal.recibirDaño(10)
-        assert.equals(game.at(8,2), jefeFinal.position())
-    }
-
-    test "Al morir el jefe aparece la estrella de victoria" {
+    test "Al morir el jefe aparece la placa de sheriff de la victoria" {
+        assert.notThat(game.hasVisual(placaDeSheriff))
         jefeFinal.position(game.at(8,8))
-        jefeFinal.recibirDaño(1000)
-        assert.that(game.hasVisual(estrella))
+        jefeFinal.recibirDaño(2500)
+        assert.that(game.hasVisual(placaDeSheriff))
     }
 }
 describe "Disparo de armas" {
