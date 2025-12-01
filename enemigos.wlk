@@ -1,7 +1,6 @@
 import wollok.game.*
 import drops.*
 import tableroYRepresentaciones.*
-import personaje.*
 import reproductor.*
 
 object enemigos{
