@@ -154,7 +154,7 @@ enemigosASpawnearIniciales = [ttr, ttr, ttr, ttr]){
     }
 }
 
-const primerNivel = new NivelConCantidadFinitaDeEnemigos(layout = layoutPrimerNivelYTutorial, siguienteNivel = nivelFinal, imagenDeFondo = "fondo_nivel1.png", 
+const primerNivel = new NivelConCantidadFinitaDeEnemigos(layout = layoutPrimerNivelYTutorial, siguienteNivel = segundoNivel, imagenDeFondo = "fondo_nivel1.png", 
 enemigosASpawnearIniciales = [zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
                               zmb, zmb, zmb, zmb,
