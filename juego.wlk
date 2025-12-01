@@ -20,7 +20,7 @@ object reyDeLaPradera{
         configuracion.configEscenario()
         configuracion.configControles()
         configuracion.configColisiones()
-        nivelActual.jugarNivel()
+        nivelActual.iniciarNivel()
         game.start()
         game.schedule(1000, {reproductorMusica.reproducirCancion(nivelActual.cancion())})
     }
@@ -47,7 +47,7 @@ object reyDeLaPradera{
     }
 
     method iniciarSiguienteNivel(){
-        nivelActual.jugarNivel()
+        nivelActual.iniciarNivel()
         reproductorMusica.reproducirCancion(nivelActual.cancion())
     }
 

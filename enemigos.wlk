@@ -1,7 +1,6 @@
 import wollok.game.*
 import drops.*
 import tableroYRepresentaciones.*
-import personaje.*
 import reproductor.*
 
 object enemigos{
@@ -69,7 +68,12 @@ class Enemigo{
         }
     }
 
-    method muerte()
+    method muerte(){
+        reproductorSonidos.reproducirSonido(self.sonidoDeMuerte())
+        self.dropearObjeto()
+    }
+
+    method sonidoDeMuerte()
 
     method colisionarConPersonaje(personaje){
         personaje.muerte()
@@ -82,6 +86,8 @@ class Enemigo{
     method debeMorir(){
         return vida <= 0
     }
+
+    method dropearObjeto()
 }
 
 class EnemigoPerseguidor inherits Enemigo{
@@ -109,7 +115,14 @@ class EnemigoPerseguidor inherits Enemigo{
 
     override method muerte(){
         enemigosDeNivel.enemigoMurio(self)
-        reproductorSonidos.reproducirSonido(sonidosDeMuerte.anyOne())
+        super()
+    }
+
+    override method sonidoDeMuerte(){
+        return sonidosDeMuerte.anyOne()
+    }
+
+    override method dropearObjeto(){
         dropeo.crear(position)
     }
 }
@@ -175,13 +188,10 @@ class Acorazado inherits EnemigoPerseguidorDeMovimientoLento(vida = 700, estado 
     }
 }
 
-object jefeFinal inherits Enemigo(vida = 200, position = game.at(8,2)){
+object jefeFinal inherits Enemigo(vida = 2500, position = game.at(8,2)){
     const estado = jefeAnimado
-    const enemigosDeNivel = enemigos
-    const sonidoDeMuerte = "_sonido_muerteEnemigo1.mp3"
-    const jugador = personaje
-    const vampiroAliado = vmp
-    const coberturas = [game.at(8,2), game.at(8,14)]
+    const property sonidoDeMuerte = "_sonido_muerteEnemigo1.mp3"
+    const coberturas = #{game.at(8,2), game.at(8,14)}
     const vidaInicial = vida
     const objeto = estrella
 
@@ -190,47 +200,30 @@ object jefeFinal inherits Enemigo(vida = 200, position = game.at(8,2)){
     }
 
     override method recibirDaño(daño){
-        self.moverse()
+        self.intentarMoverse()
         super(daño)
     }
 
     override method muerte(){
-        reproductorSonidos.reproducirSonido(sonidoDeMuerte)
-        self.detenerOleada()
+        super()
         game.removeVisual(self)
-        self.dropearObjeto()
     }
 
-    method moverse(){
-        const cobertura = coberturas.get(0)
-        if (position == cobertura){
-            position = coberturas.get(1)
-        } else {
-            position = cobertura
-        }
+    method intentarMoverse(){
+        position = coberturas.anyOne()
+    }
+
+    method estaVivo(){
+        return vida > 0
     }
 
     method activar(){
         vida = vidaInicial
         estado.realizarAnimacion()
-        enemigosDeNivel.activarEnemigos(jugador)
-        game.onTick(100, "Jefe spawnea vampiros aliados", {self.spawnearAliado()})
     }
 
-    method spawnearAliado(){
-        if (enemigosDeNivel.cantidadDeEnemigos() < 4){
-            enemigosDeNivel.agregarEnemigo(vampiroAliado)
-        }
-    }
-
-    method dropearObjeto(){
+    override method dropearObjeto(){
         game.addVisual(objeto)
-    }
-
-    method detenerOleada(){
-        game.removeTickEvent("Jefe spawnea vampiros aliados")
-        enemigosDeNivel.matarTodos()
-        enemigosDeNivel.detenerEnemigos()
     }
 }
 
